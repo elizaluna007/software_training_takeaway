@@ -1,4 +1,5 @@
-# software_training_takeaway
+# 前端库，后端禁入  
+
 顾名思义  
 please read me  
 
