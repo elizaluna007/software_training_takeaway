@@ -1,6 +1,5 @@
 # software_training_takeaway
 顾名思义  
 please read me  
-# 人员分工
-去看语雀，这没有  
-前端：速速去学uni-app
+
+#我代表广子哥宣布，这里是前端的地盘
