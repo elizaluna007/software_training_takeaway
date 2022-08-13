@@ -224,7 +224,7 @@ var _default =
     },
     goto_shop: function goto_shop(url) {
       uni.navigateTo({
-        url: '/pages/index/shop?id=' + this.id + '&token=' + this.token });
+        url: '/pages/index/shop?name=' + this.name + '&token=' + this.token });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

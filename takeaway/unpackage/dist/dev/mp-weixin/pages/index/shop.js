@@ -185,10 +185,10 @@ var _default =
 
   },
   onLoad: function onLoad(index_data) {var _this = this;
-    // this.name = index_data.name
-    // this.token = index_data.token
+    this.name = index_data.name;
+    this.token = index_data.token;
     uni.request({
-      url: 'https://5t764096g4.goho.co/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
+      url: 'http://127.0.0.1:4523/m1/1437509-0-default/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
       method: "GET", //不设置，默认为get方式
       data: {
         name: this.name },

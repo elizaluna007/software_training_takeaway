@@ -1,9 +1,9 @@
 <template>
-	<scroll-view class="content" >
+	<view class="content" >
 		<view class="topic">
 			<image class="logo" :src="logo"></image>
 			<text class="shopName">商家名称：{{shop_name}}</text>
-			<text class="topic_text" space="ensp">{{credit}}分 月售{{sale}} 配送约{{needytime}}</text>
+			<text class="topic_text" space="ensp">{{credit}}分 月售{{sale}} 配送约{{needytime}}分钟</text>
 		</view>
 		<view class="three_button">
 			<button class="order">点菜</button>
@@ -11,7 +11,7 @@
 			<button class="shop_inf">商家</button>
 		</view>
 
-		<view class="dish_pos">
+		<scroll-view class="dish_pos">
 			<!-- 列表框 -->
 			<el-col class="home-card">
 				<!-- 卡片 -->
@@ -31,8 +31,8 @@
 					</div>
 				</el-card>
 			</el-col>
-		</view>
-	</scroll-view>
+		</scroll-view>
+	</view>
 </template>
 
 <script>
@@ -51,10 +51,10 @@
 			}
 		},
 		onLoad(index_data) {
-			// this.name = index_data.name
-			// this.token = index_data.token
+			this.name = index_data.name
+			this.token = index_data.token
 			uni.request({
-				url: 'https://5t764096g4.goho.co/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
+				url: 'http://127.0.0.1:4523/m1/1437509-0-default/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
 				method: "GET", //不设置，默认为get方式
 				data: {
 					name: this.name,
@@ -148,24 +148,25 @@
 	}
 	
 	.list {
+		align-items: center;
+		vertical-align: center;
 		display: flex;
 		object-fit: fill;
-		margin: 30rpx;
+		margin: 20rpx;
 		border-width: 100%;
 		border: 3rpx solid #f8f8f8;
 		box-shadow: #8f8f94;
 		border-radius: 7%;
 		box-shadow:
-		  5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
-		  19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
-		  85px 57px 80px rgba(0, 0, 0, 0.016)
-		;
+			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+			85px 57px 80px rgba(0, 0, 0, 0.016);
+			
+	
 	}
 	
 	.dish_pos{
-		display: flex;
-		width: 100rpx;
-		margin-right: 0rpx;
+
 	}
 	
 	p {
