@@ -138,7 +138,43 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -152,17 +188,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 var _default =
 {
-  data: function data() {
-    return {
-      title: 'Hello',
-      token: 'this is a token',
-      name: '123' };
+  data: function data() {var _ref;
+    return _ref = {
+      swipers: [
+      'https://img-blog.csdnimg.cn/img_convert/ec13b1d884b422ad6ac1746504fa0454.png',
+      'https://img-blog.csdnimg.cn/img_convert/462ba175388a6005201d8a73f186c527.png',
+      'https://img-blog.csdnimg.cn/img_convert/213a362a143bd47b8b4e3dad5138d53d.png'],
+
+      token: '',
+      infos: [] }, _defineProperty(_ref, "token",
+    'this is a token'), _defineProperty(_ref, "name",
+    '123'), _ref;
 
   },
-  onLoad: function onLoad() {
+
+  onLoad: function onLoad() {var _this = this;
+    uni.request({
+      url: 'http://127.0.0.1:4523/m1/1437509-0-default/shop/getAllShopInfo', //仅为示例，并非真实接口地址。
+      method: "GET", //不设置，默认为get方式
+      data: {
+        token: this.token },
+
+      header: {},
+      success: function success(res) {
+        _this.infos = res.data;
+        console.log(_this.infos);
+      } });
 
   },
   methods: {
+    goto: function goto(url) {
+      // uni.navigateTo({
+      // 	url:
+      // })
+    },
     goto_shop: function goto_shop(url) {
       uni.navigateTo({
         url: '/pages/index/shop?id=' + this.id + '&token=' + this.token });

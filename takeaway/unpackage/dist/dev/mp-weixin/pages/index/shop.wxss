@@ -1,6 +1,8 @@
 
-button::after{border: initial;}
-.topic{
+button::after {
+	border: initial;
+}
+.topic {
 	display: flex;
 }
 .logo {
@@ -15,17 +17,17 @@ button::after{border: initial;}
 	font-size: 50rpx;
 	margin-left: 20rpx;
 }
-.topic_text{
+.topic_text {
 	display: flex;
 	margin-top: 100rpx;
 	font-size: 30rpx;
 	margin-left: -320rpx;
 }
-.three_button{
+.three_button {
 	display: flex;
 	flex-wrap: nowrap;
 }
-.order{
+.order {
 	height: 80rpx;
 	width: 150rpx;
 	font-size: 35rpx;
@@ -33,7 +35,7 @@ button::after{border: initial;}
 	margin-left: 0rpx;
 	background-color: #ffffff;
 }
-.command{
+.command {
 	height: 80rpx;
 	width: 150rpx;
 	font-size: 35rpx;
@@ -42,7 +44,7 @@ button::after{border: initial;}
 	background-color: #ffffff;
 	border-radius: 100rpx;
 }
-.shop_inf{
+.shop_inf {
 	height: 80rpx;
 	width: 150rpx;
 	font-size: 35rpx;
@@ -50,6 +52,39 @@ button::after{border: initial;}
 	margin-left: -260rpx;
 	background-color: #ffffff;
 	border-radius: 100rpx;
+}
+.list {
+	display: flex;
+	object-fit: fill;
+	margin: 30rpx;
+	border-width: 100%;
+	border: 3rpx solid #f8f8f8;
+	box-shadow: #8f8f94;
+	border-radius: 7%;
+	box-shadow:
+	  5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+	  19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+	  85px 57px 80px rgba(0, 0, 0, 0.016)
+	;
+}
+.dish_pos{
+	display: flex;
+	width: 100rpx;
+	margin-right: 0rpx;
+}
+._p {
+	text-align: center;
+}
+.p_1 {
+	font-size: 50rpx;
+}
+.p_2 {
+	font-size: 40rpx;
+	color: #ffb420;
+}
+.p_3 {
+	font-size: 40rpx;
+	color: #8f96a0;
 }
 
 
