@@ -112,9 +112,11 @@
 			});
 		},
 		methods: {
+
 		}
 	}
 </script>
+
 
 <style lang="scss" scoped>
 	page {
@@ -209,4 +211,5 @@
 
 
 	}
+
 </style>
