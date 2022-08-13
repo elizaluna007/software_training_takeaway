@@ -155,8 +155,8 @@ var _default =
   data: function data() {
     return {
       title: 'Hello',
-      shop_name: '肯德基',
-      time: '30' };
+      token: 'this is a token',
+      name: '123' };
 
   },
   onLoad: function onLoad() {
@@ -165,7 +165,7 @@ var _default =
   methods: {
     goto_shop: function goto_shop(url) {
       uni.navigateTo({
-        url: '/pages/index/shop?shop_name=' + this.shop_name + '&time=' + this.time });
+        url: '/pages/index/shop?id=' + this.id + '&token=' + this.token });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

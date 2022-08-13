@@ -1,0 +1,55 @@
+
+button::after{border: initial;}
+.topic{
+	display: flex;
+}
+.logo {
+	height: 150rpx;
+	width: 150rpx;
+	margin-top: 10rpx;
+	margin-left: 10rpx;
+}
+.shopName {
+	display: flex;
+	margin-top: 15rpx;
+	font-size: 50rpx;
+	margin-left: 20rpx;
+}
+.topic_text{
+	display: flex;
+	margin-top: 100rpx;
+	font-size: 30rpx;
+	margin-left: -320rpx;
+}
+.three_button{
+	display: flex;
+	flex-wrap: nowrap;
+}
+.order{
+	height: 80rpx;
+	width: 150rpx;
+	font-size: 35rpx;
+	margin-top: 20rpx;
+	margin-left: 0rpx;
+	background-color: #ffffff;
+}
+.command{
+	height: 80rpx;
+	width: 150rpx;
+	font-size: 35rpx;
+	margin-top: 20rpx;
+	margin-left: -270rpx;
+	background-color: #ffffff;
+	border-radius: 100rpx;
+}
+.shop_inf{
+	height: 80rpx;
+	width: 150rpx;
+	font-size: 35rpx;
+	margin-top: 20rpx;
+	margin-left: -260rpx;
+	background-color: #ffffff;
+	border-radius: 100rpx;
+}
+
+

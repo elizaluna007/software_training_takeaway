@@ -15,8 +15,8 @@
 		data() {
 			return {
 				title: 'Hello',
-				shop_name : '肯德基',
-				time : '30'
+				token : 'this is a token',
+				name : '123'
 			}
 		},
 		onLoad() {
@@ -25,7 +25,7 @@
 		methods: {
 			goto_shop(url) {
 				uni.navigateTo({
-					url:'/pages/index/shop?shop_name='+this.shop_name+'&time='+this.time
+					url:'/pages/index/shop?id='+this.id+'&token='+this.token
 				})
 			}
 		}
