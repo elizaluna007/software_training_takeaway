@@ -1,26 +1,9 @@
 <template>
-	<view class="page_box">
-		<view class="head">
-			<!-- 页面头部图片以及标题 -->
-			<image src=../../static/logo.png class="logo_img">
-				<!-- 商店图标 -->
-			</image>
-			<text class="shop_name">
-				<!-- 商店名 -->
-				肯德基宅急送
-			</text>
-			<text class="shop_score">
-				<!-- 评分 -->
-				4.8分
-			</text>
-			<text class="shop_sale_number">
-				<!-- 月售数量 -->
-				月售1590
-			</text>
-			<text class="shop_delivery_time">
-				<!-- 预估配送时间 -->
-				配送约30分钟
-			</text>
+	<view class="content">
+		<view class="topic">
+			<image class="logo" :src="logo"></image>
+			<text class="shopName">商家名称：{{shop_name}}</text>
+			<text class="topic_text" space="ensp">{{credit}}分   月售{{sale}}   配送约{{needytime}}</text>
 		</view>
 
 		<view class="tabbar">
@@ -29,44 +12,13 @@
 			<text>评价</text>
 			<text>商家</text>
 		</view>
-		<view class="down">
-			<scoll-view class="left" scroll-y>
-				<!-- 页面左边滚动栏 -->
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-			</scoll-view>
-			<scoll-view class="right" scroll-y>
-				<!-- 页面右边滚动栏 -->
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-				<view>智能家居</view>
-			</scoll-view>
+		<view>
+			<view v-for="item,index in goods">
+				{{index}} : {{item}}
+				<text style="font-size: 20px;">序号：{{index}},</text>
+			</view>
 		</view>
+		<view>look:{{shop_name}}</view>
 	</view>
 </template>
 
@@ -74,8 +26,8 @@
 	export default {
 		data() {
 			return {
-				shop_id: '',
-				token: '30',
+				name: '肯德基',
+				token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjAzOTA1NjguMTM5MDYyMiwiaWF0IjoxNjYwMzg3NTY4LjEzOTA2MjIsImlzcyI6IkJiYmFjayIsImRhdGEiOnsiYWNjb3VudCI6InJvb3QiLCJwYXNzd29yZCI6IjMzMzMiLCJ0aW1lc3RhbXAiOjE2NjAzODc1NjguMTM5MDYyMn19.HTdQdVwEgXKAWddnPreTM5fI90HmnEkZ0beGL9V7kBE',
 				shop_name: '',
 				needytime: '',
 				credit: '',
@@ -86,13 +38,13 @@
 			}
 		},
 		onLoad(index_data) {
-			this.shop_id= index_data.id
+			this.name = index_data.name
 			this.token = index_data.token
 			uni.request({
 				url: 'http://127.0.0.1:4523/m1/1437509-0-default/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
 				method: "GET", //不设置，默认为get方式
 				data: {
-					shop_id: this.shop_id,
+					name: this.name,
 				},
 				header: {
 					token: this.token,
@@ -117,99 +69,69 @@
 	}
 </script>
 
-
-<style lang="scss" scoped>
-	page {
-		height: 100%;
-		width: 100%;
+<style>
+	button::after {
+		border: initial;
 	}
 
-	.page_box {
-		height: 100%;
-
-		.head {
-			height: 30%;
-			width: 100%;
-			display: block;
-
-			image {
-				margin-top: 20rpx;
-				margin-left: 10rpx;
-				height: 200rpx;
-				width: 200rpx;
-			}
-
-			.shop_name {
-				position: relative;
-				left: 230rpx;
-				top: -200rpx;
-				word-break: keep-all;
-				text-align: center;
-				font-size: 50rpx;
-			}
-
-			.shop_score {
-				position: relative;
-				left: -50rpx;
-				top: -100rpx;
-				word-break: keep-all;
-				text-align: center;
-				font-size: 30rpx;
-			}
-
-			.shop_sale_number {
-				position: relative;
-				top: -100rpx;
-				right: 20rpx;
-				word-break: keep-all;
-				text-align: center;
-				font-size: 30rpx;
-			}
-
-			.shop_delivery_time {
-				position: relative;
-				top: -100rpx;
-				left: 20rpx;
-				word-break: keep-all;
-				text-align: center;
-				font-size: 30rpx;
-			}
-		}
-
-		.tabbar {
-			display: flex;
-			position: relative;
-			bottom: 30rpx;
-
-			text {
-				font-size: 40rpx;
-
-			}
-		}
-
-		.down {
-			height: 70%;
-			display: flex;
-			.left {
-				width: 180rpx;
-
-				view {
-					width: 180rpx;
-					line-height: 100rpx;
-					margin-left: 10rpx;
-					color: #333;
-					text-align: justify;
-					font-size: 35rpx;
-					background-color: #f5f5f5;
-				}
-			}
-
-			.right {
-				
-			}
-		}
-
+	.topic {
+		display: flex;
 
 	}
 
+	.logo {
+		height: 200rpx;
+		width: 200rpx;
+		margin-top: 10rpx;
+		margin-left: 0rpx;
+	}
+
+	.shopName {
+		display: flex;
+		margin-top: 15rpx;
+		font-size: 50rpx;
+		margin-left: 20rpx;
+	}
+
+	.topic_text {
+		display: flex;
+		margin-top: 100rpx;
+		font-size: 30rpx;
+		margin-left: -320rpx;
+	}
+
+	.three_button {
+		display: flex;
+		flex-wrap: nowrap;
+	}
+
+	.order {
+		height: 80rpx;
+		width: 150rpx;
+		font-size: 35rpx;
+		margin-top: 20rpx;
+		margin-left: 0rpx;
+		background-color: #ffffff;
+	}
+
+	.command {
+		height: 80rpx;
+		width: 150rpx;
+		font-size: 35rpx;
+		margin-top: 20rpx;
+		margin-left: -270rpx;
+		background-color: #ffffff;
+		border-radius: 100rpx;
+	}
+
+	.shop_inf {
+		height: 80rpx;
+		width: 170rpx;
+		font-size: 35rpx;
+		margin-top: 20rpx;
+		margin-left: -240rpx;
+		background-color: #ffffff;
+		border-radius: 100rpx;
+	}
+	
 </style>
