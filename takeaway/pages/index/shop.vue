@@ -1,24 +1,45 @@
 <template>
-	<view class="content">
+	<view class="content" >
 		<view class="topic">
 			<image class="logo" :src="logo"></image>
 			<text class="shopName">商家名称：{{shop_name}}</text>
-			<text class="topic_text" space="ensp">{{credit}}分   月售{{sale}}   配送约{{needytime}}</text>
+			<text class="topic_text" space="ensp">{{credit}}分 月售{{sale}} 配送约{{needytime}}分钟</text>
+		</view>
+		<view class="three_button">
+			<button class="order">点菜</button>
+			<button class="command">评价</button>
+			<button class="shop_inf">商家</button>
 		</view>
 
-		<view class="tabbar">
-			<!-- 页面上中部导航栏 -->
-			<text>点菜</text>
-			<text>评价</text>
-			<text>商家</text>
-		</view>
-		<view>
-			<view v-for="item,index in goods">
-				{{index}} : {{item}}
-				<text style="font-size: 20px;">序号：{{index}},</text>
-			</view>
-		</view>
-		<view>look:{{shop_name}}</view>
+		<scroll-view class="dish_pos">
+			<!-- 列表框 -->
+			<el-col class="home-card">
+				<!-- 卡片 -->
+				<el-card class="list_2" v-for="good in goods" :key="good">
+					<!-- 图片 -->
+					<img :src="good.logo" class="img_style" mode='aspectFit'/>
+					<!-- 描述框 -->
+					<div class="describe">
+						<p class="p_1">菜名:{{good.name}}</p>
+						<p class="p_2">价格:{{good.price}}</p>
+						<p class="p_3">销量:{{good.sale}}</p>
+						<p class="p_4">描述:{{good.description}}</p>
+					</div>
+				</el-card>
+			</el-col>
+		</scroll-view>
+		<scroll-view class="cate_pos">
+			<!-- 列表框 -->
+			<el-col class="home-card">
+				<!-- 卡片 -->
+				<el-card class="list" v-for="good in goods" :key="good">
+					<!-- 描述框 -->
+					<div class="describe">
+						<p class="p_5">菜名</p>
+					</div>
+				</el-card>
+			</el-col>
+		</scroll-view>
 	</view>
 </template>
 
@@ -135,4 +156,91 @@
 		border-radius: 100rpx;
 	}
 	
+	.list {
+		align-items: center;
+		height: 250rpx;
+		vertical-align: center;
+		display: flex;
+		object-fit: fill;
+		margin: 20rpx;
+		border-width: 100%;
+		border: 3rpx solid #f8f8f8;
+		box-shadow: #8f8f94;
+		border-radius: 7%;
+		box-shadow:
+			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+			85px 57px 80px rgba(0, 0, 0, 0.016);
+	}
+	
+	.list_2 {
+		align-items: center;
+		height: 250rpx;
+		vertical-align: center;
+		display: flex;
+		object-fit: fill;
+		margin: 20rpx;
+		border-width: 100%;
+		border: 3rpx solid #f8f8f8;
+		box-shadow: #8f8f94;
+		border-radius: 7%;
+		box-shadow:
+			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+			85px 57px 80px rgba(0, 0, 0, 0.016);
+	}
+	
+/* 	.home-card{
+		height: 400rpx;
+	} */
+	
+	.dish_pos{
+		display: flex;
+		width: 550rpx;
+		margin-left: 170rpx;
+	}
+	
+	.cate_pos{
+		display: flex;
+		width: 150rpx;
+		margin-left: 10rpx;
+		margin-top: -600rpx;
+	}
+	
+	.img_style{
+		height: 150rpx;
+		width: 150rpx;
+	}
+	
+	p {
+		text-align: center;
+	}
+	
+	.p_1 {
+		margin-top: 0rpx;
+		font-size: 35rpx;
+	}
+	
+	.p_2 {
+		font-size: 30rpx;
+		color: #ffb420;
+		margin-left: -230rpx;
+	}
+	
+	.p_3 {
+		font-size: 30rpx;
+		color: #8f96a0;
+		margin-left: -230rpx;
+	}
+	
+	.p_4{
+		font-size: 30rpx;
+		color: #8f96a0;
+		margin-left: 20rpx;
+	}
+	.p_5 {
+		height: 50rpx;
+		margin-top: 0rpx;
+		font-size: 30rpx;
+	}
 </style>
