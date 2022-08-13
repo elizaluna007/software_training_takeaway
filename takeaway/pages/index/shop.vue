@@ -15,19 +15,27 @@
 			<!-- 列表框 -->
 			<el-col class="home-card">
 				<!-- 卡片 -->
-				<el-card class="list" v-for="good in goods" :key="good">
+				<el-card class="list_2" v-for="good in goods" :key="good">
 					<!-- 图片 -->
-					<img :src="good.logo" class="img_style" />
+					<img :src="good.logo" class="img_style" mode='aspectFit'/>
 					<!-- 描述框 -->
 					<div class="describe">
 						<p class="p_1">菜名:{{good.name}}</p>
 						<p class="p_2">价格:{{good.price}}</p>
 						<p class="p_3">销量:{{good.sale}}</p>
-						<p class="p_3">分类:{{good.category}}</p>
+						<p class="p_4">描述:{{good.description}}</p>
 					</div>
-					<!-- 距离以及时间-->
-					<div class="time">
-						<p class="p_3">描述:{{good.description}}</p>
+				</el-card>
+			</el-col>
+		</scroll-view>
+		<scroll-view class="cate_pos">
+			<!-- 列表框 -->
+			<el-col class="home-card">
+				<!-- 卡片 -->
+				<el-card class="list" v-for="good in goods" :key="good">
+					<!-- 描述框 -->
+					<div class="describe">
+						<p class="p_5">菜名</p>
 					</div>
 				</el-card>
 			</el-col>
@@ -93,10 +101,10 @@
 	}
 
 	.logo {
-		height: 150rpx;
-		width: 150rpx;
+		height: 200rpx;
+		width: 200rpx;
 		margin-top: 10rpx;
-		margin-left: 10rpx;
+		margin-left: 0rpx;
 	}
 
 	.shopName {
@@ -139,16 +147,17 @@
 
 	.shop_inf {
 		height: 80rpx;
-		width: 150rpx;
+		width: 170rpx;
 		font-size: 35rpx;
 		margin-top: 20rpx;
-		margin-left: -260rpx;
+		margin-left: -240rpx;
 		background-color: #ffffff;
 		border-radius: 100rpx;
 	}
 	
 	.list {
 		align-items: center;
+		height: 250rpx;
 		vertical-align: center;
 		display: flex;
 		object-fit: fill;
@@ -161,12 +170,45 @@
 			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
 			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
 			85px 57px 80px rgba(0, 0, 0, 0.016);
-			
-	
 	}
 	
+	.list_2 {
+		align-items: center;
+		height: 250rpx;
+		vertical-align: center;
+		display: flex;
+		object-fit: fill;
+		margin: 20rpx;
+		border-width: 100%;
+		border: 3rpx solid #f8f8f8;
+		box-shadow: #8f8f94;
+		border-radius: 7%;
+		box-shadow:
+			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+			85px 57px 80px rgba(0, 0, 0, 0.016);
+	}
+	
+/* 	.home-card{
+		height: 400rpx;
+	} */
+	
 	.dish_pos{
-
+		display: flex;
+		width: 550rpx;
+		margin-left: 170rpx;
+	}
+	
+	.cate_pos{
+		display: flex;
+		width: 150rpx;
+		margin-left: 10rpx;
+		margin-top: -600rpx;
+	}
+	
+	.img_style{
+		height: 150rpx;
+		width: 150rpx;
 	}
 	
 	p {
@@ -174,17 +216,30 @@
 	}
 	
 	.p_1 {
-		font-size: 50rpx;
+		margin-top: 0rpx;
+		font-size: 35rpx;
 	}
 	
 	.p_2 {
-		font-size: 40rpx;
+		font-size: 30rpx;
 		color: #ffb420;
+		margin-left: -230rpx;
 	}
 	
 	.p_3 {
-		font-size: 40rpx;
+		font-size: 30rpx;
 		color: #8f96a0;
+		margin-left: -230rpx;
 	}
 	
+	.p_4{
+		font-size: 30rpx;
+		color: #8f96a0;
+		margin-left: 20rpx;
+	}
+	.p_5 {
+		height: 50rpx;
+		margin-top: 0rpx;
+		font-size: 30rpx;
+	}
 </style>
