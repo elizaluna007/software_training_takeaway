@@ -11,7 +11,7 @@
 			<button class="shop_inf">商家</button>
 		</view>
 
-		<scroll-view class="dish_pos">
+		<scroll-view class="dish_pos" scroll-y="true">
 			<!-- 列表框 -->
 			<el-col class="home-card">
 				<!-- 卡片 -->
@@ -25,19 +25,21 @@
 						<p class="p_3">销量:{{good.sale}}</p>
 						<p class="p_4">描述:{{good.description}}</p>
 					</div>
-				</el-card>
+				</el-card>			
+				
 			</el-col>
 		</scroll-view>
-		<scroll-view class="cate_pos">
+		<scroll-view class="cate_pos" scroll-y="true">
 			<!-- 列表框 -->
 			<el-col class="home-card">
 				<!-- 卡片 -->
-				<el-card class="list" v-for="good in goods" :key="good">
-					<!-- 描述框 -->
+				 <el-card class="list" v-for="good in goods" :key="good">
+					<!-- 描述框 --> 
 					<div class="describe">
 						<p class="p_5">菜名</p>
 					</div>
-				</el-card>
+				</el-card> 
+				
 			</el-col>
 		</scroll-view>
 	</view>
@@ -63,7 +65,7 @@
 			this.name = index_data.name
 			this.token = index_data.token
 			uni.request({
-				url: 'http://127.0.0.1:4523/m1/1437509-0-default/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
+				url: 'https://mock.apifox.cn/m1/1437509-0-default/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
 				method: "GET", //不设置，默认为get方式
 				data: {
 					name: this.name,
@@ -91,7 +93,12 @@
 	}
 </script>
 
-<style>
+<style lang="less">
+	page{
+		height: 100%;
+	}
+.content{
+	height: 100%;	
 	button::after {
 		border: initial;
 	}
@@ -158,7 +165,7 @@
 	
 	.list {
 		align-items: center;
-		height: 250rpx;
+		height: 120rpx;
 		vertical-align: center;
 		display: flex;
 		object-fit: fill;
@@ -190,21 +197,25 @@
 			85px 57px 80px rgba(0, 0, 0, 0.016);
 	}
 	
-/* 	.home-card{
-		height: 400rpx;
-	} */
+ // 	.home-card{
+	// 	height: 200rpx;
+	// } 
 	
 	.dish_pos{
+		height:100%;
+		width: 70%;
 		display: flex;
-		width: 550rpx;
-		margin-left: 170rpx;
+		margin-left: 200rpx;
 	}
 	
 	.cate_pos{
+		height:100%;
+		width: 20%;
 		display: flex;
-		width: 150rpx;
+		position: absolute;
+		top: 330rpx;
+		//width: 150rpx;
 		margin-left: 10rpx;
-		margin-top: -600rpx;
 	}
 	
 	.img_style{
@@ -243,4 +254,5 @@
 		margin-top: 0rpx;
 		font-size: 30rpx;
 	}
+}
 </style>
