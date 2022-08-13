@@ -10,7 +10,7 @@
 
 		<view>
 			<view class="weui-input">
-				<input class="input_style" v-model="telephone" placeholder="请输入用户名" />
+				<input class="input_style" v-model="account" placeholder="请输入用户名" />
 			</view>
 
 			<view class="weui-input">
@@ -43,9 +43,6 @@
 			<a class="first" href=""  @click="toRegister">注册</a>
 			<a class="second" href=""  @click="toLogin_Phone">手机号登录</a>
 		</view>
-
-		<view v-if="code">{{code}}</view>
-
 		
 	</view>
 </template>
@@ -92,7 +89,7 @@
 				}
 				else{
 					uni.request({
-						url: 'https://v3710z5658.oicp.vip/customer/customerLogin', //仅为示例，并非真实接口地址。
+						url: 'http://127.0.0.1:4523/m1/1437509-0-default/customer/customerLogin', //仅为示例，并非真实接口地址。
 						method: "POST", //不设置，默认为get方式
 						data: {
 							account: this.account,
@@ -102,10 +99,10 @@
 						//登录时发送数据到数据库成功得到相应返回的数据
 						success: (res) => {
 								console.log(res),
-								this.code = res.code
-								this.msg = res.msg
-								this.Oauth_Token = res.data.Oauth_Token
-								this.exprie = res.data.exprie
+								this.code = res.data.code
+								this.msg = res.data.msg
+								this.Oauth_Token = res.data.data.Oauth_Token
+								this.exprie = res.data.data.exprie
 							//res.后端定义的接口
 						}
 					});

@@ -1,1 +1,1 @@
-<view class="content"><image class="logo" src="/static/logo.png"></image><view class="text-area"><text class="title">{{title}}</text></view></view>
+<view class="content"><image class="logo" src="/static/logo.png"></image><view class="text-area"><text class="title">{{title}}</text></view><view><button type="default" data-event-opts="{{[['tap',[['goto_shop']]]]}}" bindtap="__e">肯德基</button></view></view>

@@ -4,6 +4,9 @@
 		<view class="text-area">
 			<text class="title">{{title}}</text>
 		</view>
+		<view>
+			<button type="default" @click="goto_shop()" >肯德基</button>
+		</view>
 	</view>
 </template>
 
@@ -11,14 +14,20 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello'
+				title: 'Hello',
+				shop_name : '肯德基',
+				time : '30'
 			}
 		},
 		onLoad() {
 
 		},
 		methods: {
-
+			goto_shop(url) {
+				uni.navigateTo({
+					url:'/pages/index/shop?shop_name='+this.shop_name+'&time='+this.time
+				})
+			}
 		}
 	}
 </script>

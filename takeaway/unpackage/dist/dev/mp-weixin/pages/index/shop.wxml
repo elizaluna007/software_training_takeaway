@@ -1,0 +1,1 @@
+<view class="content"><image class="logo" src="/static/logo.png"></image><view>{{"商家名称："+shop_name}}</view><view>{{"配送时间："+time}}</view></view>
