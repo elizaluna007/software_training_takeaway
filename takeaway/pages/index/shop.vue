@@ -6,7 +6,7 @@
 			<text class="topic_text" space="ensp">{{credit}}分 月售{{sale}} 配送约{{needytime}}分钟</text>
 		</view>
 		<view class="three_button">
-			<button class="order">点菜{{active}}</button>
+			<button class="order">点菜</button>
 			<button class="command">评价</button>
 			<button class="shop_inf">商家</button>
 		</view>
@@ -35,9 +35,8 @@
 				<!-- 卡片 -->
 				 <view :class="active===index?'active_list':'list'" v-for="(category,index) in categories" @click="leftClickHandle(index)" >
 					<!-- 描述框 --> 
-					<div class="describe">
-						<p class="p_5">{{category.category}}</p>
-					</div>
+						<p :class="active===index?'active_p_5':'p_5'">{{category.category}}</p>
+						
 				</view> 
 				
 			</el-col>
@@ -97,7 +96,9 @@
 				this.active = this.active+1;
 			},
 			scrolltoupperHandle(){
-				this.active = this.active-1;
+				if(this.active > 0){
+					this.active = this.active-1;
+					}
 			}
 		}
 	}
@@ -190,14 +191,13 @@
 			85px 57px 80px rgba(0, 0, 0, 0.016);
 	}
 	.active_list{
-		background-color: #ffb420;
 		align-items: center;
 		height: 120rpx;
+		width: 115rpx;
 		vertical-align: center;
 		display: flex;
 		object-fit: fill;
 		margin: 20rpx;
-		border-width: 100%;
 		border: 3rpx solid #f8f8f8;
 		box-shadow: #8f8f94;
 		border-radius: 7%;
@@ -205,6 +205,7 @@
 			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
 			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
 			85px 57px 80px rgba(0, 0, 0, 0.016);
+		background-color: antiquewhite;
 	}
 	.list_2 {
 		align-items: center;
@@ -278,6 +279,11 @@
 	.p_5 {
 		height: 50rpx;
 		margin-top: 0rpx;
+		font-size: 30rpx;
+	}
+	.active_p_5{
+		height: 50rpx;
+		margin-left: 20rpx;
 		font-size: 30rpx;
 	}
 }
