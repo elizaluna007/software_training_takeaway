@@ -1,5 +1,5 @@
 <template>
-	<view class="content" >
+	<view class="content">
 		<view class="topic">
 			<image class="logo" :src="logo"></image>
 			<text class="shopName">商家名称：{{shop_name}}</text>
@@ -15,31 +15,37 @@
 			<!-- 列表框 -->
 			<el-col class="home-card">
 				<!-- 卡片 -->
-				<el-card class="list_2" v-for="good in goods" :key="good">
+				<el-card class="list_2" v-for="(good, index) in goods" :key="index">
 					<!-- 图片 -->
-					<img :src="good.logo" class="img_style" mode='aspectFit'/>
+					<img :src="good.logo" class="img_style" mode='aspectFit' />
 					<!-- 描述框 -->
 					<div class="describe">
-						<p class="p_1">菜名:{{good.name}}</p>
-						<p class="p_2">价格:{{good.price}}</p>
-						<p class="p_3">销量:{{good.sale}}</p>
-						<p class="p_4">描述:{{good.description}}</p>
+						<p class="p_1">{{good.name}}</p>
+						<p class="p_3">月售:{{good.sale}}</p>
+						<p class="p_4">{{good.description}}</p>
+						<p class="p_2">¥:{{good.price}}</p>
+						<view>
+							<view v-if="dish_number[index]">
+								<image :src="add" class="p_add" @click="click_sub(index)">{{dish_number[index]}}</image>
+							</view>
+							<image :src="add" class="p_sub" @click="click_add(index)"></image>
+						</view>
 					</div>
-				</el-card>			
-				
+				</el-card>
+
 			</el-col>
 		</scroll-view>
 		<scroll-view class="cate_pos" scroll-y="true">
 			<!-- 列表框 -->
 			<el-col class="home-card">
 				<!-- 卡片 -->
-				 <el-card class="list" v-for="good in goods" :key="good">
-					<!-- 描述框 --> 
+				<el-card class="list" v-for="good in goods" :key="good">
+					<!-- 描述框 -->
 					<div class="describe">
 						<p class="p_5">菜名</p>
 					</div>
-				</el-card> 
-				
+				</el-card>
+
 			</el-col>
 		</scroll-view>
 	</view>
@@ -58,14 +64,17 @@
 				logo: '',
 				sale: '',
 				threshold: '',
-				goods: ''
+				goods: '',
+				add: '/static/logo.png',
+				dish_number:[0,0,0,0,0,0],
+				active : 0
 			}
 		},
 		onLoad(index_data) {
 			this.name = index_data.name
 			this.token = index_data.token
 			uni.request({
-				url: 'https://mock.apifox.cn/m1/1437509-0-default/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
+				url: 'http://127.0.0.1:4523/m1/1437509-0-default/shop/getAllGoodsByNamecopy', //仅为示例，并非真实接口地址。
 				method: "GET", //不设置，默认为get方式
 				data: {
 					name: this.name,
@@ -76,7 +85,7 @@
 				//登录时发送数据到数据库成功得到相应返回的数据
 				success: (res) => {
 					console.log(res),
-					this.shop_name = res.data.name
+						this.shop_name = res.data.name
 					this.needytime = res.data.needytime
 					this.credit = res.data.credit
 					this.logo = res.data.logo
@@ -88,171 +97,193 @@
 			});
 		},
 		methods: {
-
+			click_add(index){
+				let idx = index;
+				this.dish_number.splice(index,1,this.dish_number[idx]+1)
+				console.log(this.dish_number)
+			},
+			click_sub(index){
+				let idx = index;
+				this.dish_number.splice(index,1,this.dish_number[idx]-1)
+				console.log(this.dish_number)
+			}
 		}
 	}
 </script>
 
 <style lang="less">
-	page{
+	page {
 		height: 100%;
 	}
-.content{
-	height: 100%;	
-	button::after {
-		border: initial;
-	}
 
-	.topic {
-		display: flex;
+	.content {
+		height: 100%;
 
-	}
+		button::after {
+			border: initial;
+		}
 
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin-top: 10rpx;
-		margin-left: 0rpx;
-	}
+		.topic {
+			display: flex;
 
-	.shopName {
-		display: flex;
-		margin-top: 15rpx;
-		font-size: 50rpx;
-		margin-left: 20rpx;
-	}
+		}
 
-	.topic_text {
-		display: flex;
-		margin-top: 100rpx;
-		font-size: 30rpx;
-		margin-left: -320rpx;
-	}
+		.logo {
+			height: 200rpx;
+			width: 200rpx;
+			margin-top: 10rpx;
+			margin-left: 0rpx;
+		}
 
-	.three_button {
-		display: flex;
-		flex-wrap: nowrap;
-	}
+		.shopName {
+			display: flex;
+			margin-top: 15rpx;
+			font-size: 50rpx;
+			margin-left: 20rpx;
+		}
 
-	.order {
-		height: 80rpx;
-		width: 150rpx;
-		font-size: 35rpx;
-		margin-top: 20rpx;
-		margin-left: 0rpx;
-		background-color: #ffffff;
-	}
+		.topic_text {
+			display: flex;
+			margin-top: 100rpx;
+			font-size: 30rpx;
+			margin-left: -320rpx;
+		}
 
-	.command {
-		height: 80rpx;
-		width: 150rpx;
-		font-size: 35rpx;
-		margin-top: 20rpx;
-		margin-left: -270rpx;
-		background-color: #ffffff;
-		border-radius: 100rpx;
-	}
+		.three_button {
+			display: flex;
+			flex-wrap: nowrap;
+		}
 
-	.shop_inf {
-		height: 80rpx;
-		width: 170rpx;
-		font-size: 35rpx;
-		margin-top: 20rpx;
-		margin-left: -240rpx;
-		background-color: #ffffff;
-		border-radius: 100rpx;
+		.order {
+			height: 80rpx;
+			width: 150rpx;
+			font-size: 35rpx;
+			margin-top: 20rpx;
+			margin-left: 0rpx;
+			background-color: #ffffff;
+		}
+
+		.command {
+			height: 80rpx;
+			width: 150rpx;
+			font-size: 35rpx;
+			margin-top: 20rpx;
+			margin-left: -270rpx;
+			background-color: #ffffff;
+			border-radius: 100rpx;
+		}
+
+		.shop_inf {
+			height: 80rpx;
+			width: 170rpx;
+			font-size: 35rpx;
+			margin-top: 20rpx;
+			margin-left: -240rpx;
+			background-color: #ffffff;
+			border-radius: 100rpx;
+		}
+
+		.list {
+			align-items: center;
+			height: 120rpx;
+			vertical-align: center;
+			display: flex;
+			object-fit: fill;
+			margin: 20rpx;
+			border-width: 100%;
+			border: 3rpx solid #f8f8f8;
+			box-shadow: #8f8f94;
+			border-radius: 7%;
+			box-shadow:
+				5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+				19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+				85px 57px 80px rgba(0, 0, 0, 0.016);
+		}
+
+		.list_2 {
+			align-items: center;
+			height: 250rpx;
+			vertical-align: center;
+			display: flex;
+			object-fit: fill;
+			margin: 20rpx;
+			border-width: 100%;
+			border: 3rpx solid #f8f8f8;
+			box-shadow: #8f8f94;
+			border-radius: 7%;
+			box-shadow:
+				5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+				19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+				85px 57px 80px rgba(0, 0, 0, 0.016);
+		}
+
+		// 	.home-card{
+		// 	height: 200rpx;
+		// } 
+
+		.dish_pos {
+			height: 100%;
+			width: 70%;
+			display: flex;
+			margin-left: 200rpx;
+		}
+
+		.cate_pos {
+			height: 100%;
+			width: 20%;
+			display: flex;
+			position: absolute;
+			top: 330rpx;
+			//width: 150rpx;
+			margin-left: 10rpx;
+		}
+
+		.img_style {
+			height: 150rpx;
+			width: 150rpx;
+		}
+
+		p {
+			text-align: center;
+		}
+
+		.p_1 {
+			margin-left: 0rpx;
+			margin-top: 0rpx;
+			font-size: 35rpx;
+		}
+
+		.p_2 {
+			font-size: 32rpx;
+			color: #ff0000;
+			margin-left: 0rpx;
+		}
+
+		.p_3 {
+			font-size: 30rpx;
+			color: #8f96a0;
+			margin-left: 0rpx;
+		}
+
+		.p_4 {
+			font-size: 30rpx;
+			color: #8f96a0;
+			margin-left: 20rpx;
+		}
+
+		.p_add {
+			font-size: 30rpx;
+			height: 50rpx;
+			width: 50rpx;
+			margin-top: -50rpx;
+			margin-left: 0rpx;
+		}
+		.p_sub {
+			font-size: 30rpx;
+			height: 50rpx;
+			width: 50rpx;
+			margin-top: -50rpx;
+			margin-left: 60rpx;
+		}
 	}
-	
-	.list {
-		align-items: center;
-		height: 120rpx;
-		vertical-align: center;
-		display: flex;
-		object-fit: fill;
-		margin: 20rpx;
-		border-width: 100%;
-		border: 3rpx solid #f8f8f8;
-		box-shadow: #8f8f94;
-		border-radius: 7%;
-		box-shadow:
-			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
-			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
-			85px 57px 80px rgba(0, 0, 0, 0.016);
-	}
-	
-	.list_2 {
-		align-items: center;
-		height: 250rpx;
-		vertical-align: center;
-		display: flex;
-		object-fit: fill;
-		margin: 20rpx;
-		border-width: 100%;
-		border: 3rpx solid #f8f8f8;
-		box-shadow: #8f8f94;
-		border-radius: 7%;
-		box-shadow:
-			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
-			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
-			85px 57px 80px rgba(0, 0, 0, 0.016);
-	}
-	
- // 	.home-card{
-	// 	height: 200rpx;
-	// } 
-	
-	.dish_pos{
-		height:100%;
-		width: 70%;
-		display: flex;
-		margin-left: 200rpx;
-	}
-	
-	.cate_pos{
-		height:100%;
-		width: 20%;
-		display: flex;
-		position: absolute;
-		top: 330rpx;
-		//width: 150rpx;
-		margin-left: 10rpx;
-	}
-	
-	.img_style{
-		height: 150rpx;
-		width: 150rpx;
-	}
-	
-	p {
-		text-align: center;
-	}
-	
-	.p_1 {
-		margin-top: 0rpx;
-		font-size: 35rpx;
-	}
-	
-	.p_2 {
-		font-size: 30rpx;
-		color: #ffb420;
-		margin-left: -230rpx;
-	}
-	
-	.p_3 {
-		font-size: 30rpx;
-		color: #8f96a0;
-		margin-left: -230rpx;
-	}
-	
-	.p_4{
-		font-size: 30rpx;
-		color: #8f96a0;
-		margin-left: 20rpx;
-	}
-	.p_5 {
-		height: 50rpx;
-		margin-top: 0rpx;
-		font-size: 30rpx;
-	}
-}
 </style>
