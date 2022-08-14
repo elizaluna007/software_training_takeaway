@@ -213,7 +213,6 @@
 			margin-top: -50rpx;
 			margin-left: 60rpx;
 		}
-	}
 	
 	.list {
 		align-items: center;
