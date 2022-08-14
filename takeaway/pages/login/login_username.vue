@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="help">
-			<text>帮助</text>
+			<text style="color: #8f8f94;">帮助</text>
 		</view>
 
 		<view class="welcome_block">
@@ -33,34 +33,39 @@
 			</view>
 
 			<view>
-				<text class="agree">我已阅读并同意《小xx协议》 《个人信息保护协议》</text>
+				<!-- <text class="agree">我已阅读并同意《小橘子协议》 《个人信息保护协议》</text> -->
+				<div class="agree">
+					<p class=agree1 style="position: relative;left: -35rpx;">我已阅读并同意</p>
+					<p class=agree2 style="position: relative;left: 210rpx;top: -44rpx;">《小橘子协议》《个</p>
+					<p class=agree3 style="position: relative;left: -18rpx;top: -25rpx;">人信息保护协议》</p>
+				</div>
 			</view>
 		</view>
 		<view class="btn_block">
 			<button class="btn_style" @click="_check_register">登录</button>
 		</view>
 		<view class="flexs">
-			<a class="first" href=""  @click="toRegister">注册</a>
-			<a class="second" href=""  @click="toLogin_Phone">手机号登录</a>
+			<a class="first" href="" @click="toRegister">注册</a>
+			<a class="second" href="" @click="toLogin_Phone">手机号登录</a>
 		</view>
-		
+
 	</view>
 </template>
 <script>
 	export default {
 		data() {
 			return {
-				account:'',
+				account: '',
 				password: '',
 				code: '0',
 				msg: '',
 				Oauth_Token: '',
-				exprie:'',
+				exprie: '',
 				sure: false,
 				pwdType: "password",
 				openeye: require("../../static/eye.png"), //小眼睛图片地址
 				nopeneye: require("../../static/no_eye.png"),
-				seen:0,
+				seen: 0,
 			}
 		},
 		methods: {
@@ -72,22 +77,20 @@
 				this.sure = !this.sure;
 				console.log(this.sure);
 			},
-			_check_register(){
+			_check_register() {
 				if (this.sure == false) {
 					uni.showToast({
 						title: "请先阅读并同意协议",
 						icon: 'exception',
 						duration: 850
 					})
-				}
-				else if(this.password.length<6){
-						uni.showToast({
-							title: "密码小于6位",
-							icon: 'exception',
-							duration: 850
-						})			
-				}
-				else{
+				} else if (this.password.length < 6) {
+					uni.showToast({
+						title: "密码小于6位",
+						icon: 'exception',
+						duration: 850
+					})
+				} else {
 					uni.request({
 						url: 'http://127.0.0.1:4523/m1/1437509-0-default/customer/customerLogin', //仅为示例，并非真实接口地址。
 						method: "POST", //不设置，默认为get方式
@@ -98,24 +101,24 @@
 						header: {},
 						//登录时发送数据到数据库成功得到相应返回的数据
 						success: (res) => {
-								console.log(res),
+							console.log(res),
 								this.code = res.data.code
-								this.msg = res.data.msg
-								this.Oauth_Token = res.data.data.Oauth_Token
-								this.exprie = res.data.data.exprie
+							this.msg = res.data.msg
+							this.Oauth_Token = res.data.data.Oauth_Token
+							this.exprie = res.data.data.exprie
 							//res.后端定义的接口
 						}
 					});
-				}	
+				}
 			},
 			toRegister(url) {
 				uni.navigateTo({
-					url:'/pages/register/register'
+					url: '/pages/register/register'
 				})
 			},
 			toLogin_Phone(url) {
 				uni.navigateTo({
-					url:'/pages/login/login_phone'
+					url: '/pages/login/login_phone'
 				})
 			},
 		},
@@ -173,6 +176,15 @@
 
 	.agree {}
 
+	.agree2 {
+		color: #FFB400;
+	}
+
+	.agree3 {
+		color: #FFB400;
+	}
+
+
 	.flexs {
 		display: flex;
 		justify-content: space-between;
@@ -183,17 +195,20 @@
 	.first {
 		left: 0;
 		margin-left: 90rpx;
+		color: #8f8f94;
 	}
 
 	.second {
 		right: 0;
 		margin-right: 90rpx;
+		color: #8f8f94;
 	}
 
 	.btn_style {
 		background-color: #fefa83;
 		border-radius: 20rpx;
 		width: 500rpx;
+		box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
 	}
 
 	.btn_block {
@@ -204,5 +219,9 @@
 	.text_style {
 		display: flex;
 		text-align: center;
+	}
+
+	button::after {
+		border: none;
 	}
 </style>

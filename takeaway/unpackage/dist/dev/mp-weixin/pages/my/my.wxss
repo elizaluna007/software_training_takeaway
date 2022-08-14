@@ -1,0 +1,40 @@
+
+.login_or_register {
+	display: flex;
+}
+.img_block {
+	/* 		align-items: center;
+	vertical-align: center; */
+	display: flex;
+	margin: 50rpx;
+	border: 4rpx solid black;
+	border-radius: 50%;
+	padding: 10rpx;
+}
+.img_style {
+	width: 120rpx;
+	height: 120rpx;
+	border-radius: 50%;
+}
+.btn_style {
+	outline: none;
+	border: 0px;
+	border-color: #fff;
+	width: 300rpx;
+	height: 120rpx;
+	margin-top: 50rpx;
+	margin-left: 0rpx;
+	text-align: center;
+	justify-content: center;
+	font-size: 50rpx;
+	background-color: #fff;
+	line-height: 60px;
+}
+.line {
+	background-color: black;
+	width: 90%;
+	height: 2rpx;
+	margin: auto;
+	color: #bbbbbb;
+}
+

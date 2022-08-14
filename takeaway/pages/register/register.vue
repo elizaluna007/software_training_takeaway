@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="help">
-			<text>帮助</text>
+			<text style="color: #8f8f94;">帮助</text>
 		</view>
 
 		<view class="welcome_block">
@@ -36,8 +36,17 @@
 					</label>
 				</checkbox-group>
 			</view>
+			<!-- <div class="line_block">
+				<p class="element">xxx</p>
+				<p class="content" style="position: relative;left: 100rpx;">xxx</p>
+			</div> -->
 			<view>
-				<text class="agree">我已阅读并同意《小橘子协议》 《个人信息保护协议》</text>
+				<!-- <text class="agree">我已阅读并同意《小橘子协议》 《个人信息保护协议》</text> -->
+				<div class="agree">
+					<p class=agree1 style="position: relative;left: -35rpx;">我已阅读并同意</p>
+					<p class=agree2 style="position: relative;left: 210rpx;top: -44rpx;">《小橘子协议》《个</p>
+					<p class=agree3 style="position: relative;left: -18rpx;top: -25rpx;">人信息保护协议》</p>
+				</div>
 			</view>
 		</view>
 		<view class="btn_block">
@@ -58,7 +67,7 @@
 				password: '',
 				repassword: '',
 				code: '',
-				msg:'',
+				msg: '',
 				sure: false,
 				pwdType: "password",
 				openeye: require("../../static/eye.png"), //小眼睛图片地址
@@ -72,36 +81,36 @@
 				this.pwdType = this.pwdType === "password" ? "text" : "password";
 				this.seen = !this.seen;
 			},
-			checkChoose: function() {//点击单选框一次，改变一次sure值
+			checkChoose: function() { //点击单选框一次，改变一次sure值
 				this.sure = !this.sure;
 				console.log(this.sure);
 			},
 			_check_register() {
-				if (this.sure == false) {//如果sure值为false，弹框提示
+				if (this.sure == false) { //如果sure值为false，弹框提示
 					uni.showToast({
 						title: "请先阅读并同意协议",
 						icon: 'exception',
 						duration: 850
 					})
-				} else if (this.telephone == '' | this.telephone.length != 11) {//如果手机号错误，弹框提示
+				} else if (this.telephone == '' | this.telephone.length != 11) { //如果手机号错误，弹框提示
 					uni.showToast({
 						title: "手机号错误",
 						icon: 'exception',
 						duration: 850
 					})
-				} else if (this.password.length < 6) {//如果密码错误，弹框提示
+				} else if (this.password.length < 6) { //如果密码错误，弹框提示
 					uni.showToast({
 						title: "密码小于6位",
 						icon: 'exception',
 						duration: 850
 					})
-				} else if (this.repassword != this.password) {//如果第二次输入密码不匹配，弹框提示
+				} else if (this.repassword != this.password) { //如果第二次输入密码不匹配，弹框提示
 					uni.showToast({
 						title: "密码输入不一致",
 						icon: 'exception',
 						duration: 850
 					})
-				} else {//当全部输入正确时，向数据库发送手机号以及密码
+				} else { //当全部输入正确时，向数据库发送手机号以及密码
 					uni.request({
 						url: 'http://127.0.0.1:4523/m1/1437509-0-default/customer/customerRegister', //仅为示例，并非真实接口地址。
 						method: "POST", //不设置，默认为get方式
@@ -113,19 +122,19 @@
 						//发送成功，相应得到信息以及数据库传输过来的数据
 						success: (res) => {
 							console.log(res),
-							this.code = res.code
+								this.code = res.code
 							this.msg = res.msg
 							//res.后端定义的接口
 						}
 					});
 				}
 			},
-			goto1(url) {//点击跳转到根据手机号登录页面
+			goto1(url) { //点击跳转到根据手机号登录页面
 				uni.navigateTo({
 					url: '/pages/login/login_phone'
 				})
 			},
-			goto2(url) {//点击跳转到根据用户名登录页面
+			goto2(url) { //点击跳转到根据用户名登录页面
 				uni.navigateTo({
 					url: '/pages/login/login_username'
 				})
@@ -186,30 +195,45 @@
 
 	.agree {}
 
+	.agree2 {
+		color: #FFB400;
+	}
+
+	.agree3 {
+		color: #FFB400;
+	}
+
 	.flexs {
-		display: flex;//放置位置一行
-		justify-content: space-between;//内容位于左右两端
-		align-items: center;//位置居中
-		margin-top: 50rpx;//上边距
+		display: flex; //放置位置一行
+		justify-content: space-between; //内容位于左右两端
+		align-items: center; //位置居中
+		margin-top: 50rpx; //上边距
 	}
 
 	.first {
-		margin-left: 90rpx;//左边距
+		margin-left: 90rpx; //左边距
+		color: #8f8f94;
 	}
 
 	.second {
-		margin-right: 90rpx;//右边距
+		margin-right: 90rpx; //右边距
+		color: #8f8f94;
+	}
+
+	button::after {
+		border: none;
 	}
 
 	.btn_style {
-		background-color: #fefa83;//按钮颜色
-		border-radius: 20rpx;//按钮弧度
-		width: 500rpx;//宽度
+		background-color: #fefa83; //按钮颜色
+		border-radius: 20rpx; //按钮弧度
+		width: 500rpx; //宽度
+		box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
 	}
 
 	.btn_block {
-		display: flex;//放置位置自由
-		margin-top: 120rpx;//按钮上边距
+		display: flex; //放置位置自由
+		margin-top: 120rpx; //按钮上边距
 	}
 
 	.text_style {

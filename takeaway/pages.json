@@ -7,11 +7,18 @@
 			}
 		},
 		{
-			"path": "pages/index/shop",//启动项，外卖系统第一次登录以游客身份进入外卖首页，所有拥有的页面都在pages里存储
+			"path": "pages/my/my_info",
 			"style": {
-				"navigationBarTitleText": "下单"//显示上标签显示当前页面名称
+				"navigationBarTitleText": "我的"
 			}
 		},
+		{
+			"path": "pages/order/order",
+			"style": {
+				"navigationBarTitleText": "订单"
+			}
+		},
+
 		{
 			"path": "pages/register/register",
 			"style": {
@@ -31,15 +38,22 @@
 			}
 		},
 		{
-			"path": "pages/order/order",
-			"style": {
-				"navigationBarTitleText": "订单"
-			}
-		},
-		{
 			"path": "pages/my/my",
 			"style": {
 				"navigationBarTitleText": "我的"
+			}
+		},
+
+		{
+			"path": "pages/index/shop",
+			"style": {
+				"navigationBarTitleText": "商铺"
+			}
+		},
+		{
+			"path": "pages/index/search",
+			"style": {
+				"navigationBarTitleText": "搜索"
 			}
 		}
 	],
@@ -50,25 +64,27 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
-		"list": [{
-				"text": "首页",
-				"pagePath": "pages/index/index",
-				"iconPath": "static/logo.png",//tabbar未选中时的icon图片
-				"selectedIconPath": "static/logo.png"//tabbar选中时的icon图片
-			},
-			{
-				"text": "订单",
-				"pagePath": "pages/order/order",
-				"iconPath": "static/logo.png",
-				"selectedIconPath": "static/logo.png"
-			},
-			{
-				"text": "我的",
-				"pagePath": "pages/my/my",
-				"iconPath": "static/logo.png",
-				"selectedIconPath": "static/logo.png"
-			}
-		]
-	},
+			"selectedColor": "#b0a7d7",
+			"color": "#000000",
+			"list": [{
+					"text": "首页",
+					"pagePath": "pages/index/index",
+					"iconPath": "static/home.png",
+					"selectedIconPath": "static/home_on.png"
+				},
+				{
+					"text": "订单",
+					"pagePath": "pages/order/order",
+					"iconPath": "static/order.png",
+					"selectedIconPath": "static/order_on.png"
+				},
+				{
+					"text": "我的",
+					"pagePath": "pages/my/my",
+					"iconPath": "static/me.png",
+					"selectedIconPath": "static/my_on.png"
+				}
+			]
+		},
 	"uniIdRouter": {}
 }

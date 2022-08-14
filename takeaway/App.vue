@@ -1,5 +1,14 @@
 <script>
 	export default {
+		data() {
+			return {
+				
+			}
+		},
+		globalData: {
+			token: '',
+			login_key: false
+		},
 		onLaunch: function() {
 			console.log('App Launch')
 		},
