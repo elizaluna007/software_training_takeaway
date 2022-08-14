@@ -6,24 +6,24 @@
 			<text class="topic_text" space="ensp">{{credit}}分 月售{{sale}} 配送约{{needytime}}分钟</text>
 		</view>
 		<view class="three_button">
-			<button class="order">点菜</button>
+			<button class="order">点菜{{active}}</button>
 			<button class="command">评价</button>
 			<button class="shop_inf">商家</button>
 		</view>
 
-		<scroll-view class="dish_pos" scroll-y="true">
+		<scroll-view class="dish_pos" scroll-y="true" @scrolltolower="scrolltolowerHandle" @scrolltoupper="scrolltoupperHandle">
 			<!-- 列表框 -->
 			<el-col class="home-card">
 				<!-- 卡片 -->
-				<el-card class="list_2" v-for="good in goods" :key="good">
+				<el-card class="list_2" v-for="(item,index) in categories[active].dishes"  >
 					<!-- 图片 -->
-					<img :src="good.logo" class="img_style" mode='aspectFit'/>
+					<img :src="item.logo" class="img_style" mode='aspectFit'/>
 					<!-- 描述框 -->
 					<div class="describe">
-						<p class="p_1">菜名:{{good.name}}</p>
-						<p class="p_2">价格:{{good.price}}</p>
-						<p class="p_3">销量:{{good.sale}}</p>
-						<p class="p_4">描述:{{good.description}}</p>
+						<p class="p_1">菜名:{{item.name}}</p>
+						<p class="p_2">价格:{{item.price}}</p>
+						<p class="p_3">销量:{{item.sale}}</p>
+						<p class="p_4">描述:{{item.description}}</p>
 					</div>
 				</el-card>			
 				
@@ -33,12 +33,12 @@
 			<!-- 列表框 -->
 			<el-col class="home-card">
 				<!-- 卡片 -->
-				 <el-card class="list" v-for="good in goods" :key="good">
+				 <view :class="active===index?'active_list':'list'" v-for="(category,index) in categories" @click="leftClickHandle(index)" >
 					<!-- 描述框 --> 
 					<div class="describe">
-						<p class="p_5">菜名</p>
+						<p class="p_5">{{category.category}}</p>
 					</div>
-				</el-card> 
+				</view> 
 				
 			</el-col>
 		</scroll-view>
@@ -51,21 +51,22 @@
 		data() {
 			return {
 				name: '肯德基',
-				token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjAzOTA1NjguMTM5MDYyMiwiaWF0IjoxNjYwMzg3NTY4LjEzOTA2MjIsImlzcyI6IkJiYmFjayIsImRhdGEiOnsiYWNjb3VudCI6InJvb3QiLCJwYXNzd29yZCI6IjMzMzMiLCJ0aW1lc3RhbXAiOjE2NjAzODc1NjguMTM5MDYyMn19.HTdQdVwEgXKAWddnPreTM5fI90HmnEkZ0beGL9V7kBE',
+				token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjMuMDAwMTExMTEyNzcxNTYwNGUrMTgsImlhdCI6MTY2MDQ0OTA5OS4wNTExNzkyLCJpc3MiOiJCYmJhY2siLCJkYXRhIjp7ImFjY291bnQiOiJyb290IiwicGFzc3dvcmQiOiIzMzEzIiwidGltZXN0YW1wIjoxNjYwNDQ5MDk5LjA1MTE3OTJ9fQ.GH4apj-ZTNSyI103pvnAKpD2E5GjWzWzDwAB3R5iAUg',
 				shop_name: '',
 				needytime: '',
 				credit: '',
 				logo: '',
 				sale: '',
 				threshold: '',
-				goods: ''
+				categories: '',
+				active:0
 			}
 		},
 		onLoad(index_data) {
-			this.name = index_data.name
-			this.token = index_data.token
+			// this.name = index_data.name
+			// this.token = index_data.token
 			uni.request({
-				url: 'https://mock.apifox.cn/m1/1437509-0-default/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
+				url: 'https://5t764096g4.goho.co/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
 				method: "GET", //不设置，默认为get方式
 				data: {
 					name: this.name,
@@ -82,13 +83,22 @@
 					this.logo = res.data.logo
 					this.sale = res.data.sale
 					this.threshold = res.data.threshold
-					this.goods = res.data.goods
+					this.categories = res.data.categories
+					
 					//res.后端定义的接口
 				}
 			});
 		},
 		methods: {
-
+			leftClickHandle(index){
+				this.active=index;
+			},
+			scrolltolowerHandle(){
+				this.active = this.active+1;
+			},
+			scrolltoupperHandle(){
+				this.active = this.active-1;
+			}
 		}
 	}
 </script>
@@ -179,7 +189,23 @@
 			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
 			85px 57px 80px rgba(0, 0, 0, 0.016);
 	}
-	
+	.active_list{
+		background-color: #ffb420;
+		align-items: center;
+		height: 120rpx;
+		vertical-align: center;
+		display: flex;
+		object-fit: fill;
+		margin: 20rpx;
+		border-width: 100%;
+		border: 3rpx solid #f8f8f8;
+		box-shadow: #8f8f94;
+		border-radius: 7%;
+		box-shadow:
+			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+			85px 57px 80px rgba(0, 0, 0, 0.016);
+	}
 	.list_2 {
 		align-items: center;
 		height: 250rpx;
@@ -202,14 +228,14 @@
 	// } 
 	
 	.dish_pos{
-		height:100%;
+		height:70%;
 		width: 70%;
 		display: flex;
 		margin-left: 200rpx;
 	}
 	
 	.cate_pos{
-		height:100%;
+		height:70%;
 		width: 20%;
 		display: flex;
 		position: absolute;
