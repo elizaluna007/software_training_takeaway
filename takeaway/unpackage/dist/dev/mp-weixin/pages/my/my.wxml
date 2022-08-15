@@ -1,1 +1,0 @@
-<view><view class="login_or_register _div"><view class="img_block _div"><image class="img_style" src="../../static/l_or_r.jpg"></image></view><button class="btn_style" style="display:;" type="default" data-event-opts="{{[['tap',[['goto']]]]}}" bindtap="__e">登录/注册</button></view><view class="line _div"></view></view>
