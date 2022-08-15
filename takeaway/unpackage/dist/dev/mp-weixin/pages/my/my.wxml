@@ -1,0 +1,1 @@
+<button type="default" data-event-opts="{{[['tap',[['goto']]]]}}" bindtap="__e">登录/注册</button>

@@ -20,6 +20,12 @@
 		},
 
 		{
+			"path": "pages/index/pay",//启动项，外卖系统第一次登录以游客身份进入外卖首页，所有拥有的页面都在pages里存储
+			"style": {
+				"navigationBarTitleText": "这里是支付界面"//显示上标签显示当前页面名称
+			}
+		},
+		{
 			"path": "pages/register/register",
 			"style": {
 				"navigationBarTitleText": "注册"
@@ -56,7 +62,8 @@
 				"navigationBarTitleText": "搜索"
 			}
 		}
-	],
+	    
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
