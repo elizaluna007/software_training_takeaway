@@ -10,6 +10,7 @@
 			<button class="command">评价</button>
 			<button class="shop_inf">商家</button>
 		</view>
+
 		<!-- 右侧滚动栏 -->
 		<scroll-view class="dish_pos_right" scroll-y="true" @scroll="rightScroll" :scroll-into-view="active_id">
 			<!-- 商品种类 -->
@@ -24,13 +25,17 @@
 						<p class="p_2">价格:{{goods.price}}</p>
 						<p class="p_3">销量:{{goods.sale}}</p>
 						<p class="p_4">描述:{{goods.description}}</p>
-						<view>
-							<view v-if="dish_number[index]">
-								<image :src="add" class="p_add" @click="click_sub(index)">{{dish_number[index]}}</image>
+						<view class="add_sub">
+							<view v-if="dish_number[index]" class="hide">
+								<image  :src="sub_icon" class="p_sub"
+									@click="click_sub(index)"></image>
+								<text class="number">{{dish_number[index]}}</text>
 							</view>
-							<image :src="add" class="p_sub" @click="click_add(index)"></image>
+							<image :src="add_icon" class="p_add" @click="click_add(index)"></image>
+
 						</view>
 					</div>
+
 				</view>
 			</view>
 		</scroll-view>
@@ -85,7 +90,6 @@
 			<text class="shipping_fees">预估另需配送费¥5</text>
 		</view>
 		<button class="pay" @click="goto_pay">去结算</button>
-
 	</view>
 
 
@@ -104,21 +108,54 @@
 				logo: '',
 				sale: '',
 				threshold: '',
-				add: '/static/logo.png',
-				dish_number: [0, 0, 0, 0, 0, 0],
 				categories: '',
 				active: 0,
 				active_id: '',
 				rightHeightList: [], //右侧滚动栏数据的高度数组
 				hidden: 1
+				add_icon: '/static/add.png',
+				sub_icon: '/static/sub.png',
+				dish_number: [],
+				shop_Car:[],
+				pay_code:'',
+				pay_msg:''
 			}
+		},
+		onUnload(){
+			for (let i = 0 , k = 0; i < this.categories.length; i++) {
+				for (let j = 0; j < this.categories[i].dishes.length; j++,k++) {
+					let obj = {
+							item_name: this.categories[i].dishes[j].name,
+							count:this.dish_number[k]
+						}
+					this.shop_Car.push(obj);
+					console.log(this.shop_Car)
+				}
+
+			}
+			uni.request({
+				url: 'http://127.0.0.1:4523/m1/1437509-0-default/buy/addItemByName', //仅为示例，并非真实接口地址。
+				method: "POST", //不设置，默认为get方式
+				data: {
+					name: this.name,
+					dishes: this.shop_Car,
+				},
+				header: {
+					token: this.token,
+				},
+				//登录时发送数据到数据库成功得到相应返回的数据
+				success: (res) => {
+					console.log(res)
+					this.pay_code = res.data.code
+					this.pay_msg = res.data.msg
+				}
+			});
 		},
 		onLoad(index_data) {
 			// this.name = index_data.name
-			// this.token = index_data.token
 			uni.request({
 
-				url: 'https://mock.apifox.cn/m1/1437509-0-default/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
+				url: 'http://127.0.0.1:4523/m1/1437509-0-default/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
 				method: "GET", //不设置，默认为get方式
 				data: {
 					name: this.name,
@@ -129,13 +166,18 @@
 				//登录时发送数据到数据库成功得到相应返回的数据
 				success: (res) => {
 					console.log(res)
-						this.shop_name = res.data.name
+					this.shop_name = res.data.name
 					this.needytime = res.data.needytime
 					this.credit = res.data.credit
 					this.logo = res.data.logo
 					this.sale = res.data.sale
 					this.threshold = res.data.threshold
 					this.categories = res.data.categories
+					for (let i = 0; i < this.categories.length; i++) {
+						for (let j = 0; j < this.categories[i].dishes.length; j++) {
+							this.dish_number.push(0);
+						}
+					}
 					//res.后端定义的接口
 				}
 			});
@@ -194,20 +236,44 @@
 					this.active = this.active + 1;
 				}
 			},
-			scrolltoupperHandle() {
-				if (this.active > 0) {
-					this.active = this.active - 1;
-				}
-
-			},
 			details() {
 				this.hidden = !this.hidden;
 			},
 			goto_pay() {
+				for (let i = 0 , k = 0; i < this.categories.length; i++) {
+					for (let j = 0; j < this.categories[i].dishes.length; j++,k++) {
+						let obj = {
+								item_name: this.categories[i].dishes[j].name,
+								count:this.dish_number[k]
+							}
+						this.shop_Car.push(obj);
+						console.log(this.shop_Car)
+					}
+				}
+				uni.request({
+					url: 'http://127.0.0.1:4523/m1/1437509-0-default/buy/addItemByName', //仅为示例，并非真实接口地址。
+					method: "POST", //不设置，默认为get方式
+					data: {
+						name: this.name,
+						dishes: this.shop_Car,
+					},
+					header: {
+						token: this.token,
+					},
+					//登录时发送数据到数据库成功得到相应返回的数据
+					success: (res) => {
+						console.log(res)
+						this.pay_code = res.data.code
+						this.pay_msg = res.data.msg
+					}
+				});
+				
 				uni.navigateTo({
 					url: '/pages/index/pay'
 				})
+				
 			}
+
 		}
 	}
 </script>
@@ -247,7 +313,7 @@
 			display: flex;
 			margin-top: 100rpx;
 			font-size: 30rpx;
-			margin-left: -320rpx;
+			margin-left: -380rpx;
 		}
 
 		.three_button {
@@ -284,21 +350,35 @@
 			border-radius: 100rpx;
 		}
 
+		.add_sub {
+			position: relative;
+			left: 200rpx;
+		}
 
 		.p_add {
-			font-size: 30rpx;
-			height: 50rpx;
-			width: 50rpx;
-			margin-top: -50rpx;
-			margin-left: 0rpx;
+			position: absolute;
+			height: 40rpx;
+			width: 40rpx;
+			left: 80rpx;
+		}
+
+		.hide {
+			position: absolute;
+			left: -20rpx;
 		}
 
 		.p_sub {
-			font-size: 30rpx;
-			height: 50rpx;
-			width: 50rpx;
-			margin-top: -50rpx;
-			margin-left: 60rpx;
+
+			height: 40rpx;
+			width: 40rpx;
+			left: 0rpx;
+		}
+
+		.number {
+			position: relative;
+			font-size: 40rpx;
+			left: 10rpx;
+			top: -5rpx;
 		}
 
 		.list {
@@ -456,9 +536,9 @@
 		}
 
 		//底部购物车按钮黑框样式
+
 		.shop_car {
 			position: absolute;
-			bottom: 40rpx;
 			margin-bottom: 20rpx;
 			margin-left: 35rpx;
 			background-color: #000000;
@@ -485,11 +565,10 @@
 
 		.pay {
 			position: absolute;
-			bottom: 40rpx;
 			text-align: center;
 			font-size: 35rpx;
 			margin-left: 540rpx;
-			margin-bottom: 20rpx;
+			margin-top: 0rpx;
 			height: 80rpx;
 			width: 180rpx;
 			border-radius: 50rpx;
