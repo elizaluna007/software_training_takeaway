@@ -1,93 +1,102 @@
 <template>
 	<view class="content">
-		<view class="topic">
-			<image class="logo" :src="logo"></image>
-			<text class="shopName">商家名称：{{shop_name}}</text>
-			<text class="topic_text" space="ensp">{{credit}}分 月售{{sale}} 配送约{{needytime}}分钟</text>
-		</view>
-		<view class="three_button">
-			<button class="order">点菜</button>
-			<button class="command">评价</button>
-			<button class="shop_inf">商家</button>
-		</view>
+		<view class="order_page" @click="exit_shop_car">
+			<view class="topic">
+				<image class="logo" :src="logo"></image>
+				<text class="shopName">商家名称：{{name}}</text>
+				<text class="topic_text" space="ensp">{{credit}}分 月售{{sale}} 配送约{{needytime}}分钟</text>
+			</view>
+			<view class="three_button">
+				<button class="order">点菜</button>
+				<button class="command">评价</button>
+				<button class="shop_inf">商家</button>
+			</view>
 
-		<!-- 右侧滚动栏 -->
-		<scroll-view class="dish_pos_right" scroll-y="true" @scroll="rightScroll" :scroll-into-view="active_id">
-			<!-- 商品种类 -->
-			<view class="right_box" v-for="(category,index) in categories" :key="index" :id="'category'+index">
-				<!-- 放置商品种类中具体商品 -->
-				<view class="list_2" v-for="(goods,index) in category.dishes" :key="index">
-					<!-- 图片 -->
-					<img :src="goods.logo" class="img_style" mode='aspectFit' />
-					<!-- 描述框 -->
-					<div class="describe">
-						<p class="p_1">菜名:{{goods.name}}</p>
-						<p class="p_2">价格:{{goods.price}}</p>
-						<p class="p_3">销量:{{goods.sale}}</p>
-						<p class="p_4">描述:{{goods.description}}</p>
-						<view class="add_sub">
-							<view v-if="dish_number[index]" class="hide">
-								<image  :src="sub_icon" class="p_sub"
-									@click="click_sub(index)"></image>
-								<text class="number">{{dish_number[index]}}</text>
+			<!-- 右侧滚动栏 -->
+			<scroll-view class="dish_pos_right" scroll-y="true" @scroll="rightScroll" :scroll-into-view="active_id">
+				<!-- 商品种类 -->
+				<view class="right_box" v-for="(category,index1) in categories" :key="index1" :id="'category'+index1">
+					<!-- 放置商品种类中具体商品 -->
+					<view class="list_2" v-for="(goods,index2) in category.dishes" :key="index2">
+						<!-- 图片 -->
+						<img :src="goods.logo" class="img_style" mode='aspectFit' />
+						<!-- 描述框 -->
+						<div class="describe">
+							<p class="p_1">菜名:{{goods.name}}</p>
+							<p class="p_2">价格:{{goods.price}}</p>
+							<p class="p_3">销量:{{goods.sale}}</p>
+							<p class="p_4">描述:{{goods.description}}</p>
+							<view class="add_sub">
+								<view v-if="dish_number[index1][index2]" class="hide">
+									<image :src="sub_icon" class="p_sub" @click="click_sub(index1,index2)"></image>
+									<text class="number">{{dish_number[index1][index2]}}</text>
+								</view>
+								<image :src="add_icon" class="p_add" @click="click_add(index1,index2)"></image>
+
 							</view>
-							<image :src="add_icon" class="p_add" @click="click_add(index)"></image>
+						</div>
 
-						</view>
-					</div>
-
+					</view>
 				</view>
-			</view>
-		</scroll-view>
-		<!-- 左侧滚动栏 -->
-		<scroll-view class="cate_pos_left" scroll-y="true">
-			<!-- 卡片 -->
-			<view :class="active===index?'active_list':'list'" v-for="(category,index) in categories"
-				@click="leftClickHandle(index)">
-				<!-- 描述框 -->
-				<p :class="active===index?'active_p_5':'p_5'">{{category.category}}</p>
-			</view>
-		</scroll-view>
-
+				<!-- 页面到底提示 -->
+				<view class="bottom_hint">
+					已经到底了！
+				</view>
+			</scroll-view>
+			<!-- 左侧滚动栏 -->
+			<scroll-view class="cate_pos_left" scroll-y="true">
+				<!-- 卡片 -->
+				<view :class="active===index?'active_list':'list'" v-for="(category,index) in categories"
+					@click="leftClickHandle(index)">
+					<!-- 描述框 -->
+					<view :class="active===index?'active_p_5':'p_5'">{{category.category}}</view>
+				</view>
+			</scroll-view>
+		</view>
 		<!-- 购物车页面 -->
 		<view class="shop_car_page" :hidden="hidden">
 			<!-- top 背景条 -->
 			<view class="shop_car_top"></view>
 			<!-- 购物车清空 -->
-			<view class="shop_car_clear">清空购物车</view>
+			<view class="shop_car_clear" @click="shop_clear">清空购物车</view>
 			<!-- 购物车物品项 -->
-			<scroll-view class="shop_car_item" scroll-y="true">
-				<!-- 列表框 -->
-				<el-col class="home-card">
-					<!-- 卡片 -->
-
-					<el-card class="list_2" v-for="(item,index) in categories[active].dishes">
+			<scroll-view class="shop_dish_pos_right" scroll-y="true">
+				<!-- 商品种类 -->
+				<view class="right_box" v-for="(category,index1) in categories" :key="index1" :id="'category'+index1">
+					<!-- 放置商品种类中具体商品 -->
+					<view class="list_2" v-for="(goods,index2) in category.dishes" :key="index2"
+						v-if="dish_number[index1][index2]!=0">
 						<!-- 图片 -->
-						<img :src="item.logo" class="img_style" mode='aspectFit' />
+						<img :src="goods.logo" class="img_style" mode='aspectFit' />
 						<!-- 描述框 -->
 						<div class="describe">
-							<p class="p_1">菜名:{{item.name}}</p>
-							<p class="p_2">价格:{{item.price}}</p>
-							<p class="p_3">销量:{{item.sale}}</p>
-							<p class="p_4">描述:{{item.description}}</p>
-							<view>
-								<view v-if="dish_number[index]">
-									<image :src="add" class="p_add" @click="click_sub(index)">{{dish_number[index]}}
-									</image>
+							<p class="p_1">菜名:{{goods.name}}</p>
+							<p class="p_2">价格:{{goods.price}}</p>
+							<p class="p_3">销量:{{goods.sale}}</p>
+							<p class="p_4">描述:{{goods.description}}</p>
+							<view class="add_sub">
+								<view v-if="dish_number[index1][index2]" class="hide">
+									<image :src="sub_icon" class="p_sub" @click="click_sub(index1,index2)"></image>
+									<text class="number">{{dish_number[index1][index2]}}</text>
 								</view>
-								<image :src="add" class="p_sub" @click="click_add(index)"></image>
+								<image :src="add_icon" class="p_add" @click="click_add(index1,index2)"></image>
+
 							</view>
 						</div>
-					</el-card>
 
-				</el-col>
+					</view>
+				</view>
+				<!-- 页面到底提示 -->
+				<view class="bottom_hint">
+					已经到底了！
+				</view>
 			</scroll-view>
 		</view>
 
 		<!-- 购物车底部黑框按钮 -->
 		<view class="shop_car" @click="details">
-			<text class="total_cost">¥250</text>
-			<text class="shipping_fees">预估另需配送费¥5</text>
+			<text class="total_cost">¥{{sumprice}}</text>
+			<text class="shipping_fees">预估另需配送费¥{{threshold}}</text>
 		</view>
 		<button class="pay" @click="goto_pay">去结算</button>
 	</view>
@@ -98,64 +107,39 @@
 
 <script>
 	export default {
+		//该页面所需要的定义的数据
 		data() {
 			return {
-				name: '肯德基',
-				token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjMuMDAwMTExMTEyNzcxNTYwNGUrMTgsImlhdCI6MTY2MDQ0OTA5OS4wNTExNzkyLCJpc3MiOiJCYmJhY2siLCJkYXRhIjp7ImFjY291bnQiOiJyb290IiwicGFzc3dvcmQiOiIzMzEzIiwidGltZXN0YW1wIjoxNjYwNDQ5MDk5LjA1MTE3OTJ9fQ.GH4apj-ZTNSyI103pvnAKpD2E5GjWzWzDwAB3R5iAUg',
-				shop_name: '',
-				needytime: '',
-				credit: '',
-				logo: '',
-				sale: '',
-				threshold: '',
-				categories: '',
-				active: 0,
-				active_id: '',
+				name: '肯德基',//该商家的名称，有index界面传过来
+				token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjMuMDAwMTExMTEyNzcxNjYyM2UrMTgsImlhdCI6MTY2MDU1MTQyMy40MDA0ODY1LCJpc3MiOiJCYmJhY2siLCJkYXRhIjp7ImFjY291bnQiOiIzNDIxIiwicGFzc3dvcmQiOiIxMjMzNCIsInRpbWVzdGFtcCI6MTY2MDU1MTQyMy40MDA0ODY1fX0.hnRUA0Np7cjm3P90E7HMEzH6NEnieRuNl-QXpHL3MjE',
+				needytime: '',//配送时间
+				credit: '',//评分
+				logo: '',//商家图标
+				sale: '',//销量
+				threshold: '',//起送费
+				categories: [],//菜单，所有商品的信息
+				active: 0,//左侧滚动栏选中项的id
+				active_id: '',//右侧与左侧对应所需的变量
 				rightHeightList: [], //右侧滚动栏数据的高度数组
-				hidden: 1
-				add_icon: '/static/add.png',
-				sub_icon: '/static/sub.png',
-				dish_number: [],
-				shop_Car:[],
-				pay_code:'',
-				pay_msg:''
+				hidden: 1,//用于在用户点击主页面时隐藏购物车界面
+				add_icon: '/static/add.png',//加号按钮图片地址
+				sub_icon: '/static/sub.png',//减号按钮图片地址
+				dish_number: [],//这是一个二维数组，代表
+				shop_Car: [],//购物车信息，confirmShoppingCart接口所需要的的信息
+				pay_code: '',//退出页面时从setAll_Item接口获取的状态码
+				pay_msg: '',//退出页面时从setAll_Item接口获取的状态信息
+				pay_item:[],//当前结算订单信息，从confirmShoppingCart接口获得，可能会用于订单界面，暂时无用
+				sumprice:0,//购物车总金额
 			}
 		},
-		onUnload(){
-			for (let i = 0 , k = 0; i < this.categories.length; i++) {
-				for (let j = 0; j < this.categories[i].dishes.length; j++,k++) {
-					let obj = {
-							item_name: this.categories[i].dishes[j].name,
-							count:this.dish_number[k]
-						}
-					this.shop_Car.push(obj);
-					console.log(this.shop_Car)
-				}
-
-			}
-			uni.request({
-				url: 'http://127.0.0.1:4523/m1/1437509-0-default/buy/addItemByName', //仅为示例，并非真实接口地址。
-				method: "POST", //不设置，默认为get方式
-				data: {
-					name: this.name,
-					dishes: this.shop_Car,
-				},
-				header: {
-					token: this.token,
-				},
-				//登录时发送数据到数据库成功得到相应返回的数据
-				success: (res) => {
-					console.log(res)
-					this.pay_code = res.data.code
-					this.pay_msg = res.data.msg
-				}
-			});
+		onUnload() {
+			this.shop_transform();
 		},
 		onLoad(index_data) {
 			// this.name = index_data.name
 			uni.request({
 
-				url: 'http://127.0.0.1:4523/m1/1437509-0-default/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
+				url: 'https://5t764096g4.goho.co/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
 				method: "GET", //不设置，默认为get方式
 				data: {
 					name: this.name,
@@ -166,40 +150,48 @@
 				//登录时发送数据到数据库成功得到相应返回的数据
 				success: (res) => {
 					console.log(res)
-					this.shop_name = res.data.name
+					this.name = res.data.name
 					this.needytime = res.data.needytime
 					this.credit = res.data.credit
 					this.logo = res.data.logo
 					this.sale = res.data.sale
 					this.threshold = res.data.threshold
 					this.categories = res.data.categories
+					//初始化 购物车中菜品数量 使用二维数组存储 : 第一维是种类，第二维是菜品
 					for (let i = 0; i < this.categories.length; i++) {
+						let now = [];
 						for (let j = 0; j < this.categories[i].dishes.length; j++) {
-							this.dish_number.push(0);
+							now.push(0);
 						}
+						this.dish_number.push(now);
 					}
+					console.log(this.dish_number)
 					//res.后端定义的接口
 				}
 			});
 		},
-		onReady(){
+		onReady() {
 			// 延迟2秒后再获取页面组件高度信息
-			setTimeout(() => { 
-				this.getHeightList();			
+			setTimeout(() => {
+				this.getHeightList();
 			}, 5000);
 		},
 		methods: {
-			click_add(index) {
-				let idx = index;
-				this.dish_number.splice(index, 1, this.dish_number[idx] + 1)
+			exit_shop_car() {
+				this.hidden = 1
+			},
+			click_add(index1, index2) {
+				let idx = index2;
+				this.dish_number[index1].splice(index2, 1, this.dish_number[index1][idx] + 1)
+				this.sumprice += this.categories[index1].dishes[index2].price
 				console.log(this.dish_number)
 			},
-			click_sub(index) {
-				let idx = index;
-				this.dish_number.splice(index, 1, this.dish_number[idx] - 1)
+			click_sub(index1, index2) {
+				let idx = index2;
+				this.dish_number[index1].splice(index2, 1, this.dish_number[index1][idx] - 1)
+				this.sumprice -= this.categories[index1].dishes[index2].price
 				console.log(this.dish_number)
 			},
-
 			leftClickHandle(index) {
 				this.active = index;
 				this.active_id = 'category' + index;
@@ -227,34 +219,34 @@
 					let h2 = this.rightHeightList[i + 1]
 					//当右侧滑动到两个分类之间时改变左侧标签
 					if (scrollTop >= h1 && scrollTop < h2) {
-						this.active = i  //左侧选择第i个标签
+						this.active = i //左侧选择第i个标签
 					}
-				}
-			},
-			scrolltolowerHandle() {
-				if (this.active <= this.categories.length) {
-					this.active = this.active + 1;
 				}
 			},
 			details() {
 				this.hidden = !this.hidden;
 			},
-			goto_pay() {
-				for (let i = 0 , k = 0; i < this.categories.length; i++) {
-					for (let j = 0; j < this.categories[i].dishes.length; j++,k++) {
-						let obj = {
+			//购物车数据处理及与后端交换数据
+			shop_transform() {
+				//将 this.dish_number 的数据解析成接口需求的格式,结果存放在 this.shop_Car 中
+				for (let i = 0; i < this.categories.length; i++) {
+					for (let j = 0; j < this.categories[i].dishes.length; j++) {
+						if (this.dish_number[i][j] != 0) {
+							let obj = {
 								item_name: this.categories[i].dishes[j].name,
-								count:this.dish_number[k]
+								count: this.dish_number[i][j]
 							}
-						this.shop_Car.push(obj);
-						console.log(this.shop_Car)
+							this.shop_Car.push(obj);
+							console.log(this.shop_Car)
+						}
 					}
 				}
+				//请求交换数据
 				uni.request({
-					url: 'http://127.0.0.1:4523/m1/1437509-0-default/buy/addItemByName', //仅为示例，并非真实接口地址。
+					url: 'https://5t764096g4.goho.co/buy/setAllitem', //仅为示例，并非真实接口地址。
 					method: "POST", //不设置，默认为get方式
 					data: {
-						name: this.name,
+						shop_name: this.name,
 						dishes: this.shop_Car,
 					},
 					header: {
@@ -267,13 +259,57 @@
 						this.pay_msg = res.data.msg
 					}
 				});
-				
+			},
+			//跳转到支付页面
+			goto_pay() {
+				//购物车数据处理及与后端交换数据
+				for (let i = 0; i < this.categories.length; i++) {
+					for (let j = 0; j < this.categories[i].dishes.length; j++) {
+						if (this.dish_number[i][j] != 0) {
+							let obj = {
+								name: this.categories[i].dishes[j].name,
+								count: this.dish_number[i][j],
+								price: this.categories[i].dishes[j].price
+							}
+							this.shop_Car.push(obj);
+							console.log(this.shop_Car)
+						}
+					}
+				}
+				//请求交换数据
+				uni.request({
+					url: 'https://mock.apifox.cn/m1/1437509-0-default/buy/confirmShoppingCart', //仅为示例，并非真实接口地址。
+					method: "POST", //不设置，默认为get方式
+					data: {
+						name: this.name,
+						dishes: this.shop_Car,
+					},
+					header: {
+						token: this.token,
+					},
+					//登录时发送数据到数据库成功得到相应返回的数据
+					success: (res) => {
+						console.log(res)
+						// this.sumprice = res.data.sumprice//可以接受，但没必要
+						this.pay_item = res.data.goods
+					}
+				});
+				//实现跳转
 				uni.navigateTo({
 					url: '/pages/index/pay'
 				})
-				
-			}
 
+			},
+			// 清空购物车事件
+			shop_clear() {
+				//dish_number全置为0，清空
+				for (let i = 0; i < this.dish_number.length; i++) {
+					for (let j = 0; j < this.dish_number[i].length; j++) {
+						this.dish_number[i].splice(j, 1, 0) //数组中该元素置零
+					}
+				}
+				console.log(this.dish_number)
+			}
 		}
 	}
 </script>
@@ -285,6 +321,10 @@
 
 	.content {
 		height: 100%;
+
+		.order_page {
+			height: 90%;
+		}
 
 		button::after {
 			border: initial;
@@ -384,12 +424,14 @@
 		.list {
 			align-items: center;
 			height: 120rpx;
+			width: 120rpx;
+			margin-left: 10rpx;
 			vertical-align: center;
 			display: flex;
 			object-fit: fill;
-			margin: 20rpx;
+			background-color: #ffffff;
 			border-width: 100%;
-			border: 3rpx solid #f8f8f8;
+			border-top: 1rpx solid #f8f8f8;
 			box-shadow: #8f8f94;
 			border-radius: 7%;
 			box-shadow:
@@ -401,12 +443,12 @@
 		.active_list {
 			align-items: center;
 			height: 120rpx;
-			width: 115rpx;
+			width: 123rpx;
+			margin-left: 10rpx;
 			vertical-align: center;
 			display: flex;
 			object-fit: fill;
-			margin: 20rpx;
-			border: 3rpx solid #f8f8f8;
+			border: 1rpx solid #f8f8f8;
 			box-shadow: #8f8f94;
 			border-radius: 7%;
 			box-shadow:
@@ -439,11 +481,31 @@
 			width: 70%;
 			display: flex;
 			margin-left: 200rpx;
-			.right_box{
+
+			.right_box {
 				display: block;
 				//overflow: hidden;
 				border-bottom: 50rpx solid #ffffff;
 			}
+		}
+
+		.shop_dish_pos_right {
+			height: 70%;
+			width: 100%;
+			display: flex;
+
+			.right_box {
+				display: block;
+				overflow: hidden;
+				// border-bottom: 50rpx solid #ffffff;
+			}
+		}
+
+		.bottom_hint {
+			text-align: center;
+			margin-top: 100rpx;
+			font-size: 30rpx;
+			height: 300rpx;
 		}
 
 		.cate_pos_left {
@@ -454,6 +516,7 @@
 			top: 330rpx;
 			//width: 150rpx;
 			margin-left: 10rpx;
+			background-color: #f8f8f8;
 		}
 
 		.img_style {
@@ -466,37 +529,40 @@
 		}
 
 		.p_1 {
+			position: relative;
 			margin-top: 0rpx;
 			font-size: 35rpx;
 		}
 
 		.p_2 {
+			position: relative;
 			font-size: 30rpx;
 			color: #ffb420;
-			margin-left: -230rpx;
 		}
 
 		.p_3 {
+			position: relative;
 			font-size: 30rpx;
 			color: #8f96a0;
-			margin-left: -230rpx;
 		}
 
 		.p_4 {
+			position: relative;
 			font-size: 30rpx;
 			color: #8f96a0;
-			margin-left: 20rpx;
 		}
 
 		.p_5 {
+			text-align: center;
+			width: 100%;
 			height: 50rpx;
-			margin-top: 0rpx;
 			font-size: 30rpx;
 		}
 
 		.active_p_5 {
+			text-align: center;
+			width: 100%;
 			height: 50rpx;
-			margin-left: 20rpx;
 			font-size: 30rpx;
 		}
 
@@ -505,7 +571,7 @@
 			background-color: #ffffff;
 			border: 1rpx solid #dddddd;
 			border-radius: 30rpx 30rpx 0rpx 0rpx;
-			height: 50%;
+			height: 70%;
 			width: 100%;
 			position: absolute;
 			bottom: 0rpx;
