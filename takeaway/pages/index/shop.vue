@@ -470,5 +470,7 @@
 			border-radius: 50rpx;
 			background-color: #f9d60f;
 		}
+
 	}
+
 </style>
