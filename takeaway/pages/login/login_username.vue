@@ -55,6 +55,7 @@
 	export default {
 		data() {
 			return {
+				telephone: '',
 				account: '',
 				password: '',
 				code: '0',
@@ -65,6 +66,7 @@
 				openeye: require("../../static/eye.png"), //小眼睛图片地址
 				nopeneye: require("../../static/no_eye.png"),
 				seen: 0,
+				code:1,
 			}
 		},
 		methods: {
@@ -100,8 +102,10 @@
 						url: 'https://v3710z5658.oicp.vip/customer/customerLogin', //仅为示例，并非真实接口地址。
 						method: "POST", //不设置，默认为get方式
 						data: {
+							phone: this.telephone,
 							account: this.account,
-							password: this.password
+							password: this.password,
+							code:this.code,
 						},
 						header: {},
 						//登录时发送数据到数据库成功得到相应返回的数据

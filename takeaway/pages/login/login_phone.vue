@@ -57,6 +57,7 @@
 		data() {
 			return {
 				telephone: '',
+				account:'',
 				password: '',
 				code: '',
 				msg: '',
@@ -66,6 +67,7 @@
 				openeye: require("../../static/eye.png"), //小眼睛图片地址
 				nopeneye: require("../../static/no_eye.png"),
 				seen: 0,
+				code:0,
 			}
 		},
 		methods: {
@@ -105,11 +107,13 @@
 					})
 				} else {
 					uni.request({
-						url: 'http://127.0.0.1:4523/m1/1437509-0-default/customer/customerLogin', //仅为示例，并非真实接口地址。
+						url: 'https://v3710z5658.oicp.vip/customer/customerLogin', //仅为示例，并非真实接口地址。
 						method: "POST", //不设置，默认为get方式
 						data: {
-							telephone: this.telephone,
-							password: this.password
+							phone: this.telephone,
+							account: this.account,
+							password: this.password,
+							code:this.code,
 						},
 						header: {},
 

@@ -140,7 +140,7 @@
 			console.log(this.name);
 			uni.request({
 
-				url: 'https://5t764096g4.goho.co/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
+				url: 'https://v3710z5658.oicp.vip/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
 				method: "GET", //不设置，默认为get方式
 				data: {
 					name: this.name,
@@ -172,7 +172,7 @@
 			});
 		},
 		onReady() {
-			// 延迟5秒后再获取页面组件高度信息
+			// 延迟2秒后再获取页面组件高度信息
 			setTimeout(() => {
 				this.getHeightList();
 			}, 5000);
@@ -244,7 +244,7 @@
 				}
 				//请求交换数据
 				uni.request({
-					url: 'https://5t764096g4.goho.co/buy/setAllitem', //仅为示例，并非真实接口地址。
+					url: 'https://v3710z5658.oicp.vip/buy/setAllitem', //仅为示例，并非真实接口地址。
 					method: "POST", //不设置，默认为get方式
 					data: {
 						shop_name: this.name,
@@ -279,7 +279,7 @@
 				}
 				//请求交换数据
 				uni.request({
-					url: 'https://mock.apifox.cn/m1/1437509-0-default/buy/confirmShoppingCart', //仅为示例，并非真实接口地址。
+					url: 'https://v3710z5658.oicp.vip/buy/confirmShoppingCart', //仅为示例，并非真实接口地址。
 					method: "POST", //不设置，默认为get方式
 					data: {
 						name: this.name,
