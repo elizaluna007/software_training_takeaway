@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="help">
-			<text style="color: #8f8f94;">帮助</text>
+			<text style="color: #8f8f94;" @click="goto_help()">帮助</text>
 		</view>
 
 		<view class="welcome_block">
@@ -59,7 +59,6 @@
 				password: '',
 				code: '0',
 				msg: '',
-				Oauth_Token: '',
 				exprie: '',
 				sure: false,
 				pwdType: "password",
@@ -69,6 +68,12 @@
 			}
 		},
 		methods: {
+			goto_help()
+			{
+				uni.navigateTo({
+					url:'/pages/help/help'
+				})
+			},
 			changeType() {
 				this.pwdType = this.pwdType === "password" ? "text" : "password";
 				this.seen = !this.seen;
@@ -92,7 +97,7 @@
 					})
 				} else {
 					uni.request({
-						url: 'http://127.0.0.1:4523/m1/1437509-0-default/customer/customerLogin', //仅为示例，并非真实接口地址。
+						url: 'https://v3710z5658.oicp.vip/customer/customerLogin', //仅为示例，并非真实接口地址。
 						method: "POST", //不设置，默认为get方式
 						data: {
 							account: this.account,
@@ -101,11 +106,16 @@
 						header: {},
 						//登录时发送数据到数据库成功得到相应返回的数据
 						success: (res) => {
-							console.log(res),
-								this.code = res.data.code
-							this.msg = res.data.msg
-							this.Oauth_Token = res.data.data.Oauth_Token
-							this.exprie = res.data.data.exprie
+							console.log(res);
+							this.code = res.data.code;
+							this.msg = res.data.msg;
+							getApp().globalData.token = res.data.data.Oauth_Token;
+							console.log(res.data.data.Oauth_Token);
+							this.exprie = res.data.data.exprie;
+							getApp().globalData.login_key = true;
+							uni.reLaunch({
+								url: '/pages/my/my'
+							})
 							//res.后端定义的接口
 						}
 					});

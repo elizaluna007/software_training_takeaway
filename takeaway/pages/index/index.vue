@@ -25,7 +25,7 @@
 			<!-- 卡片 -->
 			<el-card class="list" v-for="info in infos" :key="info" >
 				<!-- 图片 -->
-				<img :src="info.logo" class="img_style" @click="goto_shop()"/>
+				<img :src="info.logo" class="img_style" @click="goto_shop(info)"/>
 				<!-- 描述框 -->
 				<div class="describe" @click="goto_shop()">
 					<p class="p_1">{{info.name}}</p>
@@ -35,8 +35,8 @@
 				</div >
 				<!-- 距离以及时间-->
 				<div class="time" @click="goto_shop()">
-					<p class="p_3">{{info.distance}}分钟</p>
-					<p class="p_3">{{info.needytime}}km</p>
+					<p class="p_4">{{info.distance}}分钟</p>
+					<p class="p_5">{{info.needytime}}km</p>
 				</div>
 			</el-card>
 		</el-col>
@@ -53,8 +53,6 @@
 					'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_bt%2F0%2F11072012838%2F641.jpg&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662966799&t=531da38a6586009ba571d90383635271',
 					'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0156726107918911013eaf704b3222.jpg%401280w_1l_2o_100sh.jpg&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662972171&t=6c16760c4faac1aa82fdf28bccd23127',
 				],
-				// token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjAzOTIyNzIuMzQzMjQ4NiwiaWF0IjoxNjYwMzg5MjcyLjM0MzI0ODYsImlzcyI6IkJiYmFjayIsImRhdGEiOnsiYWNjb3VudCI6InJvb3QiLCJwYXNzd29yZCI6IjMzMzMiLCJ0aW1lc3RhbXAiOjE2NjAzODkyNzIuMzQzMjQ4Nn19.rqybdyOA-asCKJbC_XKax3LQkc37OrFTsAswleg0pOM',//虚拟token
-				token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjA0ODEyMzQuMTU2MTY4NSwiaWF0IjoxNjYwNDc4MjM0LjE1NjE2ODUsImlzcyI6IkJiYmFjayIsImRhdGEiOnsiYWNjb3VudCI6IjM0MjEiLCJwYXNzd29yZCI6IjEyMzM0IiwidGltZXN0YW1wIjoxNjYwNDc4MjM0LjE1NjE2ODV9fQ.O94g6_9ejGT0BEdn6plT2T3q-D1QVOpag1yrZmGT6zg',
 				infos: ''
 			}
 		},
@@ -62,13 +60,14 @@
 		onLoad() {
 			uni.request({
 				// url: 'http://127.0.0.1:4523/m1/1437509-0-default/shop/getAllShopInfo', //仅为示例，并非真实接口地址。
-				url: 'https://5t764096g4.goho.co/shop/getAllShopInfo', //真实端口
+				//url: 'https://5t764096g4.goho.co/shop/getAllShopInfo', //真实端口
+				url:'https://v3710z5658.oicp.vip/shop/getAllShopInfo',
 				method: "GET", //不设置，默认为get方式
 				data: {
 
 				},
 				header: {
-					token: this.token,
+					// token: getApp().globalData.token,
 				},
 				success: (res) => {
 					console.log("开始打印");
@@ -79,18 +78,18 @@
 			})
 		},
 		methods: {
-			goto_shop(url) {
+			goto_shop(object) {
 				console.log("开始打印");
-				console.log(this.name);
+				console.log(object.name);
 				uni.navigateTo({
-					url: '/pages/index/shop?name=' + this.name + '&token=' + this.token
+					url: '/pages/index/shop?name=' + object.name
 				})
 			},
 			search_goto(){
 				console.log("这是要搜索的内容");
 				console.log(this.search_content);
 				uni.navigateTo({
-					url: '/pages/index/search?search_content=' + this.search_content + '&token=' + this.token
+					url: '/pages/index/search?search_content=' + this.search_content
 					// url: '/pages/index/search?search_content=this.search_content & token=this.token'
 				})
 			}
@@ -306,6 +305,22 @@
 			font-size: 40rpx;
 			color: #8f96a0;
 			margin-left: 19rpx;
+		}
+		
+		.p_4{
+			font-size: 40rpx;
+			color: #8f96a0;
+			position: absolute;left: 550rpx;
+			margin-top: -35rpx;
+			
+		}
+		
+		.p_5{
+			font-size: 40rpx;
+			color: #8f96a0;
+			position: absolute;left: 550rpx;
+			margin-top: 15rpx;
+			
 		}
 	
 	

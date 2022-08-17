@@ -91,6 +91,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
 {
+  data: function data() {
+    return {};
+
+
+  },
+  globalData: {
+    // 测试代码
+    // token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjMuMDAwMTExMTEyNzcxNjgzM2UrMTgsImlhdCI6MTY2MDU3MjEzOC4xMTIwMTI5LCJpc3MiOiJCYmJhY2siLCJkYXRhIjp7ImFjY291bnQiOiIzNDIxIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJ0aW1lc3RhbXAiOjE2NjA1NzIxMzguMTEyMDEyOX19.i_R4lyy8IeXiTdjV75rtphU3tyAwDkspppPxKuZJG0o',
+    // login_key: true
+    //正式版本
+    token: '',
+    login_key: '' },
+
   onLaunch: function onLaunch() {
     console.log('App Launch');
   },

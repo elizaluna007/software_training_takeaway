@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="help">
-			<text style="color: #8f8f94;">帮助</text>
+			<text style="color: #8f8f94;"@click="goto_help()">帮助</text>
 		</view>
 
 		<view class="welcome_block">
@@ -69,6 +69,12 @@
 			}
 		},
 		methods: {
+			goto_help()
+			{
+				uni.navigateTo({
+					url:'/pages/help/help'
+				})
+			},
 			toRegister(url) {
 				uni.navigateTo({
 					url: '/pages/register/register'
@@ -108,10 +114,16 @@
 						header: {},
 
 						success: (res) => {
-							console.log(res),
-								this.code = res.code
-							this.msg = res.msg
-							this.Data = res.data
+							console.log(res);
+							this.code = res.code;
+							this.msg = res.msg;
+							this.Data = res.data;
+							getApp().globalData.token = res.data.data.Oauth_Token;
+							getApp().globalData.login_key = true;
+							console.log("开始跳转");
+							uni.reLaunch({
+								url: '/pages/my/my'
+							})
 							//res.后端定义的接口
 						}
 					});

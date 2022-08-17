@@ -3,7 +3,7 @@
 		<view class="order_page" @click="exit_shop_car">
 			<view class="topic">
 				<image class="logo" :src="logo"></image>
-				<text class="shopName">商家名称：{{name}}</text>
+				<text class="shopName">{{name}}</text>
 				<text class="topic_text" space="ensp">{{credit}}分 月售{{sale}} 配送约{{needytime}}分钟</text>
 			</view>
 			<view class="three_button">
@@ -21,11 +21,11 @@
 						<!-- 图片 -->
 						<img :src="goods.logo" class="img_style" mode='aspectFit' />
 						<!-- 描述框 -->
-						<div class="describe">
-							<p class="p_1">菜名:{{goods.name}}</p>
-							<p class="p_2">价格:{{goods.price}}</p>
+						<div class="describe" >
+							<p class="p_1">{{goods.name}}</p>
+							<p class="p_2">{{goods.description}}</p>
 							<p class="p_3">销量:{{goods.sale}}</p>
-							<p class="p_4">描述:{{goods.description}}</p>
+							<p class="p_4">¥:{{goods.price}}</p>
 							<view class="add_sub">
 								<view v-if="dish_number[index1][index2]" class="hide">
 									<image :src="sub_icon" class="p_sub" @click="click_sub(index1,index2)"></image>
@@ -69,11 +69,11 @@
 						<!-- 图片 -->
 						<img :src="goods.logo" class="img_style" mode='aspectFit' />
 						<!-- 描述框 -->
-						<div class="describe">
-							<p class="p_1">菜名:{{goods.name}}</p>
-							<p class="p_2">价格:{{goods.price}}</p>
+						<div class="describe" style="display: table-column">
+							<p class="p_1">{{goods.name}}</p>
+							<p class="p_2">{{goods.description}}</p>
 							<p class="p_3">销量:{{goods.sale}}</p>
-							<p class="p_4">描述:{{goods.description}}</p>
+							<p class="p_4">¥:{{goods.price}}</p>
 							<view class="add_sub">
 								<view v-if="dish_number[index1][index2]" class="hide">
 									<image :src="sub_icon" class="p_sub" @click="click_sub(index1,index2)"></image>
@@ -110,8 +110,7 @@
 		//该页面所需要的定义的数据
 		data() {
 			return {
-				name: '肯德基',//该商家的名称，有index界面传过来
-				token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjMuMDAwMTExMTEyNzcxNjYyM2UrMTgsImlhdCI6MTY2MDU1MTQyMy40MDA0ODY1LCJpc3MiOiJCYmJhY2siLCJkYXRhIjp7ImFjY291bnQiOiIzNDIxIiwicGFzc3dvcmQiOiIxMjMzNCIsInRpbWVzdGFtcCI6MTY2MDU1MTQyMy40MDA0ODY1fX0.hnRUA0Np7cjm3P90E7HMEzH6NEnieRuNl-QXpHL3MjE',
+				name: '',//该商家的名称，有index界面传过来
 				needytime: '',//配送时间
 				credit: '',//评分
 				logo: '',//商家图标
@@ -136,7 +135,9 @@
 			this.shop_transform();
 		},
 		onLoad(index_data) {
-			// this.name = index_data.name
+			this.name = index_data.name;
+			console.log("名字");
+			console.log(this.name);
 			uni.request({
 
 				url: 'https://5t764096g4.goho.co/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
@@ -145,7 +146,7 @@
 					name: this.name,
 				},
 				header: {
-					token: this.token,
+					token: getApp().globalData.token,
 				},
 				//登录时发送数据到数据库成功得到相应返回的数据
 				success: (res) => {
@@ -171,7 +172,7 @@
 			});
 		},
 		onReady() {
-			// 延迟2秒后再获取页面组件高度信息
+			// 延迟5秒后再获取页面组件高度信息
 			setTimeout(() => {
 				this.getHeightList();
 			}, 5000);
@@ -250,7 +251,7 @@
 						dishes: this.shop_Car,
 					},
 					header: {
-						token: this.token,
+						token: getApp().globalData.token,
 					},
 					//登录时发送数据到数据库成功得到相应返回的数据
 					success: (res) => {
@@ -285,7 +286,7 @@
 						dishes: this.shop_Car,
 					},
 					header: {
-						token: this.token,
+						token: getApp().globalData.token,
 					},
 					//登录时发送数据到数据库成功得到相应返回的数据
 					success: (res) => {
@@ -347,13 +348,14 @@
 			margin-top: 15rpx;
 			font-size: 50rpx;
 			margin-left: 20rpx;
+			font-weight: 600;
 		}
 
 		.topic_text {
 			display: flex;
-			margin-top: 100rpx;
+			margin-top: 130rpx;
 			font-size: 30rpx;
-			margin-left: -380rpx;
+			margin-left: -150rpx;
 		}
 
 		.three_button {
@@ -455,7 +457,7 @@
 				5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
 				19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
 				85px 57px 80px rgba(0, 0, 0, 0.016);
-			background-color: antiquewhite;
+			background-color: #fefa83;
 		}
 
 		.list_2 {
@@ -529,27 +531,31 @@
 		}
 
 		.p_1 {
-			position: relative;
-			margin-top: 0rpx;
+			position: relative;left: 5rpx;top: -60rpx;
+
 			font-size: 35rpx;
+			font-weight: 600;
+			// display: table-column;
 		}
 
 		.p_2 {
-			position: relative;
+			position: relative;left: -60rpx;top: -50rpx;
 			font-size: 30rpx;
+			margin-left: 0rpx;
 			color: #ffb420;
 		}
 
 		.p_3 {
-			position: relative;
+			position: relative;left: -60rpx;top: -30rpx;
 			font-size: 30rpx;
+			font-weight: 600;
 			color: #8f96a0;
 		}
 
 		.p_4 {
-			position: relative;
-			font-size: 30rpx;
-			color: #8f96a0;
+			position: absolute;left: 180rpx;
+			font-size: 35rpx;
+			color: red;
 		}
 
 		.p_5 {

@@ -1,4 +1,5 @@
 {
-  "navigationBarTitleText": "下单",
+  "navigationBarTitleText": "商铺",
+  "enablePullDownRefresh": true,
   "usingComponents": {}
 }
