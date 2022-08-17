@@ -1,132 +1,115 @@
 <template>
 	<view>
-		<div class="all_block">
-			<div class="out_block">
+		<div class="all_block" v-if="key">
+			<div class="out_block" v-for="info in infos":key="info" @click="goto_detail(info)">
 				<div class="first_line">
 					<div style="display: flex;">
-						<image src="/static/me.png" mode="" class="img_style"></image>
-						<p class="p_1">名称></p>
+						<!-- <image src="info.logo_shop" mode="" class="img_style"></image> -->
+						<img :src="info.logo_shop" mode="" class="img_style"></image>
+						<p class="p_1">{{info.name_shop}}></p>
 					</div>
-					<p class="p_2">已完成</p>
+					<p class="p_2">{{info.delivered}}</p>
 				</div>
 				<div class="line"></div>
 				<div class="content">
-					<div class="img_block1">
+				
+					<div class="img_block1" v-for="info_good in info.goods":key="info_good">
 						<div>
-							<image src="../../static/home_on.png" style="width: 180rpx; height: 180rpx; "></image>
-							<p class="des">图片名称</p>
-						
-					</div>
-					<div class="img_block2">
-						<div>
-							<image src="../../static/home_on.png" style="width: 180rpx; height: 180rpx;  "></image>
-							<p class="des">图片名称2</p>
-						
+							<img :src="info_good.logo" style="width: 150rpx; height: 150rpx; " class="imgkiddingme">
+							<p class="des">{{info_good.name}}</p>
 						</div>
-						
-					</div>	
-				</div>
-				<div>	
-					<p class=order_time>下单时间</p>
-					<p class="total" style="position: relative; left: 500rpx; top: -41rpx">合计</p>
-				</div>	
-					<button class="btn_style" size="mini">再来一单</button>
-				</div>
-			</div>
-		<div class="out_block">
-			<div class="first_line">
-				<div style="display: flex;">
-					<image src="/static/me.png" mode="" class="img_style"></image>
-					<p class="p_1">名称></p>
-				</div>
-				<p class="p_2">已完成</p>
-			</div>
-			<div class="line"></div>
-			<div class="content">
-				<div class="img_block1">
-					<div>
-						<image src="../../static/home_on.png" style="width: 180rpx; height: 180rpx; "></image>
-						<p class="des">图片名称</p>
-					
-				</div>
-				<div class="img_block2">
-					<div>
-						<image src="../../static/home_on.png" style="width: 180rpx; height: 180rpx;  "></image>
-						<p class="des">图片名称2</p>
-					
 					</div>
-					
-				</div>	
-			</div>
-			<div>	
-				<p class=order_time>下单时间</p>
-				<p class="total" style="position: relative; left: 500rpx; top: -41rpx">合计</p>
-			</div>	
-				<button class="btn_style" size="mini">再来一单</button>
+				
+					<div>
+						<p class=order_time>下单时间{{info.paytime}}</p>
+						<p class="total" style="position: relative; left: 500rpx; top: -41rpx">合计￥{{info.sumprice}}</p>
+					</div>
+					<button class="btn_style" size="mini" @click="restart()">再来一单</button>
+				</div>
 			</div>
 		</div>
+		<div v-if="key_not">
+			<image class="grape" src="https://wx1.sinaimg.cn/mw2000/006Qjcu1gy1h561t2xpz2j30dw0dqtaf.jpg"></image>
+			<p class="warning">您还没有登录，请登录后查看订单</p>
+			<button class="login" @click="goto()">登录/注册</button>
 		</div>
-		<!-- <div class="all_block" v-for="info in infos">
-			<div class="out_block">
-				<div class="first_line">
-					<div style="display: flex;">
-						<image src="info.logo" mode="" class="img_style">头像</image>
-						<p class="p_1">名称</p>
-					</div>
-					<p class="p_2">已完成</p>
-				</div>
-				<div class="line"></div>
-				<div class="content">
-					<div class="img_block">
-						<div>
-							<image>图片</image>
-							<p class="des">图片名称</p>
-						</div>
-						<div class="img_block">
-							<image>图片</image>
-							<p class="des"></p>
-						</div>
-					</div>
-					<p>下单时间</p>
-					<p>合计</p>
-					<button class="btn_style">再来一单</button>
-				</div>
-			</div>
-		</div> -->
 	</view>
 </template>
 
 <script>
-		
-	export default{
+	export default {
 		data() {
 			return {
-				token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjMuMDAwMTExMTEyNzcxNTUxZSsxOCwiaWF0IjoxNjYwNDM5ODIyLjA4NzU3OCwiaXNzIjoiQmJiYWNrIiwiZGF0YSI6eyJhY2NvdW50Ijoicm9vdCIsInBhc3N3b3JkIjoiMzMxMyIsInRpbWVzdGFtcCI6MTY2MDQzOTgyMi4wODc1Nzh9fQ.IQq2XL7zmFOR72uaa5E59XoEjiUPaaeJClCT0FfeG9Y',
-				infos: ''
+				infos: '',
+				key:false,
+				key_not:true
 			}
 		},
-			
-		onLoad(){
+
+		onLoad() {
+			this.key=getApp().globalData.login_key;
+			this.key_not=! this.key;
 			uni.request({
-				url:'http://127.0.0.1:4523/m1/1437509-0-default/order/getAllOrdersInfo',
-				method:'GET',
-				data:{
-					
+				// url: 'http://127.0.0.1:4523/m1/1437509-0-default/order/getAllOrdersInfo',
+				url: 'https://v3710z5658.oicp.vip/order/getAllOrdersInfo',
+				method: 'GET',
+				data: {
+
 				},
-				header:{
-					token: this.token,
+				header: {
+					token: getApp().globalData.token
 				},
-				success:(res)=>{
+				success: (res) => {
+					console.log("开始获取订单信息");
 					this.infos = res.data;
+					// console.log(res.data);
+					console.log(res.data);
+				}
+			})
+		},
+		onShow() {
+			this.key=getApp().globalData.login_key;
+			this.key_not=! this.key;
+			uni.request({
+				// url: 'http://127.0.0.1:4523/m1/1437509-0-default/order/getAllOrdersInfo',
+				url: 'https://v3710z5658.oicp.vip/order/getAllOrdersInfo',
+				method: 'GET',
+				data: {
+		
+				},
+				header: {
+					token: getApp().globalData.token
+				},
+				success: (res) => {
+					console.log("开始获取订单信息");
+					this.infos = res.data;
+					// console.log(res.data);
+					console.log(res.data);
 				}
 			})
 		},
 		methods: {
-			
+			restart()
+			{
+				// 返回商家页面
+				uni.navigateTo({
+					
+				})
+			},
+			goto_detail(object){
+				console.log("跳转到详细页面");
+				uni.navigateTo({
+					url:'/pages/order/order_detail?paytime='+ object.paytime
+				})
+			},
+			goto(url) {
+				uni.navigateTo({
+					url: '/pages/login/login_username'
+				})
+			}
 		}
 	}
 </script>
-
 <style>
 	.out_block {
 		/* 		align-items: center; */
@@ -146,7 +129,7 @@
 
 	.first_line {
 		display: flex;
-		height: 80rpx;
+		height: 100rpx;
 	}
 
 	.img_style {
@@ -154,16 +137,19 @@
 		width: 80rpx;
 		height: 80rpx;
 		margin-left: 30rpx;
+		margin-top: 10rpx;
+		border-radius: 10rpx;
 	}
 	.p_1{
 		font-weight: bolder;
 		margin-left: 10rpx;
 		margin-top: 15rpx;
 	}
+
 	.p_2 {
-		margin-left: 360rpx;
 		color: #8f8f94;
 		margin-top: 15rpx;
+		position: absolute;left: 600rpx;
 	}
 	.line{
 		background-color:#f4f5f5 ;
@@ -171,26 +157,33 @@
 		height: 2rpx;
 		margin: auto;
 	}
-	.img_block1{
-		display: flex;
-		size: 10px;
-		width: 10px;
-
-	}
-	.img_block2{
-		display: flex;
-		size: 10px;
-		
-	}
-	
-	.des{
-		margin-left: 25rpx;
-		color: #8f8f94;
-	}
 	
 	.content{
-		;
+		
+	            /* display: flex; */
+
+	        justify-content: flex-start;
 	}
+	
+	.img_block1{
+		display: inline-table;
+		size: 10px;
+		width: 10px;
+		margin-left: 10rpx;
+	}
+	
+	.imgkiddingme{
+	
+	}
+
+	
+	.des{
+		margin-left: 27rpx;
+		color: #8f8f94;
+		font-size: 17rpx;
+	}
+	
+	
 	
 	.order_time{
 		margin-left: 25rpx;
@@ -205,7 +198,7 @@
 	}
 	
 	.btn_style{
-		margin-left: 500rpx;
+		margin-left: 470rpx;
 		margin-bottom: 25rpx;
 		border-radius: 15rpx;
 		background-color: #fefa83;
@@ -216,5 +209,20 @@
 	
 	button::after {
 		border: none;
+	}
+	.grape{
+		width: 400rpx;
+		height: 400rpx;
+		position: relative;top: 230rpx;left: 200rpx;
+	}
+	.warning{
+		position: relative;top: 230rpx;left: 150rpx;
+	}
+	.login{
+		background-color: #fefa83; //按钮颜色
+				border-radius: 20rpx; //按钮弧度
+				width: 300rpx; //宽度
+				box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
+				position: relative;top: 300rpx;left: 0rpx;
 	}
 </style>

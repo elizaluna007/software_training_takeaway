@@ -1,4 +1,5 @@
 {
-  "navigationBarTitleText": "这里是支付界面",
+  "navigationBarTitleText": "支付",
+  "enablePullDownRefresh": true,
   "usingComponents": {}
 }

@@ -40,6 +40,12 @@
 	margin-left: 100rpx;
 }
 .agree {}
+.agree2 {
+	color: #FFB400;
+}
+.agree3 {
+	color: #FFB400;
+}
 .flexs {
 	display: flex;
 	justify-content: space-between;
@@ -49,15 +55,18 @@
 .first {
 	left: 0;
 	margin-left: 90rpx;
+	color: #8f8f94;
 }
 .second {
 	right: 0;
 	margin-right: 90rpx;
+	color: #8f8f94;
 }
 .btn_style {
 	background-color: #fefa83;
 	border-radius: 20rpx;
 	width: 500rpx;
+	box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
 }
 .btn_block {
 	display: flex;
@@ -66,5 +75,8 @@
 .text_style {
 	display: flex;
 	text-align: center;
+}
+button::after {
+	border: none;
 }
 

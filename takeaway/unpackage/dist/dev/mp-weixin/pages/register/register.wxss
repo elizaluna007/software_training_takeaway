@@ -41,26 +41,38 @@
 	margin-left: 100rpx; /*改变区域左边距 */
 }
 .agree {}
+.agree2 {
+	color: #FFB400;
+}
+.agree3 {
+	color: #FFB400;
+}
 .flexs {
-	display: flex;/*放置位置一行 */
-	justify-content: space-between;/*内容位于左右两端 */
-	align-items: center;/*位置居中 */
-	margin-top: 50rpx;/*上边距 */
+	display: flex; /*放置位置一行 */
+	justify-content: space-between; /*内容位于左右两端 */
+	align-items: center; /*位置居中 */
+	margin-top: 50rpx; /*上边距 */
 }
 .first {
-	margin-left: 90rpx;/*左边距 */
+	margin-left: 90rpx; /*左边距 */
+	color: #8f8f94;
 }
 .second {
-	margin-right: 90rpx;/*右边距 */
+	margin-right: 90rpx; /*右边距 */
+	color: #8f8f94;
+}
+button::after {
+	border: none;
 }
 .btn_style {
-	background-color: #fefa83;/*按钮颜色 */
-	border-radius: 20rpx;/*按钮弧度 */
-	width: 500rpx;/*宽度 */
+	background-color: #fefa83; /*按钮颜色 */
+	border-radius: 20rpx; /*按钮弧度 */
+	width: 500rpx; /*宽度 */
+	box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
 }
 .btn_block {
-	display: flex;/*放置位置自由 */
-	margin-top: 120rpx;/*按钮上边距 */
+	display: flex; /*放置位置自由 */
+	margin-top: 120rpx; /*按钮上边距 */
 }
 .text_style {
 	display: flex;

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="help">
-			<text style="color: #8f8f94;">帮助</text>
+			<text style="color: #8f8f94;" @click="goto_help()">帮助</text>
 		</view>
 
 		<view class="welcome_block">
@@ -77,6 +77,12 @@
 		},
 		onLoad() {},
 		methods: {
+			goto_help()
+			{
+				uni.navigateTo({
+					url:'/pages/help/help'
+				})
+			},
 			changeType() {
 				this.pwdType = this.pwdType === "password" ? "text" : "password";
 				this.seen = !this.seen;

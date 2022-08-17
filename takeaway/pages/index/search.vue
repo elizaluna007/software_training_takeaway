@@ -40,7 +40,6 @@
 		data() {
 			return {
 				name: '',
-				token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjA0ODEyMzQuMTU2MTY4NSwiaWF0IjoxNjYwNDc4MjM0LjE1NjE2ODUsImlzcyI6IkJiYmFjayIsImRhdGEiOnsiYWNjb3VudCI6IjM0MjEiLCJwYXNzd29yZCI6IjEyMzM0IiwidGltZXN0YW1wIjoxNjYwNDc4MjM0LjE1NjE2ODV9fQ.O94g6_9ejGT0BEdn6plT2T3q-D1QVOpag1yrZmGT6zg',
 				info: '',
 				search_content: ''
 			}
@@ -55,17 +54,18 @@
 					name: this.name
 				},
 				header: {
-					token: this.token,
+					token: getApp().globalData.token
 				},
 				success: (res) => {
-					this.info = res.data;
+					this.info = res.data[0];
+					console.log(res);
 				}
 			})
 		},
 		methods: {
 			goto_shop(url) {
 				uni.navigateTo({
-					url: '/pages/index/shop?name=' + this.search_content + '&token=' + this.token
+					url: '/pages/index/shop?name=' + this.name
 				})
 			},
 			// search_goto(){
