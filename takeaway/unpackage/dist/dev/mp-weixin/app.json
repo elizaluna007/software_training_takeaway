@@ -1,12 +1,11 @@
 {
   "pages": [
-    "pages/my/my",
     "pages/index/index",
+    "pages/my/my",
     "pages/index/pay",
     "pages/order/order",
     "pages/order/order_detail",
     "pages/help/help",
-    "pages/my/my_info",
     "pages/register/register",
     "pages/login/login_phone",
     "pages/login/login_username",

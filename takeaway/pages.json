@@ -1,128 +1,114 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/index/index", //启动项，外卖系统第一次登录以游客身份进入外卖首页，所有拥有的页面都在pages里存储
+			"style": {
+				"navigationBarTitleText": "首页", //显示上标签显示当前页面名称
+				"enablePullDownRefresh": true
+			}
+		}, {
 			"path": "pages/my/my",
 			"style": {
 				"navigationBarTitleText": "我的",
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
 		},
-		{
-			"path": "pages/index/index",//启动项，外卖系统第一次登录以游客身份进入外卖首页，所有拥有的页面都在pages里存储
-			"style": {
-				"navigationBarTitleText": "首页",//显示上标签显示当前页面名称
-				"enablePullDownRefresh":true
-			}
-		},
+
 		{
 			"path": "pages/index/pay",
 			"style": {
 				"navigationBarTitleText": "支付",
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/order/order",
 			"style": {
 				"navigationBarTitleText": "订单",
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/order/order_detail",
 			"style": {
 				"navigationBarTitleText": "订单",
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
 		},
-		
+
 		{
 			"path": "pages/help/help",
 			"style": {
 				"navigationBarTitleText": "帮助",
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
 		},
-		
-		
-		
-		{
-			"path": "pages/my/my_info",
-			"style": {
-				"navigationBarTitleText": "我的",
-				"enablePullDownRefresh":true
-			}
-		},
-		
-		
-		
-
 		{
 			"path": "pages/register/register",
 			"style": {
 				"navigationBarTitleText": "注册",
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/login/login_phone",
 			"style": {
 				"navigationBarTitleText": "登录",
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/login/login_username",
 			"style": {
 				"navigationBarTitleText": "登录",
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
 		},
-		
+
 
 		{
 			"path": "pages/index/shop",
 			"style": {
 				"navigationBarTitleText": "商铺",
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/index/search",
 			"style": {
 				"navigationBarTitleText": "搜索",
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#fefa83",//改变上标签的颜色为柠檬黄
+		"navigationBarBackgroundColor": "#fefa83", //改变上标签的颜色为柠檬黄
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
-			"selectedColor": "#b0a7d7",
-			"color": "#000000",
-			"list": [{
-					"text": "首页",
-					"pagePath": "pages/index/index",
-					"iconPath": "static/home.png",
-					"selectedIconPath": "static/home_on.png"
-				},
-				{
-					"text": "订单",
-					"pagePath": "pages/order/order",
-					"iconPath": "static/order.png",
-					"selectedIconPath": "static/order_on.png"
-				},
-				{
-					"text": "我的",
-					"pagePath": "pages/my/my",
-					"iconPath": "static/me.png",
-					"selectedIconPath": "static/my_on.png"
-				}
-			]
-		},
+		"selectedColor": "#b0a7d7",
+		"color": "#000000",
+		"list": [{
+				"text": "首页",
+				"pagePath": "pages/index/index",
+				"iconPath": "static/home.png",
+				"selectedIconPath": "static/home_on.png"
+			},
+			{
+				"text": "订单",
+				"pagePath": "pages/order/order",
+				"iconPath": "static/order.png",
+				"selectedIconPath": "static/order_on.png"
+			},
+			{
+				"text": "我的",
+				"pagePath": "pages/my/my",
+				"iconPath": "static/me.png",
+				"selectedIconPath": "static/my_on.png"
+			}
+		]
+	},
 	"uniIdRouter": {}
 }

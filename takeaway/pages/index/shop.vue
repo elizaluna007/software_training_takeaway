@@ -7,51 +7,65 @@
 				<text class="topic_text" space="ensp">{{credit}}分 月售{{sale}} 配送约{{needytime}}分钟</text>
 			</view>
 			<view class="three_button">
-				<button class="order">点菜</button>
-				<button class="command">评价</button>
-				<button class="shop_inf">商家</button>
+				<button :class="active_tabBar===0?'active_order':'order'" @click="active_tabBar_Handle(0)">点菜</button>
+				<button :class="active_tabBar===1?'active_command':'command'"
+					@click="active_tabBar_Handle(1)">评价</button>
+				<button :class="active_tabBar===2?'active_shop_inf':'shop_inf'"
+					@click="active_tabBar_Handle(2)">商家</button>
 			</view>
 
-			<!-- 右侧滚动栏 -->
-			<scroll-view class="dish_pos_right" scroll-y="true" @scroll="rightScroll" :scroll-into-view="active_id">
-				<!-- 商品种类 -->
-				<view class="right_box" v-for="(category,index1) in categories" :key="index1" :id="'category'+index1">
-					<!-- 放置商品种类中具体商品 -->
-					<view class="list_2" v-for="(goods,index2) in category.dishes" :key="index2">
-						<!-- 图片 -->
-						<img :src="goods.logo" class="img_style" mode='aspectFit' />
-						<!-- 描述框 -->
-						<div class="describe" >
-							<p class="p_1">{{goods.name}}</p>
-							<p class="p_2">{{goods.description}}</p>
-							<p class="p_3">销量:{{goods.sale}}</p>
-							<p class="p_4">¥:{{goods.price}}</p>
-							<view class="add_sub">
-								<view v-if="dish_number[index1][index2]" class="hide">
-									<image :src="sub_icon" class="p_sub" @click="click_sub(index1,index2)"></image>
-									<text class="number">{{dish_number[index1][index2]}}</text>
+			<!-- 点菜 -->
+			<view class="order_page_order" v-if="active_tabBar===0">
+				<!-- 右侧滚动栏 -->
+				<scroll-view class="dish_pos_right" scroll-y="true" @scroll="rightScroll" :scroll-into-view="active_id">
+					<!-- 商品种类 -->
+					<view class="right_box" v-for="(category,index1) in categories" :key="index1"
+						:id="'category'+index1">
+						<!-- 放置商品种类中具体商品 -->
+						<view class="list_2" v-for="(goods,index2) in category.dishes" :key="index2">
+							<!-- 图片 -->
+							<img :src="goods.logo" class="img_style" mode='aspectFit' />
+							<!-- 描述框 -->
+							<div class="describe">
+								<p class="p_1">{{goods.name}}</p>
+								<p class="p_2">{{goods.description}}</p>
+								<p class="p_3">销量:{{goods.sale}}</p>
+								<p class="p_4">¥{{goods.price}}</p>
+								<view class="add_sub">
+									<view v-if="dish_number[index1][index2]" class="hide">
+										<image :src="sub_icon" class="p_sub" @click="click_sub(index1,index2)"></image>
+										<text class="number">{{dish_number[index1][index2]}}</text>
+									</view>
+									<image :src="add_icon" class="p_add" @click="click_add(index1,index2)"></image>
+
 								</view>
-								<image :src="add_icon" class="p_add" @click="click_add(index1,index2)"></image>
+							</div>
 
-							</view>
-						</div>
-
+						</view>
 					</view>
-				</view>
-				<!-- 页面到底提示 -->
-				<view class="bottom_hint">
-					已经到底了！
-				</view>
-			</scroll-view>
-			<!-- 左侧滚动栏 -->
-			<scroll-view class="cate_pos_left" scroll-y="true">
-				<!-- 卡片 -->
-				<view :class="active===index?'active_list':'list'" v-for="(category,index) in categories"
-					@click="leftClickHandle(index)">
-					<!-- 描述框 -->
-					<view :class="active===index?'active_p_5':'p_5'">{{category.category}}</view>
-				</view>
-			</scroll-view>
+					<!-- 页面到底提示 -->
+					<view class="bottom_hint">
+						已经到底了！
+					</view>
+				</scroll-view>
+				<!-- 左侧滚动栏 -->
+				<scroll-view class="cate_pos_left" scroll-y="true">
+					<!-- 卡片 -->
+					<view :class="active===index?'active_list':'list'" v-for="(category,index) in categories"
+						@click="leftClickHandle(index)">
+						<!-- 描述框 -->
+						<view :class="active===index?'active_p_5':'p_5'">{{category.category}}</view>
+					</view>
+				</scroll-view>
+			</view>
+			<!-- 评价 -->
+			<view class="bottom_hint" v-else-if="active_tabBar===1">
+				空空如也
+			</view>
+			<!-- 商家 -->
+			<view class="bottom_hint" v-else-if="active_tabBar===2">
+				空空如也
+			</view>
 		</view>
 		<!-- 购物车页面 -->
 		<view class="shop_car_page" :hidden="hidden">
@@ -73,7 +87,7 @@
 							<p class="p_1">{{goods.name}}</p>
 							<p class="p_2">{{goods.description}}</p>
 							<p class="p_3">销量:{{goods.sale}}</p>
-							<p class="p_4">¥:{{goods.price}}</p>
+							<p class="p_4">¥{{goods.price}}</p>
 							<view class="add_sub">
 								<view v-if="dish_number[index1][index2]" class="hide">
 									<image :src="sub_icon" class="p_sub" @click="click_sub(index1,index2)"></image>
@@ -110,25 +124,27 @@
 		//该页面所需要的定义的数据
 		data() {
 			return {
-				name: '',//该商家的名称，有index界面传过来
-				needytime: '',//配送时间
-				credit: '',//评分
-				logo: '',//商家图标
-				sale: '',//销量
-				threshold: '',//起送费
-				categories: [],//菜单，所有商品的信息
-				active: 0,//左侧滚动栏选中项的id
-				active_id: '',//右侧与左侧对应所需的变量
+				name: '', //该商家的名称，有index界面传过来
+				needytime: '', //配送时间
+				credit: '', //评分
+				logo: '', //商家图标
+				sale: '', //销量
+				threshold: '', //起送费
+				categories: [], //菜单，所有商品的信息
+				active: 0, //左侧滚动栏选中项的id
+				active_id: '', //右侧与左侧对应所需的变量
+				active_tabBar: 0, //标识中部点菜、评论、商家选中哪一个，0：点菜 1：评论 2：商家
 				rightHeightList: [], //右侧滚动栏数据的高度数组
-				hidden: 1,//用于在用户点击主页面时隐藏购物车界面
-				add_icon: '/static/add.png',//加号按钮图片地址
-				sub_icon: '/static/sub.png',//减号按钮图片地址
-				dish_number: [],//这是一个二维数组，代表
-				shop_Car: [],//购物车信息，confirmShoppingCart接口所需要的的信息
-				pay_code: '',//退出页面时从setAll_Item接口获取的状态码
-				pay_msg: '',//退出页面时从setAll_Item接口获取的状态信息
-				pay_item:[],//当前结算订单信息，从confirmShoppingCart接口获得，可能会用于订单界面，暂时无用
-				sumprice:0,//购物车总金额
+				hidden: 1, //用于在用户点击主页面时隐藏购物车界面
+				add_icon: '/static/add.png', //加号按钮图片地址
+				sub_icon: '/static/sub.png', //减号按钮图片地址
+				dish_number: [], //这是一个二维数组，代表
+				shop_Car: [], //购物车信息，confirmShoppingCart接口所需要的的信息
+				leave_shop_Car: [],
+				pay_code: '', //退出页面时从setAll_Item接口获取的状态码
+				pay_msg: '', //退出页面时从setAll_Item接口获取的状态信息
+				pay_item: [], //当前结算订单信息，从confirmShoppingCart接口获得，可能会用于订单界面，暂时无用
+				sumprice: 0, //购物车总金额
 			}
 		},
 		onUnload() {
@@ -158,16 +174,29 @@
 					this.sale = res.data.sale
 					this.threshold = res.data.threshold
 					this.categories = res.data.categories
-					//初始化 购物车中菜品数量 使用二维数组存储 : 第一维是种类，第二维是菜品
-					for (let i = 0; i < this.categories.length; i++) {
-						let now = [];
-						for (let j = 0; j < this.categories[i].dishes.length; j++) {
-							now.push(0);
+					//尝试获取购物车历史记录
+					uni.getStorage({
+						key: 'shop_car_history' + this.name,
+						//获取成功，直接拿到历史购物车数据
+						success: (res) => {
+							console.log("成功拿到商家：" + this.name + "的历史购物车数据");
+							console.log("res.data:", res.data);
+							this.dish_number = res.data.dish_number;
+							this.sumprice = res.data.sumprice;
+						},
+						//获取失败，全部初始化为0
+						fail: (res) => {
+							//初始化 购物车中菜品数量 使用二维数组存储 : 第一维是种类，第二维是菜品
+							for (let i = 0; i < this.categories.length; i++) {
+								let now = [];
+								for (let j = 0; j < this.categories[i].dishes.length; j++) {
+									now.push(0);
+								}
+								this.dish_number.push(now);
+							}
+							console.log(this.dish_number)
 						}
-						this.dish_number.push(now);
-					}
-					console.log(this.dish_number)
-					//res.后端定义的接口
+					});
 				}
 			});
 		},
@@ -227,8 +256,25 @@
 			details() {
 				this.hidden = !this.hidden;
 			},
-			//购物车数据处理及与后端交换数据
+			//用于退出商家页面时，将购物车历史记录存于本地缓存之中以及将当前购物车内容发给后端
 			shop_transform() {
+				console.log('数组', this.dish_number.length)
+				if (this.dish_number.length != 0) //加此判断原因是：有可能 在本页onLoad函数的请求request还没响应时 就被用户退出页面，
+				//从而执行onUnload函数 但是这时 this.dish_number 是一个空数组 ， 不能将其存于本地缓存，
+				//否则下次加载时就会出错
+				{
+					// 将购物车历史记录存于本地缓存之中
+					uni.setStorage({
+						key: 'shop_car_history' + this.name,
+						data: {
+							dish_number: this.dish_number,
+							sumprice: this.sumprice
+						},
+						success: (res) => {
+							console.log('成功将商家：' + this.name + '的购物车历史记录存于本地缓存');
+						}
+					});
+				}
 				//将 this.dish_number 的数据解析成接口需求的格式,结果存放在 this.shop_Car 中
 				for (let i = 0; i < this.categories.length; i++) {
 					for (let j = 0; j < this.categories[i].dishes.length; j++) {
@@ -297,7 +343,8 @@
 				});
 				//实现跳转
 				uni.navigateTo({
-					url: '/pages/index/pay'
+					url: '/pages/index/pay?name=' + this.name + '&shop_Car=' + encodeURIComponent(JSON.stringify(
+						this.shop_Car))
 				})
 
 			},
@@ -309,7 +356,18 @@
 						this.dish_number[i].splice(j, 1, 0) //数组中该元素置零
 					}
 				}
+				this.sumprice = 0;
 				console.log(this.dish_number)
+			},
+			////标识中部点菜、评论、商家选中哪一个的处理函数
+			active_tabBar_Handle(index) {
+				if (index == 0) {
+					this.active_tabBar = 0;
+				} else if (index == 1) {
+					this.active_tabBar = 1;
+				} else {
+					this.active_tabBar = 2;
+				}
 			}
 		}
 	}
@@ -325,6 +383,10 @@
 
 		.order_page {
 			height: 90%;
+
+			.order_page_order {
+				height: 85%;
+			}
 		}
 
 		button::after {
@@ -355,12 +417,15 @@
 			display: flex;
 			margin-top: 130rpx;
 			font-size: 30rpx;
-			margin-left: -150rpx;
+			position: absolute;
+			left: 220rpx;
+			color: #8f8f94;
 		}
 
 		.three_button {
 			display: flex;
 			flex-wrap: nowrap;
+			width: 70%;
 		}
 
 		.order {
@@ -368,8 +433,16 @@
 			width: 150rpx;
 			font-size: 35rpx;
 			margin-top: 20rpx;
-			margin-left: 0rpx;
 			background-color: #ffffff;
+		}
+
+		.active_order {
+			height: 80rpx;
+			width: 150rpx;
+			font-size: 35rpx;
+			margin-top: 20rpx;
+			background-color: #ffffff;
+			border-bottom: 10rpx solid #fefa83;
 		}
 
 		.command {
@@ -377,9 +450,17 @@
 			width: 150rpx;
 			font-size: 35rpx;
 			margin-top: 20rpx;
-			margin-left: -270rpx;
 			background-color: #ffffff;
 			border-radius: 100rpx;
+		}
+
+		.active_command {
+			height: 80rpx;
+			width: 150rpx;
+			font-size: 35rpx;
+			margin-top: 20rpx;
+			background-color: #ffffff;
+			border-bottom: 10rpx solid #fefa83;
 		}
 
 		.shop_inf {
@@ -387,15 +468,20 @@
 			width: 170rpx;
 			font-size: 35rpx;
 			margin-top: 20rpx;
-			margin-left: -240rpx;
 			background-color: #ffffff;
 			border-radius: 100rpx;
 		}
 
-		.add_sub {
-			position: relative;
-			left: 200rpx;
+		.active_shop_inf {
+			height: 80rpx;
+			width: 170rpx;
+			font-size: 35rpx;
+			margin-top: 20rpx;
+			background-color: #ffffff;
+			border-bottom: 10rpx solid #fefa83;
 		}
+
+
 
 		.p_add {
 			position: absolute;
@@ -417,10 +503,11 @@
 		}
 
 		.number {
+
+			font-size: 35rpx;
 			position: relative;
-			font-size: 40rpx;
-			left: 10rpx;
-			top: -5rpx;
+			left: 55rpx;
+			top: -50rpx;
 		}
 
 		.list {
@@ -460,26 +547,10 @@
 			background-color: #fefa83;
 		}
 
-		.list_2 {
-			align-items: center;
-			height: 250rpx;
-			vertical-align: center;
-			display: flex;
-			object-fit: fill;
-			margin: 20rpx;
-			border-width: 100%;
-			border: 3rpx solid #f8f8f8;
-			box-shadow: #8f8f94;
-			border-radius: 7%;
-			box-shadow:
-				5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
-				19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
-				85px 57px 80px rgba(0, 0, 0, 0.016);
-		}
 
 
 		.dish_pos_right {
-			height: 70%;
+			height: 90%;
 			width: 70%;
 			display: flex;
 			margin-left: 200rpx;
@@ -521,41 +592,70 @@
 			background-color: #f8f8f8;
 		}
 
-		.img_style {
-			height: 150rpx;
-			width: 150rpx;
+
+		.list_2 {
+
+			height: 250rpx;
+			display: flex;
+			margin-top: 20rpx;
+			border-width: 100%;
+			border: 3rpx solid #f8f8f8;
+			box-shadow: #8f8f94;
+			border-radius: 7%;
+			box-shadow:
+				5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+				19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+				85px 57px 80px rgba(0, 0, 0, 0.016);
+
 		}
 
+		.add_sub {
+			position: absolute;
+			left: 380rpx;
+			margin-top: -35rpx;
+		}
+
+		.img_style {
+			border-radius: 20%;
+			height: 180rpx;
+			width: 180rpx;
+			position: relative;
+			top: 20rpx;
+		}
+
+
 		p {
-			text-align: center;
+			// text-align: center;
+			position: relative;
+			left: 15rpx;
 		}
 
 		.p_1 {
-			position: relative;left: 5rpx;top: -60rpx;
-
+			margin-top: 10rpx;
 			font-size: 35rpx;
-			font-weight: 600;
+			width: 260rpx;
+			// font-weight: 600;
 			// display: table-column;
+
+
 		}
 
 		.p_2 {
-			position: relative;left: -60rpx;top: -50rpx;
-			font-size: 30rpx;
-			margin-left: 0rpx;
+
 			color: #ffb420;
+			margin-top: 10rpx;
 		}
 
 		.p_3 {
-			position: relative;left: -60rpx;top: -30rpx;
-			font-size: 30rpx;
-			font-weight: 600;
+
 			color: #8f96a0;
+			margin-top: 10rpx;
 		}
 
 		.p_4 {
-			position: absolute;left: 180rpx;
-			font-size: 35rpx;
-			color: red;
+
+			color: #c83c23;
+			margin-top: 10rpx;
 		}
 
 		.p_5 {
@@ -646,5 +746,12 @@
 			border-radius: 50rpx;
 			background-color: #f9d60f;
 		}
+	}
+
+
+	.img_style2 {
+		width: 200rpx;
+		height: 200rpx;
+		margin-left: 30rpx;
 	}
 </style>

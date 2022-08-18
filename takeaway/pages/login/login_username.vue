@@ -82,19 +82,19 @@
 			},
 			checkChoose: function() {
 				this.sure = !this.sure;
-				console.log(this.sure);
+				// console.log(this.sure);
 			},
 			_check_register() {
 				if (this.sure == false) {
 					uni.showToast({
 						title: "请先阅读并同意协议",
-						icon: 'exception',
+						icon: 'error',
 						duration: 850
 					})
 				} else if (this.password.length < 6) {
 					uni.showToast({
 						title: "密码小于6位",
-						icon: 'exception',
+						icon: 'error',
 						duration: 850
 					})
 				} else {
@@ -114,13 +114,21 @@
 							this.code = res.data.code;
 							this.msg = res.data.msg;
 							getApp().globalData.token = res.data.data.Oauth_Token;
-							console.log(res.data.data.Oauth_Token);
+							// console.log(res.data.data.Oauth_Token);
 							this.exprie = res.data.data.exprie;
 							getApp().globalData.login_key = true;
-							uni.reLaunch({
-								url: '/pages/my/my'
-							})
-							//res.后端定义的接口
+							if (this.code == 1) {
+								// console.log("开始跳转");
+								uni.reLaunch({
+									url: '/pages/my/my'
+								})
+							} else {
+								uni.showToast({
+									title: "登录错误",
+									icon: 'error',
+									duration: 850
+								})
+							}
 						}
 					});
 				}

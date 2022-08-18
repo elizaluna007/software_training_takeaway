@@ -10,7 +10,7 @@
 
 		<view>
 			<view class="weui-input">
-				<input class="input_style" v-model="telephone" placeholder="请输入手机号" maxlength='11' />
+				<input class="input_style" v-model="account" placeholder="请输入账号" maxlength='11' />
 			</view>
 
 			<view class="weui-input">
@@ -63,7 +63,7 @@
 	export default {
 		data() {
 			return {
-				telephone: '',
+				account: '',
 				password: '',
 				repassword: '',
 				code: '',
@@ -77,10 +77,9 @@
 		},
 		onLoad() {},
 		methods: {
-			goto_help()
-			{
+			goto_help() {
 				uni.navigateTo({
-					url:'/pages/help/help'
+					url: '/pages/help/help'
 				})
 			},
 			changeType() {
@@ -98,12 +97,6 @@
 						icon: 'exception',
 						duration: 850
 					})
-				} else if (this.telephone == '' | this.telephone.length != 11) { //如果手机号错误，弹框提示
-					uni.showToast({
-						title: "手机号错误",
-						icon: 'exception',
-						duration: 850
-					})
 				} else if (this.password.length < 6) { //如果密码错误，弹框提示
 					uni.showToast({
 						title: "密码小于6位",
@@ -118,21 +111,31 @@
 					})
 				} else { //当全部输入正确时，向数据库发送手机号以及密码
 					uni.request({
-						url: 'http://127.0.0.1:4523/m1/1437509-0-default/customer/customerRegister', //仅为示例，并非真实接口地址。
+						url: 'https://v3710z5658.oicp.vip/customer/customerRegister', //仅为示例，并非真实接口地址。
 						method: "POST", //不设置，默认为get方式
 						data: {
-							telephone: this.telephone,
+							account: this.account,
 							password: this.password
 						},
 						header: {},
 						//发送成功，相应得到信息以及数据库传输过来的数据
 						success: (res) => {
-							console.log(res),
-								this.code = res.code
-							this.msg = res.msg
-							//res.后端定义的接口
+							this.code = res.data.code
+							this.msg = res.data.msg
+							if (this.code) {
+								uni.navigateTo({
+									url: '/pages/login/login_username'
+								})
+							} else {
+								uni.showToast({
+									title: "注册错误",
+									icon: 'error',
+									duration: 850
+								})
+							}
 						}
 					});
+					
 				}
 			},
 			goto1(url) { //点击跳转到根据手机号登录页面

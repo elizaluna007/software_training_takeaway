@@ -5,7 +5,8 @@
 				<img :src="login_no" class="img_style" v-if="button_key" />
 				<img :src="info.headphoto" class="img_style" v-if="key" @click="upload_img()" />
 			</div>
-			<button v-if="button_key" class="btn_style" type="default" @click="goto()" style="display: ;">登录/注册</button>
+			<button v-if="button_key" class="btn_style" type="default" @click="goto()"
+				style="background-color: #fefa83;">登录/注册</button>
 			<p v-if="key" class="p_1">{{info.name}}</p>
 		</div>
 		<div v-if="button_key" class="line"></div>
@@ -14,6 +15,7 @@
 				<p class="p_2">基本资料</p>
 				<button class="btn_1" @click="change()">编辑</button>
 				<button class="btn_2" @click="save()">保存</button>
+				<button class="btn_2" @click="change_passward()">修改密码</button>
 			</div>
 			<div v-if="change_no_key">
 				<div class="line_block">
@@ -74,6 +76,20 @@
 				</div>
 				<div class="line"></div>
 			</div>
+			<div class="line_block" v-if="change_pwd_key">
+				<p class="element">旧密码</p>
+				<input class="content" style="position: relative;left: 100rpx;" placeholder="请输入旧密码"
+					v-model="pre_pwd"></input>
+			</div>
+			<div class="line" v-if="change_pwd_key"></div>
+			<div class="line_block" v-if="change_pwd_key">
+				<p class="element">新密码</p>
+				<input class="content" style="position: relative;left: 100rpx;" placeholder="请输入新密码"
+					v-model="new_pwd"></input>
+					
+			</div>
+			<div class="line" v-if="change_pwd_key"></div>
+			<button v-if="change_pwd_key" class="btn_style_3" @click="update_passward()">确认修改密码</button>
 			<button class="btn_style_2" @click="logout()">退出当前账号</button>
 		</div>
 
@@ -103,7 +119,10 @@
 					birthday: '',
 					phone: '',
 					headphoto: ''
-				}
+				},
+				change_pwd_key: false,
+				pre_pwd: '',
+				new_pwd: ''
 			}
 		},
 		methods: {
@@ -127,14 +146,15 @@
 				uni.request({
 					method: "POST",
 					// url: 'http://127.0.0.1:4523/m1/1437509-0-default/customer/changeCustomerInfo',
-					url: 'https://v3710z5658.oicp.vip/customer/changeCustomerInfo',
+					// url: 'https://v3710z5658.oicp.vip/customer/changeCustomerInfo',
+					url: 'https://5t764096g4.goho.co/customer/changeCustomerInfo',
 					data: {
-						name:this.info.name,
-						sex:this.info.sex,
-						defaultaddress:this.info.address,
-						birthday:this.info.birthday,
-						phone:this.info.phone,
-						headphoto:this.info.headphoto
+						name: this.info.name,
+						sex: this.info.sex,
+						defaultaddress: this.info.address,
+						birthday: this.info.birthday,
+						phone: this.info.phone,
+						headphoto: this.info.headphoto
 					},
 					header: {
 						token: getApp().globalData.token
@@ -142,36 +162,54 @@
 					success: (res) => {
 						// this.info = res.data;
 						// console.log("修改信息成功");
+						uni.showToast({
+							title: "修改成功",
+							icon: 'exception',
+							duration: 850
+						})
+					}
+				})
+			},
+			change_passward() {
+				this.change_pwd_key = !this.change_pwd_key;
+			},
+			update_passward() {
+				console.log("开始发送密码信息")
+				uni.request({
+					method: 'POST',
+					url: 'https://v3710z5658.oicp.vip/customer/ChangePassword',
+					data: {
+						pre_pwd: this.pre_pwd,
+						new_pwd: this.new_pwd
+					},
+					header: {
+						token: getApp().globalData.token
+					},
+					success: (res) => {
+						this.change_pwd_key=0;
+						console.log("开始打印修改密码信息")
+						console.log(res)
+						
+						if(res.data.code==1)
+						{
+							getApp().globalData.token=res.data.Oauth_Token;
+							uni.showToast({
+								title: "修改成功",
+								icon: 'exception',
+								duration: 850
+							})
+						}
+						else{
+							uni.showToast({
+								title: "修改失败",
+								icon: 'error',
+								duration: 850
+							})
+						}
 					}
 				})
 			},
 			upload_img() {
-				// uni.chooseImage({
-				// 	count: 1, //上传图片的数量，默认是9
-				// 	sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-				// 	sourceType: ['album'], //从相册选择
-				// 	success: function(res) {
-				// 		const tempFilePaths = res.tempFilePaths; //拿到选择的图片，是一个数组
-				// 		console.log("选取图片成功");
-				// 		console.log(res);
-				// 		console.log(tempFilePaths);
-				// 		console.log("开始上传");
-				// 		uni.uploadFile({
-				// 			url: 'http://localhost:3000/users/upload', //post请求的地址
-				// 			filePath: tempFilePaths[0],
-				// 			name: 'avatar',
-				// 			// formData: {
-				// 		 // 	'username': this.userInfo.username //formData是指除了图片以外，额外加的字段
-				// 			// },
-				// 			success: (uploadFileRes) => {
-				// 				//这里要注意，uploadFileRes.data是个String类型，要转对象的话需要JSON.parse一下
-				// 				var obj = JSON.parse(uploadFileRes.data);
-				// 			}
-				// 		})
-
-				// 	}
-
-				// });
 				let that = this;
 				uni.chooseImage({
 					count: 1,
@@ -182,20 +220,17 @@
 						var tempFilePaths = res.tempFilePaths;
 						pathToBase64(tempFilePaths[0]) //图像转base64工具
 							.then(base64 => {
-								console.log("开始验证");
-								console.log(base64);
-								console.log(typeof(base64));
 								that.avatar = base64; //将文件转化为base64并显示
-								console.log("开始上传");
-								console.log(base64);
-								console.log("开始打印base64");
-								console.log(JSON.stringify(base64));
+								// console.log("开始上传");
+								// console.log(base64);
+								// console.log("开始打印base64");
+								// console.log(JSON.stringify(base64));
 								uni.request({
 									// url: 'http://127.0.0.1:4523/m1/1437509-0-default/shop/getAllShopInfo', //仅为示例，并非真实接口地址。
 									url: 'https://v3710z5658.oicp.vip/customer/changeHeadphoto', //真实端口
 									method: "POST", //不设置，默认为get方式
 									data: {
-										headphoto:JSON.stringify(base64)
+										headphoto: JSON.stringify(base64)
 									},
 									header: {
 										token: getApp().globalData.token,
@@ -205,6 +240,20 @@
 										// console.log(res.data.length);
 										// console.log(res);
 										// this.infos = res.data;
+										// uni.request({
+										// 	method: "GET",
+										// 	url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
+										// 	// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
+										// 	data: {},
+										// 	header: {
+										// 		token: getApp().globalData.token
+										// 	},
+										// 	success: (res) => {
+										// 		info.headphoto = res.data.headphoto;
+										// 		console.log("开始打印个人信息X2");
+										// 		console.log(res.data);
+										// 	}
+										// })
 									}
 								})
 								// that.avatarUpload(base64); //同时将头像上传至数据库进行存储
@@ -219,42 +268,44 @@
 		onLoad() {
 			this.key = getApp().globalData.login_key;
 			this.button_key = !this.key;
-			uni.request({
-				method: "GET",
-				url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
-				// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
-				data: {
-				},
-				header: {
-					token: getApp().globalData.token
-				},
-				success: (res) => {
-					this.info = res.data;
-					console.log("开始打印个人信息");
-					console.log(res.data);
-				}
-			})
+			if (this.key == true) {
+				uni.request({
+					method: "GET",
+					// url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
+					// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
+					url: 'https://5t764096g4.goho.co/customer/getCustomerInfo',
+					data: {},
+					header: {
+						token: getApp().globalData.token
+					},
+					success: (res) => {
+						this.info = res.data;
+						console.log("开始打印个人信息");
+						console.log(res);
+					}
+				})
+			} else {}
 		},
 		onShow() {
 			this.key = getApp().globalData.login_key;
 			this.button_key = !this.key;
-			uni.request({
-				method: "GET",
-				url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',//wj
-				// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
-				//url: 'https://5t764096g4.goho.co/customer/getCustomerInfo',//kx
-				data: {
-
-				},
-				header: {
-					token: getApp().globalData.token
-				},
-				success: (res) => {
-					this.info = res.data;
-					console.log("开始打印个人信息");
-					console.log(res.data);
-				}
-			})
+			if (this.key == true) {
+				uni.request({
+					method: "GET",
+					// url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
+					// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
+					url: 'https://5t764096g4.goho.co/customer/getCustomerInfo',
+					data: {},
+					header: {
+						token: getApp().globalData.token
+					},
+					success: (res) => {
+						this.info = res.data;
+						console.log("开始打印个人信息");
+						console.log(res);
+					}
+				})
+			} else {}
 		}
 	}
 </script>
@@ -281,18 +332,15 @@
 	}
 
 	.btn_style {
-		outline: none;
-		border: 0px;
-		border-color: #fff;
-		width: 300rpx;
-		height: 120rpx;
-		margin-top: 50rpx;
-		margin-left: 0rpx;
-		text-align: center;
-		justify-content: center;
-		font-size: 50rpx;
-		background-color: #fff;
-		line-height: 60px;
+
+		background-color: #fefa83; //按钮颜色
+		border-radius: 20rpx; //按钮弧度
+		width: 290rpx; //宽度
+		height: 95rpx;
+		box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
+		position: relative;
+		left: -110rpx;
+		top: 75rpx;
 	}
 
 	.line {
@@ -328,11 +376,11 @@
 	}
 
 	.p_1 {
-		width: 150rpx;
+		width: 550rpx;
 		height: 100rpx;
 		margin-top: 50rpx;
 		margin-left: 0rpx;
-		text-align: center;
+		/* text-align: center; */
 		justify-content: center;
 		font-size: 60rpx;
 		background-color: #fff;
@@ -397,30 +445,48 @@
 	.btn_style_2 {
 		width: 300rpx;
 		margin-top: 30rpx;
-		color: red;
+		color: #8f8f94;
 		background-color: #fefa83;
 		margin-top: 20%;
+		border-radius: 25rpx;
+		box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
+
+	}
+
+	.btn_style_3 {
+		width: 300rpx;
+		margin-top: 30rpx;
+		margin-bottom: -60rpx;
+		color: #8f8f94;
+		background-color: #fefa83;
+/* 		margin-top: 20%; */
+		border-radius: 25rpx;
+		box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
+
 	}
 
 	.btn_1 {
-		background-color: #fff;
+
 		border: none;
-		background-color: #cccccc;
+		background-color: #f0e3f2;
 		text-align: center;
 		justify-content: center;
 		height: 90rpx;
 		margin-top: 30rpx;
+		border-radius: 45rpx;
+
 	}
 
 	.btn_2 {
-		background-color: #fff;
 		border: none;
-		background-color: #cccccc;
+		background-color: #f0e3f2;
 		text-align: center;
 		justify-content: center;
 		height: 90rpx;
 		margin-top: 30rpx;
+		border-radius: 45rpx;
 	}
+
 	button::after {
 		border: none;
 	}

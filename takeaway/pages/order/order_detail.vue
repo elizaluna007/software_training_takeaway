@@ -80,12 +80,12 @@
 			console.log(this.paytime);
 			uni.request({
 				// url: 'http://127.0.0.1:4523/m1/1437509-0-default/order/getAllOrdersInfo',
-				//url: 'https://5t764096g4.goho.co/order/getOneOrderInfo',
-				url: 'https://v3710z5658.oicp.vip/order/getOneOrderInfo',
+				//url: 'https://5t764096g4.goho.co/order/getOneOrderInfo',//kx
+				url: 'https://v3710z5658.oicp.vip/order/getOneOrderInfo',//wj
 				method: 'GET',
 				data: {
 					// timestamp:"2022-08-15 11:04:05",
-					timestamp: "2022-08-15 11:04:05"
+					timestamp: this.paytime
 				},
 				header: {
 					token: getApp().globalData.token

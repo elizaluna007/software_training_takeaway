@@ -1,5 +1,5 @@
 {
-    "name" : "my_task",
+    "name" : "外卖",
     "appid" : "__UNI__1FE814A",
     "description" : "",
     "versionName" : "1.0.0",
@@ -68,5 +68,8 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "2"
+    "vueVersion" : "2",
+    "mp-qq" : {
+        "appid" : "1112235014"
+    }
 }

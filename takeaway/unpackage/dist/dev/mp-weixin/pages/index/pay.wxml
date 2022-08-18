@@ -1,1 +1,1 @@
-<view style="display:auto;justify-content:center;margin:0;"><image style="width:400rpx;height:100%;margin-top:30%;margin-left:23%;" src="https://img2.baidu.com/it/u=3395582942,4228440123&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1660669200&t=d93027bfcec4190e624343564722b794" alt class="_img"></image></view>
+<view><image class="pay" src="https://wx1.sinaimg.cn/mw2000/006Qjcu1gy1h59mwo17rlj30ay0ay0un.jpg" mode></image><button data-event-opts="{{[['tap',[['_pay',['$event']]]]]}}" class="btn_style" bindtap="__e">我已支付，点击前往订单页面</button></view>

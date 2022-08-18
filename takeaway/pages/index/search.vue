@@ -17,7 +17,7 @@
 			<!-- 卡片 -->
 			<el-card class="list">
 				<!-- 图片 -->
-				<img :src="info.logo" class="img_style" @click="goto_shop()" />
+				<img :src="info.logo" class="img_style" @click="goto_shop(info)" />
 				<!-- 描述框 -->
 				<div class="describe" @click="goto_shop()">
 					<p class="p_1">{{info.name}}</p>
@@ -54,7 +54,7 @@
 					name: this.name
 				},
 				header: {
-					token: getApp().globalData.token
+					// token: getApp().globalData.token
 				},
 				success: (res) => {
 					this.info = res.data[0];
@@ -63,10 +63,19 @@
 			})
 		},
 		methods: {
-			goto_shop(url) {
-				uni.navigateTo({
-					url: '/pages/index/shop?name=' + this.name
-				})
+			goto_shop(object) {
+				this.key = getApp().globalData.login_key;
+				if (this.key == true) {
+					console.log("前往商铺");
+					console.log(object.name);
+					uni.navigateTo({
+						url: '/pages/index/shop?name=' + object.name
+					})
+				} else {
+					uni.navigateTo({
+						url: '/pages/login/login_username'
+					})
+				}
 			},
 			// search_goto(){
 			// 	console.log("这是要搜索的内容");
