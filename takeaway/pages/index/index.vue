@@ -14,7 +14,7 @@
 				style="position: relative; left: 180rpx; top: -153rpx" @click="search_goto()">搜索</button>
 		</view>
 		<view class="swiper_all">
-			<swiper circular indicator-dots mode="widthFix" class="img_out">
+			<swiper circular indicator-dots mode="widthFix" class="img_out" autoplay="true" interval="2000">
 				<!-- v-for循环遍历数组 -->
 				<swiper-item v-for="item in swipers">
 					<image :src="item.url" class="swp_img" @click="swiper_to_shop(item.shop_name)"></image>
@@ -39,8 +39,8 @@
 				</div>
 				<!-- 距离以及时间-->
 				<div class="time" @click="goto_shop(info)">
-					<p class="p_4">{{info.distance}}分钟</p>
-					<p class="p_5">{{info.needytime}}km</p>
+					<p class="p_4">{{info.needytime}}分钟</p>
+					<p class="p_5">{{info.distance}}km</p>
 				</div>
 			</el-card>
 		</el-col>

@@ -2629,6 +2629,17 @@ function normalizeComponent (
 
 /***/ }),
 
+/***/ 116:
+/*!***********************************************************************************************!*\
+  !*** D:/360MoveData/Users/Luna/Desktop/实训/software_training_takeaway/takeaway/static/KFC.jpg ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/static/KFC.jpg";
+
+/***/ }),
+
 /***/ 2:
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -2661,9 +2672,9 @@ module.exports = g;
 /***/ }),
 
 /***/ 26:
-/*!****************************************************************************************************!*\
-  !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/js_sdk/mmmm-image-tools/index.js ***!
-  \****************************************************************************************************/
+/*!*****************************************************************************************************************!*\
+  !*** D:/360MoveData/Users/Luna/Desktop/实训/software_training_takeaway/takeaway/js_sdk/mmmm-image-tools/index.js ***!
+  \*****************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2868,9 +2879,9 @@ function base64ToPath(base64) {
 /***/ }),
 
 /***/ 27:
-/*!**********************************************************************************!*\
-  !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/eye.png ***!
-  \**********************************************************************************/
+/*!***********************************************************************************************!*\
+  !*** D:/360MoveData/Users/Luna/Desktop/实训/software_training_takeaway/takeaway/static/eye.png ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2879,9 +2890,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACt
 /***/ }),
 
 /***/ 28:
-/*!*************************************************************************************!*\
-  !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/l_or_r.jpg ***!
-  \*************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** D:/360MoveData/Users/Luna/Desktop/实训/software_training_takeaway/takeaway/static/l_or_r.jpg ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -9404,9 +9415,9 @@ internalMixin(Vue);
 /***/ }),
 
 /***/ 5:
-/*!******************************************************************************!*\
-  !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/pages.json ***!
-  \******************************************************************************/
+/*!*******************************************************************************************!*\
+  !*** D:/360MoveData/Users/Luna/Desktop/实训/software_training_takeaway/takeaway/pages.json ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -9415,9 +9426,9 @@ internalMixin(Vue);
 /***/ }),
 
 /***/ 69:
-/*!*************************************************************************************!*\
-  !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/no_eye.png ***!
-  \*************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** D:/360MoveData/Users/Luna/Desktop/实训/software_training_takeaway/takeaway/static/no_eye.png ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 

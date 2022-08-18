@@ -60,7 +60,23 @@
 			</view>
 			<!-- 评价 -->
 			<view class="bottom_hint" v-else-if="active_tabBar===1">
-				空空如也
+				<div class="comment_all">
+					<div class="logo_line">
+						<img src="../../static/KFC.jpg" alt="" class="logo_style">
+						<div class="des_logo_line">
+							<p class="p_name">昵称</p>
+							<p class="p_time">时间</p>
+						</div>
+					</div>
+					<div>
+						<img src="" alt="">
+						<p></p>
+					</div>
+					<div>
+						<textarea name="" id="" cols="30" rows="10">好吃好吃好吃</textarea>
+						<img src="" alt="">
+					</div>
+				</div>
 			</view>
 			<!-- 商家 -->
 			<view class="bottom_hint" v-else-if="active_tabBar===2">

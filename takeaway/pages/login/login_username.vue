@@ -111,13 +111,14 @@
 						//登录时发送数据到数据库成功得到相应返回的数据
 						success: (res) => {
 							console.log(res);
-							this.code = res.data.code;
-							this.msg = res.data.msg;
-							getApp().globalData.token = res.data.data.Oauth_Token;
-							// console.log(res.data.data.Oauth_Token);
-							this.exprie = res.data.data.exprie;
+							
 							getApp().globalData.login_key = true;
-							if (this.code == 1) {
+							if (res.data.code == 1) {
+								this.code = res.data.code;
+								this.msg = res.data.msg;
+								getApp().globalData.token = res.data.data.Oauth_Token;
+								// console.log(res.data.data.Oauth_Token);
+								this.exprie = res.data.data.exprie;
 								// console.log("开始跳转");
 								uni.reLaunch({
 									url: '/pages/my/my'

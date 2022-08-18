@@ -146,8 +146,8 @@
 				uni.request({
 					method: "POST",
 					// url: 'http://127.0.0.1:4523/m1/1437509-0-default/customer/changeCustomerInfo',
-					// url: 'https://v3710z5658.oicp.vip/customer/changeCustomerInfo',
-					url: 'https://5t764096g4.goho.co/customer/changeCustomerInfo',
+					url: 'https://v3710z5658.oicp.vip/customer/changeCustomerInfo',
+					// url: 'https://5t764096g4.goho.co/customer/changeCustomerInfo',
 					data: {
 						name: this.info.name,
 						sex: this.info.sex,
@@ -271,9 +271,9 @@
 			if (this.key == true) {
 				uni.request({
 					method: "GET",
-					// url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
+					url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
 					// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
-					url: 'https://5t764096g4.goho.co/customer/getCustomerInfo',
+					// url: 'https://5t764096g4.goho.co/customer/getCustomerInfo',
 					data: {},
 					header: {
 						token: getApp().globalData.token
@@ -292,9 +292,9 @@
 			if (this.key == true) {
 				uni.request({
 					method: "GET",
-					// url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
+					url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
 					// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
-					url: 'https://5t764096g4.goho.co/customer/getCustomerInfo',
+					// url: 'https://5t764096g4.goho.co/customer/getCustomerInfo',
 					data: {},
 					header: {
 						token: getApp().globalData.token

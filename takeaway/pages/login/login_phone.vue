@@ -106,8 +106,8 @@
 					})
 				} else {
 					uni.request({
-						//url: 'https://v3710z5658.oicp.vip/customer/customerLogin', //仅为示例，并非真实接口地址。
-						url: 'https://5t764096g4.goho.co/customer/customerLogin', //仅为示例，并非真实接口地址。
+						url: 'https://v3710z5658.oicp.vip/customer/customerLogin', //仅为示例，并非真实接口地址。
+						// url: 'https://5t764096g4.goho.co/customer/customerLogin', //仅为示例，并非真实接口地址。
 						method: "POST", //不设置，默认为get方式
 						data: {
 							phone: this.telephone,
@@ -119,14 +119,15 @@
 
 						success: (res) => {
 							console.log(res);
-							this.code = res.data.code;
-							this.msg = res.data.msg;
-							this.Data = res.data;
-							getApp().globalData.token = res.data.data.Oauth_Token;
-							getApp().globalData.login_key = true;
+							
 							console.log(res)
-							if (this.code == 1) {
+							if (res.data.code == 1) {
 								// console.log("开始跳转");
+								this.code = res.data.code;
+								this.msg = res.data.msg;
+								this.Data = res.data;
+								getApp().globalData.token = res.data.data.Oauth_Token;
+								getApp().globalData.login_key = true;
 								uni.reLaunch({
 									url: '/pages/my/my'
 								})

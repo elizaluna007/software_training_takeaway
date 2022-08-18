@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/index/shop",
     "pages/index/index",
     "pages/my/my",
     "pages/index/pay",
@@ -9,7 +10,6 @@
     "pages/register/register",
     "pages/login/login_phone",
     "pages/login/login_username",
-    "pages/index/shop",
     "pages/index/search"
   ],
   "subPackages": [],
