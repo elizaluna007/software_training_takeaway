@@ -67,7 +67,7 @@
 				openeye: require("../../static/eye.png"), //小眼睛图片地址
 				nopeneye: require("../../static/no_eye.png"),
 				seen: 0,
-				code:1,
+				get_code:1,
 			}
 		},
 		methods: {
@@ -112,7 +112,7 @@
 							phone: this.telephone,
 							account: this.account,
 							password: this.password,
-							code:this.code,
+							code:this.get_code,
 						},
 						header: {},
 						//登录时发送数据到数据库成功得到相应返回的数据

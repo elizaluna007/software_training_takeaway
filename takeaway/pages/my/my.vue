@@ -11,6 +11,7 @@
 		</div>
 		<div v-if="button_key" class="line"></div>
 		<div v-if="key">
+			<!-- 用户端 -->
 			<view v-if="cstm_or_sp">
 				<div style="display: flex;">
 					<p class="p_2">基本资料</p>
