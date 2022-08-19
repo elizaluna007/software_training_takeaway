@@ -11,86 +11,226 @@
 		</div>
 		<div v-if="button_key" class="line"></div>
 		<div v-if="key">
-			<div style="display: flex;">
-				<p class="p_2">基本资料</p>
-				<button class="btn_1" @click="change()">编辑</button>
-				<button class="btn_2" @click="save()">保存</button>
-				<button class="btn_2" @click="change_passward()">修改密码</button>
-			</div>
-			<div v-if="change_no_key">
-				<div class="line_block">
-					<p class="element">用户名</p>
-					<p class="content" style="position: relative;left: 100rpx;">{{info.name}}</p>
+			<view v-if="cstm_or_sp">
+				<div style="display: flex;">
+					<p class="p_2">基本资料</p>
+					<button class="btn_1" @click="change()">编辑</button>
+					<button class="btn_2" @click="save()">保存</button>
+					<button class="btn_2" @click="change_passward()">修改密码</button>
 				</div>
-				<div class="line"></div>
-				<div class="line_block">
-					<p class="element">性别</p>
-					<p class="content" style="position: relative;left: 140rpx;">{{info.sex}}</p>
+				<div v-if="change_no_key">
+					<div class="line_block">
+						<p class="element">用户名</p>
+						<p class="content" style="position: relative;left: 100rpx;">{{info.name}}</p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">性别</p>
+						<p class="content" style="position: relative;left: 140rpx;">{{info.sex}}</p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">地址</p>
+						<p class="content" style="position: relative;left: 140rpx;">{{info.address}}</p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">生日</p>
+						<p class="content" style="position: relative;left: 140rpx;">{{info.birthday}}</p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">手机号</p>
+						<p class="content" style="position: relative;left: 100rpx;">{{info.phone}}</p>
+					</div>
+					<div class="line"></div>
 				</div>
-				<div class="line"></div>
-				<div class="line_block">
-					<p class="element">地址</p>
-					<p class="content" style="position: relative;left: 140rpx;">{{info.address}}</p>
+				<div v-if="change_key">
+					<div class="line_block">
+						<p class="element">用户名</p>
+						<input class="content" style="position: relative;left: 100rpx;" placeholder="(可修改)"
+							v-model="info.name"></input>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">性别</p>
+						<input class="content" style="position: relative;left: 140rpx;" placeholder="(可修改)"
+							v-model="info.sex"></input>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">地址</p>
+						<input class="content" style="position: relative;left: 140rpx;" placeholder="(可修改)"
+							v-model="info.address"></input>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">生日</p>
+						<input class="content" style="position: relative;left: 140rpx;" placeholder="(可修改)"
+							v-model="info.birthday"></input>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">手机号</p>
+						<input class="content" style="position: relative;left: 100rpx;" placeholder="(可修改)"
+							v-model="info.phone"></input>
+					</div>
+					<div class="line"></div>
 				</div>
-				<div class="line"></div>
-				<div class="line_block">
-					<p class="element">生日</p>
-					<p class="content" style="position: relative;left: 140rpx;">{{info.birthday}}</p>
+				<div class="line_block" v-if="change_pwd_key">
+					<p class="element">旧密码</p>
+					<input class="content" style="position: relative;left: 100rpx;" placeholder="请输入旧密码"
+						v-model="pre_pwd"></input>
 				</div>
-				<div class="line"></div>
-				<div class="line_block">
-					<p class="element">手机号</p>
-					<p class="content" style="position: relative;left: 100rpx;">{{info.phone}}</p>
+				<div class="line" v-if="change_pwd_key"></div>
+				<div class="line_block" v-if="change_pwd_key">
+					<p class="element">新密码</p>
+					<input class="content" style="position: relative;left: 100rpx;" placeholder="请输入新密码"
+						v-model="new_pwd"></input>
+
 				</div>
-				<div class="line"></div>
-			</div>
-			<div v-if="change_key">
-				<div class="line_block">
-					<p class="element">用户名</p>
-					<input class="content" style="position: relative;left: 100rpx;" placeholder="(可修改)"
-						v-model="info.name"></input>
+				<div class="line" v-if="change_pwd_key"></div>
+				<button v-if="change_pwd_key" class="btn_style_3" @click="update_passward()">确认修改密码</button>
+				<button class="btn_style_2" @click="logout()">退出当前账号</button>
+			</view>
+			<!-- 商家端 -->
+			<view v-if="cstm_or_sp !=1">
+				<div style="display: flex;">
+					<p class="p_2">基本资料</p>
+					<button class="btn_1" @click="change()">编辑</button>
+					<button class="btn_2" @click="save_shop()">保存</button>
+					<button class="btn_2" @click="change_passward()">修改密码</button>
 				</div>
-				<div class="line"></div>
-				<div class="line_block">
-					<p class="element">性别</p>
-					<input class="content" style="position: relative;left: 140rpx;" placeholder="(可修改)"
-						v-model="info.sex"></input>
+				<div v-if="change_no_key">
+					<div class="line_block">
+						<p class="element">商家名</p>
+						<p class="content" style="position: relative;left: 100rpx;">{{info.name}}</p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">配送时间</p>
+						<p class="content" style="position: relative;left: 140rpx;">{{info.needytime}}分钟</p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">评分</p>
+						<p class="content" style="position: relative;left: 140rpx;">{{info.credit}}分</p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">销售量</p>
+						<p class="content" style="position: relative;left: 140rpx;">{{info.sale}}</p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">商家电话</p>
+						<p class="content" style="position: relative;left: 100rpx;">{{info.phone}}</p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">起送价格</p>
+						<p class="content" style="position: relative;left: 100rpx;">￥{{info.threshold}}</p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">配送价格</p>
+						<p class="content" style="position: relative;left: 100rpx;">￥{{info.deliverprice}}</p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">商家地址</p>
+						<p class="content" style="position: relative;left: 100rpx;">{{info.address}}</p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">开店时间</p>
+						<p class="content" style="position: relative;left: 100rpx;">{{info.begintime}}</p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">关店时间</p>
+						<p class="content" style="position: relative;left: 100rpx;">{{info.endtime}}</p>
+					</div>
+					<div class="line"></div>
 				</div>
-				<div class="line"></div>
-				<div class="line_block">
-					<p class="element">地址</p>
-					<input class="content" style="position: relative;left: 140rpx;" placeholder="(可修改)"
-						v-model="info.address"></input>
+				<div v-if="change_key">
+					<div class="line_block">
+						<p class="element">商家名</p>
+						<input class="content" style="position: relative;left: 100rpx;" placeholder="(可修改)"
+							v-model="info.name"></p>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">配送时间</p>
+						<input class="content" style="position: relative;left: 140rpx;" placeholder="(可修改)"
+							v-model="info.needytime"></input>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">评分</p>
+						<input class="content" style="position: relative;left: 140rpx;" placeholder="(可修改)"
+							v-model="info.credit"></input>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">销售量</p>
+						<input class="content" style="position: relative;left: 140rpx;" placeholder="(可修改)"
+							v-model="info.sale"></input>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">商家电话</p>
+						<input class="content" style="position: relative;left: 100rpx;" placeholder="(可修改)"
+							v-model="info.phone"></input>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">起送价格</p>
+						<input class="content" style="position: relative;left: 100rpx;" placeholder="(可修改)"
+							v-model="info.threshold"></input>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">配送价格</p>
+						<input class="content" style="position: relative;left: 100rpx;" placeholder="(可修改)"
+							v-model="info.deliverprice"></input>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">商家地址</p>
+						<input class="content" style="position: relative;left: 100rpx;" placeholder="(可修改)"
+							v-model="info.address"></input>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">开店时间</p>
+						<input class="content" style="position: relative;left: 100rpx;" placeholder="(可修改)"
+							v-model="info.begintime"></input>
+					</div>
+					<div class="line"></div>
+					<div class="line_block">
+						<p class="element">关店时间</p>
+						<input class="content" style="position: relative;left: 100rpx;" placeholder="(可修改)"
+							v-model="info.endtime"></input>
+					</div>
+					<div class="line"></div>
 				</div>
-				<div class="line"></div>
-				<div class="line_block">
-					<p class="element">生日</p>
-					<input class="content" style="position: relative;left: 140rpx;" placeholder="(可修改)"
-						v-model="info.birthday"></input>
+				<div class="line_block" v-if="change_pwd_key">
+					<p class="element">旧密码</p>
+					<input class="content" style="position: relative;left: 100rpx;" placeholder="请输入旧密码"
+						v-model="pre_pwd"></input>
 				</div>
-				<div class="line"></div>
-				<div class="line_block">
-					<p class="element">手机号</p>
-					<input class="content" style="position: relative;left: 100rpx;" placeholder="(可修改)"
-						v-model="info.phone"></input>
+				<div class="line" v-if="change_pwd_key"></div>
+				<div class="line_block" v-if="change_pwd_key">
+					<p class="element">新密码</p>
+					<input class="content" style="position: relative;left: 100rpx;" placeholder="请输入新密码"
+						v-model="new_pwd"></input>
+
 				</div>
-				<div class="line"></div>
-			</div>
-			<div class="line_block" v-if="change_pwd_key">
-				<p class="element">旧密码</p>
-				<input class="content" style="position: relative;left: 100rpx;" placeholder="请输入旧密码"
-					v-model="pre_pwd"></input>
-			</div>
-			<div class="line" v-if="change_pwd_key"></div>
-			<div class="line_block" v-if="change_pwd_key">
-				<p class="element">新密码</p>
-				<input class="content" style="position: relative;left: 100rpx;" placeholder="请输入新密码"
-					v-model="new_pwd"></input>
-					
-			</div>
-			<div class="line" v-if="change_pwd_key"></div>
-			<button v-if="change_pwd_key" class="btn_style_3" @click="update_passward()">确认修改密码</button>
-			<button class="btn_style_2" @click="logout()">退出当前账号</button>
+				<div class="line" v-if="change_pwd_key"></div>
+				<button v-if="change_pwd_key" class="btn_style_3" @click="update_passward_shop()">确认修改密码</button>
+				<button class="btn_style_2" @click="logout()">退出当前账号</button>
+			</view>
 		</div>
 
 	</view>
@@ -105,6 +245,7 @@
 	export default {
 		data() {
 			return {
+				cstm_or_sp: '',
 				key: '',
 				button_key: '',
 				login_on: require("../../static/eye.png"),
@@ -135,6 +276,7 @@
 				getApp().globalData.login_key = false;
 				this.key = false;
 				this.button_key = true;
+				this.globalData.cstm_or_sp = 1;
 			},
 			change() {
 				this.change_key = true;
@@ -170,6 +312,37 @@
 					}
 				})
 			},
+			save_shop() {
+				// console.log("开始打印修改后的信息");
+				// console.log(this.info);
+				uni.request({
+					method: "POST",
+					// url: 'http://127.0.0.1:4523/m1/1437509-0-default/customer/changeCustomerInfo',
+					url: 'https://v3710z5658.oicp.vip/business/changeShopInfo',
+					// url: 'https://5t764096g4.goho.co/customer/changeCustomerInfo',
+					data: {
+						name: this.info.name,
+						phone: this.info.phone,
+						address: this.info.address,
+						threshold: this.info.threshold,
+						deliverprice: this.info.deliverprice,
+						begintime: this.info.begintime,
+						endtime:this.info.endtime
+					},
+					header: {
+						token: getApp().globalData.token
+					},
+					success: (res) => {
+						// this.info = res.data;
+						// console.log("修改信息成功");
+						uni.showToast({
+							title: "修改成功",
+							icon: 'exception',
+							duration: 850
+						})
+					}
+				})
+			},
 			change_passward() {
 				this.change_pwd_key = !this.change_pwd_key;
 			},
@@ -177,7 +350,7 @@
 				console.log("开始发送密码信息")
 				uni.request({
 					method: 'POST',
-					url: 'https://v3710z5658.oicp.vip/customer/ChangePassword',
+					url: 'https://v3710z5658.oicp.vip/business/changePassword',
 					data: {
 						pre_pwd: this.pre_pwd,
 						new_pwd: this.new_pwd
@@ -186,20 +359,52 @@
 						token: getApp().globalData.token
 					},
 					success: (res) => {
-						this.change_pwd_key=0;
+						this.change_pwd_key = 0;
 						console.log("开始打印修改密码信息")
 						console.log(res)
-						
-						if(res.data.code==1)
-						{
-							getApp().globalData.token=res.data.Oauth_Token;
+
+						if (res.data.code == 1) {
+							getApp().globalData.token = res.data.Oauth_Token;
 							uni.showToast({
 								title: "修改成功",
 								icon: 'exception',
 								duration: 850
 							})
+						} else {
+							uni.showToast({
+								title: "修改失败",
+								icon: 'error',
+								duration: 850
+							})
 						}
-						else{
+					}
+				})
+			},
+			update_passward_shop() {
+				console.log("开始发送密码信息")
+				uni.request({
+					method: 'POST',
+					url: 'https://v3710z5658.oicp.vip/business/changePassword',
+					data: {
+						pre_pwd: this.pre_pwd,
+						new_pwd: this.new_pwd
+					},
+					header: {
+						token: getApp().globalData.token
+					},
+					success: (res) => {
+						this.change_pwd_key = 0;
+						console.log("开始打印修改密码信息")
+						console.log(res)
+			
+						if (res.data.code == 1) {
+							getApp().globalData.token = res.data.Oauth_Token;
+							uni.showToast({
+								title: "修改成功",
+								icon: 'exception',
+								duration: 850
+							})
+						} else {
 							uni.showToast({
 								title: "修改失败",
 								icon: 'error',
@@ -210,102 +415,179 @@
 				})
 			},
 			upload_img() {
-				let that = this;
-				uni.chooseImage({
-					count: 1,
-					sizeType: ['original', 'compressed'],
-					sourceType: ['album', 'camera'],
-					success: function(res) {
-						console.log("选取图片成功");
-						var tempFilePaths = res.tempFilePaths;
-						pathToBase64(tempFilePaths[0]) //图像转base64工具
-							.then(base64 => {
-								that.avatar = base64; //将文件转化为base64并显示
-								// console.log("开始上传");
-								// console.log(base64);
-								// console.log("开始打印base64");
-								// console.log(JSON.stringify(base64));
-								uni.request({
-									// url: 'http://127.0.0.1:4523/m1/1437509-0-default/shop/getAllShopInfo', //仅为示例，并非真实接口地址。
-									url: 'https://v3710z5658.oicp.vip/customer/changeHeadphoto', //真实端口
-									method: "POST", //不设置，默认为get方式
-									data: {
-										headphoto: JSON.stringify(base64)
-									},
-									header: {
-										token: getApp().globalData.token,
-									},
-									success: (res) => {
-										console.log("接收成功");
-										// console.log(res.data.length);
-										// console.log(res);
-										// this.infos = res.data;
-										// uni.request({
-										// 	method: "GET",
-										// 	url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
-										// 	// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
-										// 	data: {},
-										// 	header: {
-										// 		token: getApp().globalData.token
-										// 	},
-										// 	success: (res) => {
-										// 		info.headphoto = res.data.headphoto;
-										// 		console.log("开始打印个人信息X2");
-										// 		console.log(res.data);
-										// 	}
-										// })
-									}
+				if(this.cstm_or_sp==1)
+				{
+					let that = this;
+					uni.chooseImage({
+						count: 1,
+						sizeType: ['original', 'compressed'],
+						sourceType: ['album', 'camera'],
+						success: function(res) {
+							console.log("选取图片成功");
+							var tempFilePaths = res.tempFilePaths;
+							pathToBase64(tempFilePaths[0]) //图像转base64工具
+								.then(base64 => {
+									that.avatar = base64; //将文件转化为base64并显示
+									// console.log("开始上传");
+									// console.log(base64);
+									// console.log("开始打印base64");
+									// console.log(JSON.stringify(base64));
+									uni.request({
+										// url: 'http://127.0.0.1:4523/m1/1437509-0-default/shop/getAllShopInfo', //仅为示例，并非真实接口地址。
+										url: 'https://v3710z5658.oicp.vip/customer/changeHeadphoto', //真实端口
+										method: "POST", //不设置，默认为get方式
+										data: {
+											headphoto: JSON.stringify(base64)
+										},
+										header: {
+											token: getApp().globalData.token,
+										},
+										success: (res) => {
+											console.log("接收成功");
+											// console.log(res.data.length);
+											// console.log(res);
+											// this.infos = res.data;
+											// uni.request({
+											// 	method: "GET",
+											// 	url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
+											// 	// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
+											// 	data: {},
+											// 	header: {
+											// 		token: getApp().globalData.token
+											// 	},
+											// 	success: (res) => {
+											// 		info.headphoto = res.data.headphoto;
+											// 		console.log("开始打印个人信息X2");
+											// 		console.log(res.data);
+											// 	}
+											// })
+										}
+									})
+									// that.avatarUpload(base64); //同时将头像上传至数据库进行存储
 								})
-								// that.avatarUpload(base64); //同时将头像上传至数据库进行存储
-							})
-							.catch(error => {
-								console.error(error)
-							})
-					}
-				});
+								.catch(error => {
+									console.error(error)
+								})
+						}
+					});
+				}
+				else{
+					let that = this;
+					uni.chooseImage({
+						count: 1,
+						sizeType: ['original', 'compressed'],
+						sourceType: ['album', 'camera'],
+						success: function(res) {
+							console.log("选取图片成功");
+							var tempFilePaths = res.tempFilePaths;
+							pathToBase64(tempFilePaths[0]) //图像转base64工具
+								.then(base64 => {
+									that.avatar = base64; //将文件转化为base64并显示
+									// console.log("开始上传");
+									// console.log(base64);
+									// console.log("开始打印base64");
+									// console.log(JSON.stringify(base64));
+									uni.request({
+										// url: 'http://127.0.0.1:4523/m1/1437509-0-default/shop/getAllShopInfo', //仅为示例，并非真实接口地址。
+										url: 'https://v3710z5658.oicp.vip/business/changeShopLogo', //真实端口
+										method: "POST", //不设置，默认为get方式
+										data: {
+											newlogo: JSON.stringify(base64)
+										},
+										header: {
+											token: getApp().globalData.token,
+										},
+										success: (res) => {
+											console.log("接收成功");
+											// console.log(res.data.length);
+											// console.log(res);
+											// this.infos = res.data;
+											// uni.request({
+											// 	method: "GET",
+											// 	url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
+											// 	// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
+											// 	data: {},
+											// 	header: {
+											// 		token: getApp().globalData.token
+											// 	},
+											// 	success: (res) => {
+											// 		info.headphoto = res.data.headphoto;
+											// 		console.log("开始打印个人信息X2");
+											// 		console.log(res.data);
+											// 	}
+											// })
+										}
+									})
+									// that.avatarUpload(base64); //同时将头像上传至数据库进行存储
+								})
+								.catch(error => {
+									console.error(error)
+								})
+						}
+					});
+				}
+				
 			}
 		},
 		onLoad() {
 			this.key = getApp().globalData.login_key;
 			this.button_key = !this.key;
 			if (this.key == true) {
-				uni.request({
-					method: "GET",
-					url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
-					// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
-					// url: 'https://5t764096g4.goho.co/customer/getCustomerInfo',
-					data: {},
-					header: {
-						token: getApp().globalData.token
-					},
-					success: (res) => {
-						this.info = res.data;
-						console.log("开始打印个人信息");
-						console.log(res);
-					}
-				})
+				this.cstm_or_sp = getApp().globalData.cstm_or_sp;
+				if (this.cstm_or_sp == 1) {
+					uni.request({
+						method: "GET",
+						url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
+						// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
+						// url: 'https://5t764096g4.goho.co/customer/getCustomerInfo',
+						data: {},
+						header: {
+							token: getApp().globalData.token
+						},
+						success: (res) => {
+							this.info = res.data;
+							console.log("开始打印个人信息");
+							console.log(res);
+						}
+					})
+				} else {
+					uni.request({
+						method: "GET",
+						url: 'https://v3710z5658.oicp.vip/business/getShopInfo',
+						data: {},
+						header: {
+							token: getApp().globalData.token
+						},
+						success: (res) => {
+							this.info = res.data;
+							console.log("开始打印商铺信息");
+							console.log(res);
+						}
+					})
+				}
+
 			} else {}
 		},
 		onShow() {
-			this.key = getApp().globalData.login_key;
-			this.button_key = !this.key;
-			if (this.key == true) {
-				uni.request({
-					method: "GET",
-					url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
-					// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
-					// url: 'https://5t764096g4.goho.co/customer/getCustomerInfo',
-					data: {},
-					header: {
-						token: getApp().globalData.token
-					},
-					success: (res) => {
-						this.info = res.data;
-						console.log("开始打印个人信息");
-						console.log(res);
-					}
-				})
-			} else {}
+			// this.key = getApp().globalData.login_key;
+			// this.button_key = !this.key;
+			// if (this.key == true) {
+			// 	uni.request({
+			// 		method: "GET",
+			// 		url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
+			// 		// url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
+			// 		// url: 'https://5t764096g4.goho.co/customer/getCustomerInfo',
+			// 		data: {},
+			// 		header: {
+			// 			token: getApp().globalData.token
+			// 		},
+			// 		success: (res) => {
+			// 			this.info = res.data;
+			// 			console.log("开始打印个人信息");
+			// 			console.log(res);
+			// 		}
+			// 	})
+			// } else {}
 		}
 	}
 </script>
@@ -426,6 +708,7 @@
 		margin-left: 30rpx;
 		font-size: 40rpx;
 		margin-top: 10rpx;
+		/* width:250rpx; */
 	}
 
 	.line_block {
@@ -459,7 +742,7 @@
 		margin-bottom: -60rpx;
 		color: #8f8f94;
 		background-color: #fefa83;
-/* 		margin-top: 20%; */
+		/* 		margin-top: 20%; */
 		border-radius: 25rpx;
 		box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
 

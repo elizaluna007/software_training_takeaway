@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<view class="help">
+			<text style="color: #8f8f94;margin-right:20rpx;" @click="goto_shop()">商家登录</text>
 			<text style="color: #8f8f94;" @click="goto_help()">帮助</text>
 		</view>
 
@@ -74,6 +75,12 @@
 			{
 				uni.navigateTo({
 					url:'/pages/help/help'
+				})
+			},
+			goto_shop()
+			{
+				uni.navigateTo({
+					url:'/pages/login/login_shop_username'
 				})
 			},
 			changeType() {

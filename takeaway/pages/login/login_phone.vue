@@ -76,6 +76,12 @@
 					url: '/pages/help/help'
 				})
 			},
+			goto_shop()
+			{
+				uni.navigateTo({
+					url:'/pages/login/login_shop_username'
+				})
+			},
 			toRegister(url) {
 				uni.navigateTo({
 					url: '/pages/register/register'
@@ -119,7 +125,6 @@
 
 						success: (res) => {
 							console.log(res);
-							
 							console.log(res)
 							if (res.data.code == 1) {
 								// console.log("开始跳转");
@@ -128,6 +133,7 @@
 								this.Data = res.data;
 								getApp().globalData.token = res.data.data.Oauth_Token;
 								getApp().globalData.login_key = true;
+								
 								uni.reLaunch({
 									url: '/pages/my/my'
 								})

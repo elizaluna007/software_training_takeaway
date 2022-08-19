@@ -1,0 +1,124 @@
+
+.first_line{
+	margin-top: 15rpx;
+	display: flex;
+}
+.logo_shop {
+	width: 80rpx;
+	height: 80rpx;
+	margin-left: 20rpx;
+}
+.name_shop {
+	font-size: 45rpx;
+	/* font-weight: bolder; */
+	margin-left: 20rpx;
+	margin-top: 5rpx;
+}
+/* uni-common-mt {
+	box-sizing: border-box;
+	width: 100%;
+	overflow: hidden;
+	padding: 0 85upx;
+	margin-top: 20upx;
+
+} */
+.three_com {
+	display: flex;
+	justify-content: space-between;
+	justify-items: center; 
+	width: 50%;
+	color: #999;
+}
+.star {
+	height: 80rpx;
+	width: 80rpx;
+	margin-left: 15rpx;
+	-webkit-animation: switch 1s ease-out infinite;
+	        animation: switch 1s ease-out infinite;
+}
+@-webkit-keyframes switch {
+0%, 100% {
+        -webkit-transform: scale(1);
+                transform: scale(1);
+}
+50% {
+        -webkit-transform: scale(0.9);
+                transform: scale(0.9);
+}
+}
+@keyframes switch {
+0%, 100% {
+        -webkit-transform: scale(1);
+                transform: scale(1);
+}
+50% {
+        -webkit-transform: scale(0.9);
+                transform: scale(0.9);
+}
+}
+.weui-input {
+	display: flex; /*居中显示 */
+	margin-left: 35rpx;
+	margin-top: 20rpx;
+}
+.input_style {
+	width: 680rpx;
+	height: 400rpx;
+	border-style: solid;
+	border-width: 2rpx; /*输入框下划线 */
+	border-color:#8f8f94; /*输入框下划线颜色 */
+	border-radius: 20rpx;
+}
+.type1{
+	width: 68rpx;
+	height: 35rpx;
+	margin-top: 25rpx;
+	margin-left: 20rpx;
+}
+.type2{
+	width: 130rpx;
+	height: 35rpx;
+	margin-top: 20rpx;
+	margin-left: 10rpx;
+}
+.title{
+	font-size: 45rpx;
+	font-weight: 600;
+	margin-left: 20rpx;
+	margin-top: 10rpx;
+}
+.checkbox{
+	position: absolute;top: 10rpx;left: 520rpx;
+}
+/* .out_block{
+	align-items: center;
+	vertical-align: center;
+	display: flex;
+	object-fit: fill;
+	margin: 20rpx;
+	border-width: 100%;
+	border: 3rpx solid #000000;
+	box-shadow: #8f8f94;
+	border-radius: 7%; */
+/* box-shadow:
+		5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+		19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+		85px 57px 80px rgba(0, 0, 0, 0.016); */
+/* } */
+.checkmessage{
+	position: absolute;top: 15rpx;left: 580rpx;
+	color: #8f8f94;
+}
+.btn_style{
+	width: 200rpx;
+	margin-top: 80rpx;
+	margin-left: 270rpx;
+	background-color: #fefa83;
+	font-size: 30rpx;
+	border-radius: 15rpx;
+	box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
+}
+button::after{
+	border:none;
+}
+

@@ -83,13 +83,31 @@
 	margin-left: 80rpx;
 	font-weight: 600;
 }
+.two_btn {}
 .btn_style {
+	margin-left: 320rpx;
+	margin-bottom: 25rpx;
+	border-radius: 15rpx;
+	background-color: #fefa83;
+	text-align: center;
+	box-shadow: 4rpx 4rpx 2rpx 0rpx #8f8f94;
+}
+.btn_resp {
 	margin-left: 470rpx;
 	margin-bottom: 25rpx;
 	border-radius: 15rpx;
 	background-color: #fefa83;
 	text-align: center;
 	box-shadow: 4rpx 4rpx 2rpx 0rpx #8f8f94;
+}
+.com_style {
+	/* position: relative;left: 340rpx;top: -80rpx; */
+	border-radius: 15rpx;
+	background-color: #fefa83;
+	text-align: center; 
+	box-shadow: 4rpx 4rpx 2rpx 0rpx #8f8f94;
+	height: 58rpx;
+	margin-left: 20rpx;
 }
 button::after {
 	border: none;

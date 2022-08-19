@@ -57,24 +57,74 @@
 						<view :class="active===index?'active_p_5':'p_5'">{{category.category}}</view>
 					</view>
 				</scroll-view>
+				<!-- 购物车底部黑框按钮 -->
+				<view class="shop_car" @click="details">
+					<text class="total_cost">¥{{sumprice}}</text>
+					<text class="shipping_fees">预估另需配送费¥{{threshold}}</text>
+				</view>
+				<button class="pay" @click="goto_pay">去结算</button>
 			</view>
 			<!-- 评价 -->
 			<view class="bottom_hint" v-else-if="active_tabBar===1">
 				<div class="comment_all">
-					<div class="logo_line">
-						<img src="../../static/KFC.jpg" alt="" class="logo_style">
-						<div class="des_logo_line">
-							<p class="p_name">昵称</p>
-							<p class="p_time">时间</p>
+					<div class="comment_on">
+						<p class="comment_point" >
+							{{comment_infos.averagepoint}}
+						</p>		
+						<p class="comment_pointdes">商家评分</p>
+						<div class="starline1" style="display: flex;">
+							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"></img>
+							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"></img>
+							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"></img>
+							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"></img>
+							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"></img>
+						</div>
+						<div class="rightblock">
+							<p class="flavor_style" style="color: #8f8f94;">口味</p>
+							<p class="flavor_point" style="margin-top: 5rpx;">{{comment_infos.averagepoint}}</p>
+						</div>
+						<div class="rightblock">
+							<p class="wrap_style" style="color: #8f8f94;">包装</p>
+							<p class="wrap_point" style="margin-top: 5rpx;">{{comment_infos.averagepoint}}</p>
+						</div>
+						<div class="rightblock" >
+							<p class="satisfy_style" style="color: #8f8f94;">满意度</p>
+							<p class="satisfy_point" style="margin-top: 5rpx;">{{comment_infos.averagepoint}}</p>
 						</div>
 					</div>
-					<div>
-						<img src="" alt="">
-						<p></p>
-					</div>
-					<div>
-						<textarea name="" id="" cols="30" rows="10">好吃好吃好吃</textarea>
-						<img src="" alt="">
+					<div  v-for="cmt in comment_infos.info" class="comment_one">
+						<div class="logo_line">
+							<img :src="cmt.icon" class="logo_style">
+							<div class="des_logo_line">
+								<p class="p_name">{{cmt.customername}}</p>
+								<p class="p_time">{{cmt.time}}</p>
+							</div>
+						</div>
+						<div class="star">
+							<img src="../../static/star_yellow.png"v-if="cmt.point>=1" class="img_star">
+							<img src="../../static/star_grey.png"v-if="cmt.point==0" class="img_star">
+							<img src="../../static/star_yellow.png"v-if="cmt.point>=2" class="img_star">
+							<img src="../../static/star_grey.png"v-if="cmt.point<2" class="img_star">
+							<img src="../../static/star_yellow.png"v-if="cmt.point>=3" class="img_star">
+							<img src="../../static/star_grey.png"v-if="cmt.point<3" class="img_star">
+							<img src="../../static/star_yellow.png"v-if="cmt.point>=4" class="img_star">
+							<img src="../../static/star_grey.png"v-if="cmt.point<4" class="img_star">
+							<img src="../../static/star_yellow.png"v-if="cmt.point>=5" class="img_star">
+							<img src="../../static/star_grey.png"v-if="cmt.point<5" class="img_star">
+							
+							<p class="cmt_star_text" v-if="cmt.point<5">老板再来一碗</p>
+							<p class="cmt_star_text" v-if="cmt.point==4">好吃有待提高</p>
+							<p class="cmt_star_text" v-if="cmt.point==3">再接再厉</p>
+							<p class="cmt_star_text" v-if="cmt.point==2">差点摔碗</p>
+							<p class="cmt_star_text" v-if="cmt.point==1">狗都不吃了</p>
+							<p class="cmt_star_text" v-if="cmt.point==0">我是狗</p>
+						</div>
+						<div>
+							<p class="comment_style">{{cmt.comment}}</p>
+						</div>
+						<div>
+							<img :src="cmt.picture"class="pic_style">
+						</div>
 					</div>
 				</div>
 			</view>
@@ -156,15 +206,23 @@
 					已经到底了！
 				</view>
 			</scroll-view>
+			<!-- 占位view -->
+			<view style="height: 10%; background-color:#ffffff"></view>
+			<!-- 购物车底部黑框按钮(购物车界面) -->
+			<view class="shop_car" @click="details">
+				<text class="total_cost">¥{{sumprice}}</text>
+				<text class="shipping_fees">预估另需配送费¥{{threshold}}</text>
+			</view>
+			<button class="pay" @click="goto_pay">去结算</button>
 		</view>
 
 		<!-- 购物车底部黑框按钮 -->
-		<view class="shop_car" @click="details">
+		<!-- <view class="shop_car" @click="details">
 			<text class="total_cost">¥{{sumprice}}</text>
 			<text class="shipping_fees">预估另需配送费¥{{threshold}}</text>
 		</view>
 		<button class="pay" @click="goto_pay">去结算</button>
-
+ -->
 		<!-- 商家里的商家电话 -->
 		<view class="phone_hint" :hidden="phone_hidden">
 			<view class="grey_background" @click="exit_phone_hint"></view>
@@ -209,6 +267,12 @@
 				address: '', //商家地址
 				begintime: '', //商家配送营业开始时间
 				endtime: '', //商家配送营业结束时间
+				comment_infos: {
+					info: {
+
+					},
+					averagepoint: ''
+				}
 			}
 		},
 		onUnload() {
@@ -439,6 +503,23 @@
 					this.active_tabBar = 0;
 				} else if (index == 1) {
 					this.active_tabBar = 1;
+					uni.request({
+						method: 'GET',
+						url: 'https://v3710z5658.oicp.vip/comment/getCommentsByName',
+						// url: 'http://127.0.0.1:4523/m1/1437509-0-default/comment/getCommentsByName',
+						data: {
+							shop_name: this.name
+						},
+						header: {
+
+							token: getApp().globalData.token
+						},
+						success: (res) => {
+							this.comment_infos = res.data
+							console.log("开始打印评价信息")
+							console.log(res)
+						}
+					})
 				} else {
 					this.active_tabBar = 2;
 					uni.request({
@@ -454,9 +535,9 @@
 						success: (res) => {
 							console.log(res);
 							this.phone = res.data.phone; //商家电话
-							this.address= res.data.address; //商家地址
-							this.begintime= res.data.begintime; //商家配送营业开始时间
-							this.endtime= res.data.endtime; //商家配送营业结束时间
+							this.address = res.data.address; //商家地址
+							this.begintime = res.data.begintime; //商家配送营业开始时间
+							this.endtime = res.data.endtime; //商家配送营业结束时间
 						}
 
 					});
@@ -782,14 +863,16 @@
 			}
 
 			.shop_dish_pos {
-				height: 60%;
+				height: 50%;
 				width: 100%;
 				display: flex;
 				background-color: #ffffff;
 				flex-direction: column;
 				align-items: center;
+
 				.right_box {
 					display: flex;
+					flex-direction: column;
 					justify-content: center;
 					overflow: hidden;
 				}
@@ -800,7 +883,7 @@
 
 		.shop_car {
 			position: absolute;
-			margin-bottom: 20rpx;
+			bottom:40rpx;
 			margin-left: 35rpx;
 			background-color: #000000;
 			height: 80rpx;
@@ -826,6 +909,7 @@
 
 		.pay {
 			position: absolute;
+			bottom:40rpx;
 			text-align: center;
 			font-size: 35rpx;
 			margin-left: 540rpx;
@@ -962,10 +1046,106 @@
 		}
 	}
 
-
+	//商家评论页
 	.img_style2 {
 		width: 200rpx;
 		height: 200rpx;
 		margin-left: 30rpx;
+	}
+	.comment_one{
+		margin: 20rpx;
+		align-items: left;
+		vertical-align: center;
+		text-align: left;
+		// display: flex;
+		// object-fit: fill;
+		
+		// border-width: 100%;
+		border: 3rpx solid #f8f8f8;
+		box-shadow: #8f8f94;
+		border-radius: 7%;
+		box-shadow:
+			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+			85px 57px 80px rgba(0, 0, 0, 0.016);
+	}
+	
+	.comment_on{
+		display:flex;
+		margin-top: -60rpx;
+		margin-left: 25rpx;
+	}
+	.logo_line{
+		display: flex;
+	}
+	.logo_style{
+		width: 120rpx;
+		height: 120rpx;
+		border-radius: 20rpx;
+		margin: 15rpx;
+	}
+	.des_logo_line{
+		margin-left: 15rpx;
+	}
+	.p_name{
+		font-size: 40rpx;
+		margin-top: 15rpx;
+		
+	}
+	.cmt_star_text{
+		margin-left: 10rpx;
+		margin-top: 20rpx;
+		color: #8f8f94;
+	}
+	.p_time{
+		margin-top: 10rpx;
+		color: #8f8f94;
+	}
+	.img_star{
+		width: 50rpx;
+		height: 50rpx;
+		margin-left: 10rpx;
+		margin-top: 15rpx;
+	}
+	.star{
+		display: flex;
+	}
+	
+	.comment_style{
+		margin-top: 20rpx;
+		
+		
+	}
+	.pic_style{
+		width: 300rpx;
+		height: 300rpx;
+		margin-top: 20rpx;
+		border-radius: 20rpx;
+		margin-bottom: 20rpx;
+		margin-left: 10rpx;
+	}
+	
+	.comment_point{
+		color: #ffb420;
+		font-size: 50rpx;
+		margin-bottom: 10rpx;
+		margin-top: 5rpx;
+		
+	}
+	
+	.starline1{
+		position: relative;left: -105rpx;top: 30rpx;		
+		}
+
+		
+	.comment_pointdes{
+		color: #8f8f94;
+		margin-top: -20rpx;
+		margin-left: 20rpx;
+	}
+	
+	.rightblock{
+		margin-top: -22rpx;
+		margin-left: 20rpx;
 	}
 </style>

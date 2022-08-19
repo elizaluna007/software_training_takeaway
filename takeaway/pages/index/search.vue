@@ -58,6 +58,7 @@
 				},
 				success: (res) => {
 					this.info = res.data[0];
+					console.log("开始打印搜索获得的信息");
 					console.log(res);
 				}
 			})
