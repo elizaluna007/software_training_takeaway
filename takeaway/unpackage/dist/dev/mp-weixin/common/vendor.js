@@ -2629,10 +2629,10 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 116:
-/*!***********************************************************************************************!*\
-  !*** D:/360MoveData/Users/Luna/Desktop/实训/software_training_takeaway/takeaway/static/KFC.jpg ***!
-  \***********************************************************************************************/
+/***/ 16:
+/*!**********************************************************************************!*\
+  !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/KFC.jpg ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2668,235 +2668,6 @@ try {
 
 module.exports = g;
 
-
-/***/ }),
-
-/***/ 26:
-/*!*****************************************************************************************************************!*\
-  !*** D:/360MoveData/Users/Luna/Desktop/实训/software_training_takeaway/takeaway/js_sdk/mmmm-image-tools/index.js ***!
-  \*****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.pathToBase64 = pathToBase64;exports.base64ToPath = base64ToPath;function getLocalFilePath(path) {
-  if (path.indexOf('_www') === 0 || path.indexOf('_doc') === 0 || path.indexOf('_documents') === 0 || path.indexOf('_downloads') === 0) {
-    return path;
-  }
-  if (path.indexOf('file://') === 0) {
-    return path;
-  }
-  if (path.indexOf('/storage/emulated/0/') === 0) {
-    return path;
-  }
-  if (path.indexOf('/') === 0) {
-    var localFilePath = plus.io.convertAbsoluteFileSystem(path);
-    if (localFilePath !== path) {
-      return localFilePath;
-    } else {
-      path = path.substr(1);
-    }
-  }
-  return '_www/' + path;
-}
-
-function dataUrlToBase64(str) {
-  var array = str.split(',');
-  return array[array.length - 1];
-}
-
-var index = 0;
-function getNewFileId() {
-  return Date.now() + String(index++);
-}
-
-function biggerThan(v1, v2) {
-  var v1Array = v1.split('.');
-  var v2Array = v2.split('.');
-  var update = false;
-  for (var index = 0; index < v2Array.length; index++) {
-    var diff = v1Array[index] - v2Array[index];
-    if (diff !== 0) {
-      update = diff > 0;
-      break;
-    }
-  }
-  return update;
-}
-
-function pathToBase64(path) {
-  return new Promise(function (resolve, reject) {
-    if (typeof window === 'object' && 'document' in window) {
-      if (typeof FileReader === 'function') {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', path, true);
-        xhr.responseType = 'blob';
-        xhr.onload = function () {
-          if (this.status === 200) {
-            var fileReader = new FileReader();
-            fileReader.onload = function (e) {
-              resolve(e.target.result);
-            };
-            fileReader.onerror = reject;
-            fileReader.readAsDataURL(this.response);
-          }
-        };
-        xhr.onerror = reject;
-        xhr.send();
-        return;
-      }
-      var canvas = document.createElement('canvas');
-      var c2x = canvas.getContext('2d');
-      var img = new Image();
-      img.onload = function () {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        c2x.drawImage(img, 0, 0);
-        resolve(canvas.toDataURL());
-        canvas.height = canvas.width = 0;
-      };
-      img.onerror = reject;
-      img.src = path;
-      return;
-    }
-    if (typeof plus === 'object') {
-      plus.io.resolveLocalFileSystemURL(getLocalFilePath(path), function (entry) {
-        entry.file(function (file) {
-          var fileReader = new plus.io.FileReader();
-          fileReader.onload = function (data) {
-            resolve(data.target.result);
-          };
-          fileReader.onerror = function (error) {
-            reject(error);
-          };
-          fileReader.readAsDataURL(file);
-        }, function (error) {
-          reject(error);
-        });
-      }, function (error) {
-        reject(error);
-      });
-      return;
-    }
-    if (typeof wx === 'object' && wx.canIUse('getFileSystemManager')) {
-      wx.getFileSystemManager().readFile({
-        filePath: path,
-        encoding: 'base64',
-        success: function success(res) {
-          resolve('data:image/png;base64,' + res.data);
-        },
-        fail: function fail(error) {
-          reject(error);
-        } });
-
-      return;
-    }
-    reject(new Error('not support'));
-  });
-}
-
-function base64ToPath(base64) {
-  return new Promise(function (resolve, reject) {
-    if (typeof window === 'object' && 'document' in window) {
-      base64 = base64.split(',');
-      var type = base64[0].match(/:(.*?);/)[1];
-      var str = atob(base64[1]);
-      var n = str.length;
-      var array = new Uint8Array(n);
-      while (n--) {
-        array[n] = str.charCodeAt(n);
-      }
-      return resolve((window.URL || window.webkitURL).createObjectURL(new Blob([array], { type: type })));
-    }
-    var extName = base64.split(',')[0].match(/data\:\S+\/(\S+);/);
-    if (extName) {
-      extName = extName[1];
-    } else {
-      reject(new Error('base64 error'));
-    }
-    var fileName = getNewFileId() + '.' + extName;
-    if (typeof plus === 'object') {
-      var basePath = '_doc';
-      var dirPath = 'uniapp_temp';
-      var filePath = basePath + '/' + dirPath + '/' + fileName;
-      if (!biggerThan(plus.os.name === 'Android' ? '1.9.9.80627' : '1.9.9.80472', plus.runtime.innerVersion)) {
-        plus.io.resolveLocalFileSystemURL(basePath, function (entry) {
-          entry.getDirectory(dirPath, {
-            create: true,
-            exclusive: false },
-          function (entry) {
-            entry.getFile(fileName, {
-              create: true,
-              exclusive: false },
-            function (entry) {
-              entry.createWriter(function (writer) {
-                writer.onwrite = function () {
-                  resolve(filePath);
-                };
-                writer.onerror = reject;
-                writer.seek(0);
-                writer.writeAsBinary(dataUrlToBase64(base64));
-              }, reject);
-            }, reject);
-          }, reject);
-        }, reject);
-        return;
-      }
-      var bitmap = new plus.nativeObj.Bitmap(fileName);
-      bitmap.loadBase64Data(base64, function () {
-        bitmap.save(filePath, {}, function () {
-          bitmap.clear();
-          resolve(filePath);
-        }, function (error) {
-          bitmap.clear();
-          reject(error);
-        });
-      }, function (error) {
-        bitmap.clear();
-        reject(error);
-      });
-      return;
-    }
-    if (typeof wx === 'object' && wx.canIUse('getFileSystemManager')) {
-      var filePath = wx.env.USER_DATA_PATH + '/' + fileName;
-      wx.getFileSystemManager().writeFile({
-        filePath: filePath,
-        data: dataUrlToBase64(base64),
-        encoding: 'base64',
-        success: function success() {
-          resolve(filePath);
-        },
-        fail: function fail(error) {
-          reject(error);
-        } });
-
-      return;
-    }
-    reject(new Error('not support'));
-  });
-}
-
-/***/ }),
-
-/***/ 27:
-/*!***********************************************************************************************!*\
-  !*** D:/360MoveData/Users/Luna/Desktop/实训/software_training_takeaway/takeaway/static/eye.png ***!
-  \***********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,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"
-
-/***/ }),
-
-/***/ 28:
-/*!**************************************************************************************************!*\
-  !*** D:/360MoveData/Users/Luna/Desktop/实训/software_training_takeaway/takeaway/static/l_or_r.jpg ***!
-  \**************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/static/l_or_r.jpg";
 
 /***/ }),
 
@@ -3361,6 +3132,235 @@ function resolveLocaleChain(locale) {
   return chain;
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./../../../webpack/buildin/global.js */ 2)))
+
+/***/ }),
+
+/***/ 35:
+/*!****************************************************************************************************!*\
+  !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/js_sdk/mmmm-image-tools/index.js ***!
+  \****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.pathToBase64 = pathToBase64;exports.base64ToPath = base64ToPath;function getLocalFilePath(path) {
+  if (path.indexOf('_www') === 0 || path.indexOf('_doc') === 0 || path.indexOf('_documents') === 0 || path.indexOf('_downloads') === 0) {
+    return path;
+  }
+  if (path.indexOf('file://') === 0) {
+    return path;
+  }
+  if (path.indexOf('/storage/emulated/0/') === 0) {
+    return path;
+  }
+  if (path.indexOf('/') === 0) {
+    var localFilePath = plus.io.convertAbsoluteFileSystem(path);
+    if (localFilePath !== path) {
+      return localFilePath;
+    } else {
+      path = path.substr(1);
+    }
+  }
+  return '_www/' + path;
+}
+
+function dataUrlToBase64(str) {
+  var array = str.split(',');
+  return array[array.length - 1];
+}
+
+var index = 0;
+function getNewFileId() {
+  return Date.now() + String(index++);
+}
+
+function biggerThan(v1, v2) {
+  var v1Array = v1.split('.');
+  var v2Array = v2.split('.');
+  var update = false;
+  for (var index = 0; index < v2Array.length; index++) {
+    var diff = v1Array[index] - v2Array[index];
+    if (diff !== 0) {
+      update = diff > 0;
+      break;
+    }
+  }
+  return update;
+}
+
+function pathToBase64(path) {
+  return new Promise(function (resolve, reject) {
+    if (typeof window === 'object' && 'document' in window) {
+      if (typeof FileReader === 'function') {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', path, true);
+        xhr.responseType = 'blob';
+        xhr.onload = function () {
+          if (this.status === 200) {
+            var fileReader = new FileReader();
+            fileReader.onload = function (e) {
+              resolve(e.target.result);
+            };
+            fileReader.onerror = reject;
+            fileReader.readAsDataURL(this.response);
+          }
+        };
+        xhr.onerror = reject;
+        xhr.send();
+        return;
+      }
+      var canvas = document.createElement('canvas');
+      var c2x = canvas.getContext('2d');
+      var img = new Image();
+      img.onload = function () {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        c2x.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL());
+        canvas.height = canvas.width = 0;
+      };
+      img.onerror = reject;
+      img.src = path;
+      return;
+    }
+    if (typeof plus === 'object') {
+      plus.io.resolveLocalFileSystemURL(getLocalFilePath(path), function (entry) {
+        entry.file(function (file) {
+          var fileReader = new plus.io.FileReader();
+          fileReader.onload = function (data) {
+            resolve(data.target.result);
+          };
+          fileReader.onerror = function (error) {
+            reject(error);
+          };
+          fileReader.readAsDataURL(file);
+        }, function (error) {
+          reject(error);
+        });
+      }, function (error) {
+        reject(error);
+      });
+      return;
+    }
+    if (typeof wx === 'object' && wx.canIUse('getFileSystemManager')) {
+      wx.getFileSystemManager().readFile({
+        filePath: path,
+        encoding: 'base64',
+        success: function success(res) {
+          resolve('data:image/png;base64,' + res.data);
+        },
+        fail: function fail(error) {
+          reject(error);
+        } });
+
+      return;
+    }
+    reject(new Error('not support'));
+  });
+}
+
+function base64ToPath(base64) {
+  return new Promise(function (resolve, reject) {
+    if (typeof window === 'object' && 'document' in window) {
+      base64 = base64.split(',');
+      var type = base64[0].match(/:(.*?);/)[1];
+      var str = atob(base64[1]);
+      var n = str.length;
+      var array = new Uint8Array(n);
+      while (n--) {
+        array[n] = str.charCodeAt(n);
+      }
+      return resolve((window.URL || window.webkitURL).createObjectURL(new Blob([array], { type: type })));
+    }
+    var extName = base64.split(',')[0].match(/data\:\S+\/(\S+);/);
+    if (extName) {
+      extName = extName[1];
+    } else {
+      reject(new Error('base64 error'));
+    }
+    var fileName = getNewFileId() + '.' + extName;
+    if (typeof plus === 'object') {
+      var basePath = '_doc';
+      var dirPath = 'uniapp_temp';
+      var filePath = basePath + '/' + dirPath + '/' + fileName;
+      if (!biggerThan(plus.os.name === 'Android' ? '1.9.9.80627' : '1.9.9.80472', plus.runtime.innerVersion)) {
+        plus.io.resolveLocalFileSystemURL(basePath, function (entry) {
+          entry.getDirectory(dirPath, {
+            create: true,
+            exclusive: false },
+          function (entry) {
+            entry.getFile(fileName, {
+              create: true,
+              exclusive: false },
+            function (entry) {
+              entry.createWriter(function (writer) {
+                writer.onwrite = function () {
+                  resolve(filePath);
+                };
+                writer.onerror = reject;
+                writer.seek(0);
+                writer.writeAsBinary(dataUrlToBase64(base64));
+              }, reject);
+            }, reject);
+          }, reject);
+        }, reject);
+        return;
+      }
+      var bitmap = new plus.nativeObj.Bitmap(fileName);
+      bitmap.loadBase64Data(base64, function () {
+        bitmap.save(filePath, {}, function () {
+          bitmap.clear();
+          resolve(filePath);
+        }, function (error) {
+          bitmap.clear();
+          reject(error);
+        });
+      }, function (error) {
+        bitmap.clear();
+        reject(error);
+      });
+      return;
+    }
+    if (typeof wx === 'object' && wx.canIUse('getFileSystemManager')) {
+      var filePath = wx.env.USER_DATA_PATH + '/' + fileName;
+      wx.getFileSystemManager().writeFile({
+        filePath: filePath,
+        data: dataUrlToBase64(base64),
+        encoding: 'base64',
+        success: function success() {
+          resolve(filePath);
+        },
+        fail: function fail(error) {
+          reject(error);
+        } });
+
+      return;
+    }
+    reject(new Error('not support'));
+  });
+}
+
+/***/ }),
+
+/***/ 36:
+/*!**********************************************************************************!*\
+  !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/eye.png ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ }),
+
+/***/ 37:
+/*!*************************************************************************************!*\
+  !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/l_or_r.jpg ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/static/l_or_r.jpg";
 
 /***/ }),
 
@@ -9415,9 +9415,9 @@ internalMixin(Vue);
 /***/ }),
 
 /***/ 5:
-/*!*******************************************************************************************!*\
-  !*** D:/360MoveData/Users/Luna/Desktop/实训/software_training_takeaway/takeaway/pages.json ***!
-  \*******************************************************************************************/
+/*!******************************************************************************!*\
+  !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/pages.json ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -9425,10 +9425,10 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 69:
-/*!**************************************************************************************************!*\
-  !*** D:/360MoveData/Users/Luna/Desktop/实训/software_training_takeaway/takeaway/static/no_eye.png ***!
-  \**************************************************************************************************/
+/***/ 78:
+/*!*************************************************************************************!*\
+  !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/no_eye.png ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 

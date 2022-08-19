@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<view class="order_page" @click="exit_shop_car">
+		<view class="order_page">
 			<view class="topic">
 				<image class="logo" :src="logo"></image>
 				<text class="shopName">{{name}}</text>
@@ -79,18 +79,53 @@
 				</div>
 			</view>
 			<!-- 商家 -->
-			<view class="bottom_hint" v-else-if="active_tabBar===2">
-				空空如也
+			<view class="shop_info" v-else-if="active_tabBar===2">
+				<!-- 商家地址栏 -->
+				<view class="shop_info_addr">
+					<image class="addr_icon" src="../../static/wxb定位.png"></image>
+					<text class="addr_text">{{address}}</text>
+					<image class="phone_icon" src="../../static/phone.png" @click="phoneClick"></image>
+				</view>
+				<!-- 店铺照片 -->
+				<view class="shop_info_img">
+					<image class="" src="../../static/KFC.jpg"></image>
+					<image class="" src="../../static/KFC.jpg"></image>
+					<image class="" src="../../static/KFC.jpg"></image>
+				</view>
+				<!-- 商家配送信息 -->
+				<view class="shop_info_msg">
+					<view class="shop_info_text">
+						<image class="send_icon" src="../../static/send_service.png"></image>
+						<view>配送服务 : 由商家提供配送服务</view>
+					</view>
+					<view class="shop_info_text">
+						<image class="time_icon" src="../../static/send_time.png"></image>
+						<view>配送时间 : {{begintime}}-{{endtime}}</view>
+					</view>
+				</view>
+				<!-- 商家welcome -->
+				<view class="shop_info_wel">
+					<view class="shop_info_text">
+						<image class="wel_icon" src="../../static/welcome.png"></image>
+						<view>欢迎光临{{name}}，专业外送，全程保温。</view>
+					</view>
+					<view class="shop_info_text">
+						<image class="service_icon" src="../../static/shop_service.png"></image>
+						<view>商家服务 : 可开发票</view>
+					</view>
+				</view>
 			</view>
 		</view>
 		<!-- 购物车页面 -->
 		<view class="shop_car_page" :hidden="hidden">
+			<!-- 半透明背景 -->
+			<view class="shop_car_grey_background" @click="exit_shop_car"></view>
 			<!-- top 背景条 -->
 			<view class="shop_car_top"></view>
 			<!-- 购物车清空 -->
 			<view class="shop_car_clear" @click="shop_clear">清空购物车</view>
 			<!-- 购物车物品项 -->
-			<scroll-view class="shop_dish_pos_right" scroll-y="true">
+			<scroll-view class="shop_dish_pos" scroll-y="true">
 				<!-- 商品种类 -->
 				<view class="right_box" v-for="(category,index1) in categories" :key="index1" :id="'category'+index1">
 					<!-- 放置商品种类中具体商品 -->
@@ -129,9 +164,17 @@
 			<text class="shipping_fees">预估另需配送费¥{{threshold}}</text>
 		</view>
 		<button class="pay" @click="goto_pay">去结算</button>
+
+		<!-- 商家里的商家电话 -->
+		<view class="phone_hint" :hidden="phone_hidden">
+			<view class="grey_background" @click="exit_phone_hint"></view>
+			<view class="phone_hint_bottom">
+				<view>联系电话</view>
+				<view>商家电话 : {{phone}}</view>
+				<view class="cancel" @click="exit_phone_hint">取消</view>
+			</view>
+		</view>
 	</view>
-
-
 </template>
 
 
@@ -152,6 +195,7 @@
 				active_tabBar: 0, //标识中部点菜、评论、商家选中哪一个，0：点菜 1：评论 2：商家
 				rightHeightList: [], //右侧滚动栏数据的高度数组
 				hidden: 1, //用于在用户点击主页面时隐藏购物车界面
+				phone_hidden: 1, //用于在商家点击主页面时隐藏电话提示界面
 				add_icon: '/static/add.png', //加号按钮图片地址
 				sub_icon: '/static/sub.png', //减号按钮图片地址
 				dish_number: [], //这是一个二维数组，代表
@@ -161,6 +205,10 @@
 				pay_msg: '', //退出页面时从setAll_Item接口获取的状态信息
 				pay_item: [], //当前结算订单信息，从confirmShoppingCart接口获得，可能会用于订单界面，暂时无用
 				sumprice: 0, //购物车总金额
+				phone: '', //商家电话
+				address: '', //商家地址
+				begintime: '', //商家配送营业开始时间
+				endtime: '', //商家配送营业结束时间
 			}
 		},
 		onUnload() {
@@ -223,8 +271,13 @@
 			}, 5000);
 		},
 		methods: {
+			//隐藏购物车
 			exit_shop_car() {
-				this.hidden = 1
+				this.hidden = 1;
+			},
+			//隐藏商家电话提示
+			exit_phone_hint() {
+				this.phone_hidden = 1;
 			},
 			click_add(index1, index2) {
 				let idx = index2;
@@ -269,8 +322,13 @@
 					}
 				}
 			},
+			//点击底部购物车时处理
 			details() {
 				this.hidden = !this.hidden;
+			},
+			//点击商家电话图标时处理
+			phoneClick() {
+				this.phone_hidden = !this.phone_hidden;
 			},
 			//用于退出商家页面时，将购物车历史记录存于本地缓存之中以及将当前购物车内容发给后端
 			shop_transform() {
@@ -383,13 +441,32 @@
 					this.active_tabBar = 1;
 				} else {
 					this.active_tabBar = 2;
+					uni.request({
+						url: 'https://v3710z5658.oicp.vip/shop/getOneShopInfo', //仅为示例，并非真实接口地址。
+						method: "GET", //不设置，默认为get方式
+						data: {
+							name_shop: this.name
+						},
+						header: {
+							token: getApp().globalData.token,
+						},
+						//成功得到相应返回的数据
+						success: (res) => {
+							console.log(res);
+							this.phone = res.data.phone; //商家电话
+							this.address= res.data.address; //商家地址
+							this.begintime= res.data.begintime; //商家配送营业开始时间
+							this.endtime= res.data.endtime; //商家配送营业结束时间
+						}
+
+					});
 				}
 			}
 		}
 	}
 </script>
 
-<style lang="less">
+<style lang="scss">
 	page {
 		height: 100%;
 	}
@@ -578,18 +655,6 @@
 			}
 		}
 
-		.shop_dish_pos_right {
-			height: 70%;
-			width: 100%;
-			display: flex;
-
-			.right_box {
-				display: block;
-				overflow: hidden;
-				// border-bottom: 50rpx solid #ffffff;
-			}
-		}
-
 		.bottom_hint {
 			text-align: center;
 			margin-top: 100rpx;
@@ -612,6 +677,7 @@
 		.list_2 {
 
 			height: 250rpx;
+			width: 100%;
 			display: flex;
 			margin-top: 20rpx;
 			border-width: 100%;
@@ -622,7 +688,6 @@
 				5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
 				19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
 				85px 57px 80px rgba(0, 0, 0, 0.016);
-
 		}
 
 		.add_sub {
@@ -690,13 +755,16 @@
 
 		//购物车页面
 		.shop_car_page {
-			background-color: #ffffff;
-			border: 1rpx solid #dddddd;
-			border-radius: 30rpx 30rpx 0rpx 0rpx;
-			height: 70%;
+			height: 100%;
 			width: 100%;
 			position: absolute;
 			bottom: 0rpx;
+			background-color: rgba(0, 0, 0, 0.5); // 背景半透明;			
+
+			.shop_car_grey_background {
+				height: 30%;
+				width: 100%;
+			}
 
 			.shop_car_top {
 				background-color: #fefa83;
@@ -713,12 +781,17 @@
 				line-height: 80rpx;
 			}
 
-			.shop_car_item {
-				height: 50%;
-
-				view {
-					height: 100rpx;
-					width: 100%;
+			.shop_dish_pos {
+				height: 60%;
+				width: 100%;
+				display: flex;
+				background-color: #ffffff;
+				flex-direction: column;
+				align-items: center;
+				.right_box {
+					display: flex;
+					justify-content: center;
+					overflow: hidden;
 				}
 			}
 		}
@@ -761,6 +834,131 @@
 			width: 180rpx;
 			border-radius: 50rpx;
 			background-color: #f9d60f;
+		}
+
+		//商家电话提示页面
+		.phone_hint {
+			height: 100%;
+			width: 100%;
+			position: absolute;
+			bottom: 0rpx;
+
+			.grey_background {
+				height: 80%;
+				width: 100%;
+				background-color: rgba(0, 0, 0, 0.5); // 背景半透明
+			}
+
+			.phone_hint_bottom {
+				background-color: #ffffff;
+				height: 20%;
+				font-size: 40rpx;
+				text-align: center;
+				line-height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+
+				view {
+					margin: 20rpx;
+				}
+
+				.cancel {
+					margin-left: 0rpx;
+					margin-right: 0rpx;
+					border-top: 10rpx solid $uni-border-color;
+					padding-top: 15rpx;
+				}
+			}
+		}
+
+		//商家信息页
+		.shop_info {
+			height: 70%;
+			width: 90%;
+			margin: 20rpx;
+			border: 1rpx solid $uni-border-color;
+			border-radius: 20rpx;
+			padding: 20rpx;
+
+			display: flex;
+			flex-direction: column; //主轴改为竖轴
+			//justify-content: center; //本来是控制横轴居中，由于上面一句 “flex-direction: column; //主轴改为竖轴” 使此语句实际作用为控制竖轴居中
+			align-items: center; //竖轴居中
+
+			.shop_info_addr {
+				height: 10%;
+				width: 100%;
+				margin-bottom: 20rpx;
+				padding-bottom: 20rpx;
+				border-bottom: 5rpx solid $uni-border-color;
+				display: flex;
+				//justify-content: center; //横轴居中
+				align-items: center; //竖轴居中
+
+				image {
+					width: 60rpx;
+					height: 60rpx;
+					margin-top: -10rpx;
+				}
+			}
+
+			.shop_info_img {
+				height: 25%;
+				width: 100%;
+				margin-bottom: 20rpx;
+				padding-bottom: 20rpx;
+				border-bottom: 5rpx solid $uni-border-color;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				image {
+					//width: 100%;
+					height: 100%;
+					margin: 10rpx;
+				}
+			}
+
+			.shop_info_msg {
+				height: 15%;
+				width: 100%;
+				margin-bottom: 20rpx;
+				padding-bottom: 20rpx;
+				border-bottom: 5rpx solid $uni-border-color;
+
+				image {
+					width: 60rpx;
+					height: 60rpx;
+					margin-top: -10rpx;
+				}
+
+				view {
+					display: flex;
+				}
+			}
+
+			.shop_info_wel {
+				height: 15%;
+				width: 100%;
+				margin-bottom: 20rpx;
+				padding-bottom: 20rpx;
+
+				image {
+					width: 60rpx;
+					height: 60rpx;
+					margin-top: -10rpx;
+				}
+
+				view {
+					display: flex;
+				}
+			}
+
+			.shop_info_text {
+				margin: 20rpx;
+				margin-left: 0rpx;
+			}
 		}
 	}
 
