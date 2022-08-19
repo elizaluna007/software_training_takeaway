@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style="height: 100%;">
 		<!-- 总view -->
 		<view class="content" v-if="cstm_or_sp">
 			<!-- 顾客端界面 -->
@@ -50,7 +50,7 @@
 		</view>
 
 
-		<view v-if="cstm_or_sp != 1">
+		<view style="height: 100%;" v-if="cstm_or_sp != 1">
 			<!-- 商家端页面 -->
 			<!-- 顶端商家信息展示 -->
 			<view class="topic">
@@ -60,8 +60,18 @@
 			</view>
 
 			<!-- 商家菜品展示 -->
-			<view class="order_page_order">
+			<view style="height: 80%; display:flex;margin-top: 20rpx;">
 
+				<!-- 左侧滚动栏 -->
+				<scroll-view class="cate_pos_left" scroll-y="true">
+					<!-- 卡片 -->
+					<view :class="active===index?'active_list':'list_sp'" v-for="(category,index) in categories"
+						@click="leftClickHandle(index)">
+						<!-- 描述框 -->
+						<view :class="active===index?'active_p_5':'p_5_sp'">{{category.category}}</view>
+					</view>
+				</scroll-view>
+							
 				<!-- 右侧滚动栏 -->
 				<scroll-view class="dish_pos_right" scroll-y="true" @scroll="rightScroll" :scroll-into-view="active_id">
 					<!-- 商品种类 -->
@@ -87,24 +97,11 @@
 					</view>
 				</scroll-view>
 
-				<!-- 左侧滚动栏 -->
-				<scroll-view class="cate_pos_left" scroll-y="true">
-					<!-- 卡片 -->
-					<view :class="active===index?'active_list':'list_sp'" v-for="(category,index) in categories"
-						@click="leftClickHandle(index)">
-						<!-- 描述框 -->
-						<view :class="active===index?'active_p_5':'p_5_sp'">{{category.category}}</view>
-					</view>
-				</scroll-view>
-			
 				<view class="btn_add">
 					<image :src="add_icon" class="p_add" @click="add_item"></image>
 				</view>
-			</view>
-			
-			
+			</view>		
 		</view>
-
 	</view>
 </template>
 
@@ -188,11 +185,15 @@
 						this.sale = res.data.sale
 						this.categories = res.data.categories
 					}
-				})
+				});
 			}
 
 		},
+		onReady() {
+			this.getHeightList();
+		},
 		methods: {
+			//点击轮播图去往店铺
 			swiper_to_shop(shop_name) {
 				this.key = getApp().globalData.login_key;
 				if (this.key == true) {
@@ -205,6 +206,7 @@
 					})
 				}
 			},
+			//点击商铺栏前往该商铺
 			goto_shop(object) {
 				this.key = getApp().globalData.login_key;
 				if (this.key == true) {
@@ -219,6 +221,7 @@
 					})
 				}
 			},
+			//搜索按钮跳转
 			search_goto() {
 				console.log("这是要搜索的内容");
 				console.log(this.search_content);
@@ -244,7 +247,7 @@
 						arr.push(top);
 					});
 					that.rightHeightList = arr; //主要是它
-					console.log(that.rightHeightList);
+					console.log("打印右侧数据高度数组:",that.rightHeightList);
 				}).exec()
 			},
 			//右侧滚动栏滑动监听
@@ -259,11 +262,13 @@
 					}
 				}
 			},
+			//增加商品按钮响应
 			add_item(){
 				uni.navigateTo({
 					url: '/pages/index/add_good'
 				})
 			},
+			//点击商品去往商品信息修改响应
 			change_good(obj){
 				uni.navigateTo({
 					url: '/pages/index/change_good?good_name=' + obj.good
@@ -335,7 +340,9 @@
 
 	}
 
-	page {}
+	page {
+		height:100%;
+	}
 
 	/* 搜索框 */
 
@@ -570,12 +577,11 @@
 	}
 
 	/* 以下为商家端样式 */
-	
 	.topic {
 		display: flex;
+		border: 1rpx solid $uni-border-color;
 	
 	}
-	
 	.logo_sp {
 		height: 200rpx;
 		width: 200rpx;
@@ -601,11 +607,11 @@
 	}
 	
 	.cate_pos_left {
-		height: 70%;
+		height: 100%;
 		width: 20%;
 		display: flex;
-		position: absolute;
-		top: 330rpx;
+		// position: absolute;
+		// top: 330rpx;
 		//width: 150rpx;
 		margin-left: 10rpx;
 		background-color: #f8f8f8;
@@ -689,10 +695,10 @@
 	}
 
 	.dish_pos_right {
-		height: 90%;
+		height: 100%;
 		width: 70%;
 		display: flex;
-		margin-left: 200rpx;
+		// margin-left: 200rpx;
 
 		.right_box {
 			display: block;
