@@ -22,9 +22,9 @@
 			</swiper>
 		</view>
 		<!-- 列表框 -->
-		<el-col class="home-card">
+		<view class="home-card">
 			<!-- 卡片 -->
-			<el-card class="list" v-for="info in infos" :key="info">
+			<view class="list" v-for="info in infos" :key="info">
 				<!-- 图片 -->
 				<img :src="info.logo" class="img_style" @click="goto_shop(info)" />
 				<!-- 描述框 -->
@@ -42,8 +42,8 @@
 					<p class="p_4">{{info.needytime}}分钟</p>
 					<p class="p_5">{{info.distance}}km</p>
 				</div>
-			</el-card>
-		</el-col>
+			</view>
+		</view>
 	</view>
 </template>
 

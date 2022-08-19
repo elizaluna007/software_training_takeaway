@@ -11,7 +11,6 @@
 		</div>
 		<div v-if="button_key" class="line"></div>
 		<div v-if="key">
-			<!-- 用户端 -->
 			<view v-if="cstm_or_sp">
 				<div style="display: flex;">
 					<p class="p_2">基本资料</p>
@@ -243,6 +242,7 @@
 		pathToBase64,
 		base64ToPath
 	} from '../../js_sdk/mmmm-image-tools/index.js';
+	import provinceData from "./provinceAndCity.js"
 	export default {
 		data() {
 			return {
@@ -328,7 +328,7 @@
 						threshold: this.info.threshold,
 						deliverprice: this.info.deliverprice,
 						begintime: this.info.begintime,
-						endtime:this.info.endtime
+						endtime: this.info.endtime
 					},
 					header: {
 						token: getApp().globalData.token
@@ -397,7 +397,7 @@
 						this.change_pwd_key = 0;
 						console.log("开始打印修改密码信息")
 						console.log(res)
-			
+
 						if (res.data.code == 1) {
 							getApp().globalData.token = res.data.Oauth_Token;
 							uni.showToast({
@@ -416,8 +416,7 @@
 				})
 			},
 			upload_img() {
-				if(this.cstm_or_sp==1)
-				{
+				if (this.cstm_or_sp == 1) {
 					let that = this;
 					uni.chooseImage({
 						count: 1,
@@ -471,8 +470,7 @@
 								})
 						}
 					});
-				}
-				else{
+				} else {
 					let that = this;
 					uni.chooseImage({
 						count: 1,
@@ -527,7 +525,7 @@
 						}
 					});
 				}
-				
+
 			}
 		},
 		onLoad() {
