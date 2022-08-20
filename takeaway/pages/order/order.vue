@@ -24,7 +24,9 @@
 										class="imgkiddingme">
 									<p class="des">{{info_good.name}}</p>
 								</div>
+								<div class="line"></div>
 							</div>
+
 							<div>
 								<p class=order_time>下单时间{{info.paytime}}</p>
 								<p class="total" style="position: relative; left: 500rpx; top: -41rpx">￥
@@ -36,8 +38,8 @@
 
 					<view class="two_btn" style="display: flex;">
 						<button class="com_style" size="mini" @click="comment(info)">评论</button>
-						<button class="btn_style" size="mini" @click="restart()">再来一单</button>
-						
+						<button class="btn_style" size="mini" @click="restart(info)">再来一单</button>
+
 					</view>
 				</div>
 
@@ -45,43 +47,60 @@
 
 			<view v-if="cstm_or_sp != 1">
 				<!-- 商家的页面 未改-->
-				<div class="out_block" v-for="info_sp in infos_sp" :key="info_sp">
+				<div class="out_block" v-for="(info_sp,index1) in infos_sp" :key="info_sp">
 					<view>
 						<div class="first_line">
 							<div style="display: flex;">
-								<p class="p_1">{{info_sp.customername}}></p>
-							</div>
-							<p class="p_2">{{info_sp.delivered}}</p>
-							<p class=order_time>下单时间{{info_sp.paytime}}</p>
-							<p>{{info_sp.destination}}</p>
-							<p>{{info_sp.needytime}}</p>
-							<p>{{info_sp.taketime}}</p>
-						</div>
-						<div class="line"></div>
-						<div class="content">
-							<div class="img_block1" v-for="info_good_sp in info_sp.goods" :key="info_good_sp">
-								<div>
-									<img :src="info_good_sp.logo" style="width: 150rpx; height: 150rpx; "
-										class="imgkiddingme">
-									<p class="des">{{info_good_sp.name}}</p>
-									<p class="des">{{info_good_sp.count}}</p>
-									<p class="des">{{info_good_sp.price}}</p>
+								<p class="p_1">{{info_sp.customername}}</p>
+								<div class="loca" style="display: flex;">
+									<img src="../../static/logo.png"
+										style="width: 35rpx;height: 35rpx; position: relative;top: 75rpx;left: -190rpx;"></img>
+									<p class=" destination">{{info_sp.destination}}</p>
+
 								</div>
 							</div>
 							<div>
-								<p class="total" style="position: relative; left: 500rpx; top: -41rpx">￥
+								<p class="p_2">{{info_sp.delivered}}</p>
+
+
+
+
+							</div>
+						</div>
+						<div class="line"></div>
+						<div class="content">
+							<div class="img_block2" v-for="info_good_sp in info_sp.goods" :key="index1"
+								style="display: flex;">
+
+								<img :src="info_good_sp.logo" style="width: 150rpx; height: 150rpx; "
+									class="imgkiddingme">
+								<div class="second_block">
+									<p class="des1">{{info_good_sp.name}}</p>
+									<p class="des2">x{{info_good_sp.count}}</p>
+									<p class="des3">￥{{info_good_sp.price}}</p>
+								</div>
+							</div>
+							<div class="line"></div>
+							<div>
+								<p class="total" style="position: relative; left: 395rpx; top: 15rpx">总金额 ￥
 									{{info_sp.sumprice}}
 								</p>
+								<div class="line"></div>
+								<p class="order_time1">下单时间:{{info_sp.paytime}}</p>
+
+								<p class="needy_time">配送时间:{{info_sp.needytime}}分钟</p>
+								<p v-if="rsp_status[index1] === true" class="take_time">接单时间:{{infos_sp[index1].taketime}}</p>
 							</div>
 						</div>
 					</view>
 
-					<button class="btn_resp" size="mini" @click="response(info_sp)">响应订单</button>
-
+					<button v-if="rsp_status[index1] === false" class="btn_resp" size="mini"
+						@click="response(info_sp,index1)">响应订单</button>
+					<button v-if="rsp_status[index1] === true" class="btn_responded" size="mini">已响应</button>
 				</div>
 			</view>
 		</view>
-
+		<!-- 需要后端的一个判断是否已响应的接口，还有改变“接单时间”的显示 -->
 		<view v-if="key_not">
 			<!-- 未登录状态 -->
 			<image class="grape" src="https://wx1.sinaimg.cn/mw2000/006Qjcu1gy1h561t2xpz2j30dw0dqtaf.jpg"></image>
@@ -103,7 +122,8 @@
 				cstm_or_sp: '', //1顾客 0商家
 				code: '',
 				msg: '',
-				key_not:true
+				key_not: true,
+				rsp_status: [],
 			}
 		},
 
@@ -153,6 +173,19 @@
 							this.infos_sp = res.data;
 							// console.log(res.data);
 							console.log(res.data);
+							// 初始化rsp_status！！！！！！！！！！！！！！！！！
+							this.rsp_status.splice(0,this.rsp_status.length)
+							for (let i = 0; i < this.infos_sp.length; i++) {
+								if(this.infos_sp[i].taketime != "None"){
+									this.rsp_status.push(true);
+								}else{
+									this.rsp_status.push(false);
+								}
+								
+							}
+							console.log("看一眼初始化结果");
+							console.log(this.rsp_status);
+							console.log(this.infos_sp.length);
 						}
 					})
 				}
@@ -174,10 +207,10 @@
 			}
 		},
 		methods: {
-			restart() {
+			restart(object) {
 				// 返回商家页面
 				uni.navigateTo({
-
+					url: '/pages/index/shop?name=' + object.name_shop
 				})
 			},
 			comment(object) {
@@ -193,7 +226,7 @@
 					url: '/pages/login/login_username'
 				})
 			},
-			response(object) {
+			response(object, idx) {
 				// 响应订单
 				//向后端接口/business/changeOrderStatus发送请求，未完成
 				uni.request({
@@ -211,8 +244,23 @@
 						console.log(res);
 						this.code = res.data.code;
 						this.msg = res.data.msg;
+						this.rsp_status.splice(idx, 1, true);
+						console.log("看看数字")
+						console.log(this.rsp_status)
 					}
 				})
+				
+				var time = new Date();
+				var year = time.getFullYear();
+				var month = time.getMonth() + 1;
+				var day = time.getDate();
+				var hours = time.getHours();
+				var min = time.getMinutes();
+				var sec = time.getSeconds()
+				this.infos_sp[idx].taketime = year + "-" + month + "-" + day + " " + hours + ":" + min + ":" + sec;
+				console.log("看看时间")
+				console.log(time)
+				console.log(this.infos_sp)
 			},
 			goto_detail(object) {
 				console.log("跳转到详细页面");
@@ -256,7 +304,7 @@
 
 	.p_1 {
 		font-weight: bolder;
-		margin-left: 10rpx;
+		margin-left: 20rpx;
 		margin-top: 15rpx;
 	}
 
@@ -268,17 +316,19 @@
 	}
 
 	.line {
-		background-color: #f4f5f5;
-		width: 90%;
+		background-color: #d5d3d3;
+		width: 100%;
 		height: 2rpx;
-		margin: auto;
+		margin-top: 30rpx;
+		margin-left: 0rpx;
+
 	}
 
 	.content {
 
 		/* display: flex; */
 
-		justify-content: flex-start;
+		/* justify-content: flex-start; */
 	}
 
 	.img_block1 {
@@ -288,7 +338,13 @@
 		margin-left: 10rpx;
 	}
 
-	.imgkiddingme {}
+	.imgkiddingme {
+		border-radius: 20rpx;
+		margin-top: 20rpx;
+		margin-left: 20rpx;
+	}
+
+
 
 
 	.des {
@@ -337,7 +393,8 @@
 	}
 
 	.btn_resp {
-		margin-left: 470rpx;
+		margin-top: 10rpx;
+		margin-left: 490rpx;
 		margin-bottom: 25rpx;
 		border-radius: 15rpx;
 		background-color: #fefa83;
@@ -345,11 +402,22 @@
 		box-shadow: 4rpx 4rpx 2rpx 0rpx #8f8f94;
 	}
 
+	.btn_responded {
+		margin-top: 10rpx;
+		margin-left: 490rpx;
+		margin-bottom: 25rpx;
+		border-radius: 15rpx;
+		/* background-color: #fefa83; */
+		text-align: center;
+		box-shadow: 4rpx 4rpx 2rpx 0rpx #8f8f94;
+	}
+
+
 	.com_style {
 		/* position: relative;left: 340rpx;top: -80rpx; */
 		border-radius: 15rpx;
 		background-color: #fefa83;
-		text-align: center; 
+		text-align: center;
 		box-shadow: 4rpx 4rpx 2rpx 0rpx #8f8f94;
 		height: 58rpx;
 		margin-left: 20rpx;
@@ -381,5 +449,100 @@
 		position: relative;
 		top: 300rpx;
 		left: 0rpx;
+	}
+
+	.destination {
+		position: relative;
+		top: 70rpx;
+		left: -180rpx;
+
+
+	}
+
+	.second_block {
+		display: flex;
+		margin-top: 70rpx;
+
+	}
+
+	.des1 {
+		position: absolute;
+		left: 220rpx;
+
+		font-size: 30rpx;
+		text-align: center;
+
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
+	}
+
+	.des2 {
+		position: absolute;
+		left: 520rpx;
+		color: #ffb420;
+		font-size: 30rpx;
+		text-align: center;
+
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
+	}
+
+	.des3 {
+		position: absolute;
+		left: 600rpx;
+
+		font-size: 30rpx;
+		text-align: center;
+
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
+	}
+
+
+
+	.needy_time {
+		margin-left: 25rpx;
+		/* color: #8f8f94; */
+		margin-top: 15rpx;
+	}
+
+
+	.take_time {
+		margin-left: 25rpx;
+		/* color: #8f8f94; */
+		margin-top: 15rpx;
+	}
+
+	.order_time1 {
+		margin-left: 25rpx;
+		/* color: #8f8f94; */
+		margin-top: 30rpx;
 	}
 </style>

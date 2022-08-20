@@ -25,9 +25,9 @@
 				</swiper>
 			</view>
 			<!-- 列表框 -->
-			<el-col class="home-card">
+			<view class="home-card">
 				<!-- 卡片 -->
-				<el-card class="list" v-for="info in infos" :key="info">
+				<view class="list" v-for="info in infos">
 					<!-- 图片 -->
 					<img :src="info.logo" class="img_style" @click="goto_shop(info)" />
 					<!-- 描述框 -->
@@ -45,8 +45,8 @@
 						<p class="p_4">{{info.needytime}}分钟</p>
 						<p class="p_5">{{info.distance}}km</p>
 					</div>
-				</el-card>
-			</el-col>
+				</view>
+			</view>
 		</view>
 
 
@@ -152,7 +152,7 @@
 			if (this.cstm_or_sp == 1) {
 				//顾客端发送请求至/shop/getAllShopInfo接口
 				uni.request({
-					url: 'https://v3710z5658.oicp.vip/shop/getAllShopInfo',
+					url: 'http://49.235.88.155:8000/shop/getAllShopInfo',
 					method: "GET", //不设置，默认为get方式
 					data: {
 

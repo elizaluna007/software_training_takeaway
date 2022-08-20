@@ -233,7 +233,8 @@ var _default =
 
       } else {
         uni.request({
-          url: 'https://v3710z5658.oicp.vip/business/shopLogin', //仅为示例，并非真实接口地址。
+          // url: 'https://v3710z5658.oicp.vip/business/shopLogin', //仅为示例，并非真实接口地址。
+          url: 'https://5t764096g4.goho.co/business/shopLogin',
           method: "POST", //不设置，默认为get方式
           data: {
             phone: this.telephone,
@@ -246,8 +247,6 @@ var _default =
           success: function success(res) {
             console.log("开始打印商铺用户名登录时返回的信息");
             console.log(res);
-
-
             if (res.data.code == 1) {
               _this.code = res.data.code;
               _this.msg = res.data.msg;

@@ -1,9 +1,11 @@
 {
   "pages": [
+    "pages/my/address",
+    "pages/my/my",
     "pages/index/index",
+    "pages/test/test",
     "pages/index/add_good",
     "pages/index/change_good",
-    "pages/my/my",
     "pages/index/shop",
     "pages/order/order",
     "pages/order/comment",
@@ -47,6 +49,11 @@
         "selectedIconPath": "static/my_on.png"
       }
     ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "外卖系统定位"
+    }
   },
   "usingComponents": {}
 }

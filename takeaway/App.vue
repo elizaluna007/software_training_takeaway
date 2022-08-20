@@ -18,7 +18,7 @@
 			login_key: false,
 			pre_return_from_shop: '', //上一次从哪个商铺返回
 			cstm_or_sp: 1, //默认是顾客
-
+			// ip:"http://49.235.88.155:8000"
 			// *** 商家登录状态(常登录状态， token可能有变)
 			// token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjMuMDAwMTExMTEyNzcyMDAyM2UrMTgsImlhdCI6MTY2MDg5MTI3My4xNDE0MDk5LCJpc3MiOiJCYmJhY2siLCJkYXRhIjp7ImFjY291bnQiOiJrZW5kZWppIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJ0aW1lc3RhbXAiOjE2NjA4OTEyNzMuMTQxNDA5OX19.-BY4IVMLtFFncdWs1Ho4LH9g6nuOSy1t2nWjqKNOMhI',
 			// login_key: true,

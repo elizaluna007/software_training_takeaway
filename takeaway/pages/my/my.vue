@@ -11,11 +11,12 @@
 		</div>
 		<div v-if="button_key" class="line"></div>
 		<div v-if="key">
+			<!-- 顾客端 -->
 			<view v-if="cstm_or_sp">
 				<div style="display: flex;">
 					<p class="p_2">基本资料</p>
-					<button class="btn_1" @click="change()">编辑</button>
-					<button class="btn_2" @click="save()">保存</button>
+					<button class="btn_1" @click="change()" v-if="change_no_key">编辑</button>
+					<button class="btn_2" @click="save()" v-if="change_key">保存</button>
 					<button class="btn_2" @click="change_passward()">修改密码</button>
 				</div>
 				<div v-if="change_no_key">
@@ -29,11 +30,7 @@
 						<p class="content" style="position: relative;left: 140rpx;">{{info.sex}}</p>
 					</div>
 					<div class="line"></div>
-					<div class="line_block">
-						<p class="element">地址</p>
-						<p class="content" style="position: relative;left: 140rpx;">{{info.address}}</p>
-					</div>
-					<div class="line"></div>
+
 					<div class="line_block">
 						<p class="element">生日</p>
 						<p class="content" style="position: relative;left: 140rpx;">{{info.birthday}}</p>
@@ -58,12 +55,7 @@
 							v-model="info.sex"></input>
 					</div>
 					<div class="line"></div>
-					<div class="line_block">
-						<p class="element">地址</p>
-						<input class="content" style="position: relative;left: 140rpx;" placeholder="(可修改)"
-							v-model="info.address"></input>
-					</div>
-					<div class="line"></div>
+
 					<div class="line_block">
 						<p class="element">生日</p>
 						<input class="content" style="position: relative;left: 140rpx;" placeholder="(可修改)"
@@ -77,6 +69,11 @@
 					</div>
 					<div class="line"></div>
 				</div>
+				<div class="line_block">
+					<p class="element">地址</p>
+					<p class="content" style="position: relative;left: 140rpx;">{{info.address}}</p>
+				</div>
+				<div class="line"></div>
 				<div class="line_block" v-if="change_pwd_key">
 					<p class="element">旧密码</p>
 					<input class="content" style="position: relative;left: 100rpx;" placeholder="请输入旧密码"
@@ -97,8 +94,8 @@
 			<view v-if="cstm_or_sp !=1">
 				<div style="display: flex;">
 					<p class="p_2">基本资料</p>
-					<button class="btn_1" @click="change()">编辑</button>
-					<button class="btn_2" @click="save_shop()">保存</button>
+					<button class="btn_1" @click="change()" v-if="change_no_key">编辑</button>
+					<button class="btn_2" @click="save_shop()" v-if="change_key">保存</button>
 					<button class="btn_2" @click="change_passward()">修改密码</button>
 				</div>
 				<div v-if="change_no_key">
@@ -199,7 +196,7 @@
 					<div class="line_block">
 						<p class="element">商家地址</p>
 						<input class="content" style="position: relative;left: 100rpx;" placeholder="(可修改)"
-							v-model="info.address"></input>
+							v-model="info.address" readonly="readonly"></input>
 					</div>
 					<div class="line"></div>
 					<div class="line_block">
@@ -246,7 +243,14 @@
 	export default {
 		data() {
 			return {
-				cstm_or_sp: '',
+				pre_address:"",
+				address_1:"",
+				address_2:"",
+				address_3:"",
+				address_detail:"",
+				address_all:"",
+				address_update:"",
+				cstm_or_sp: 1,
 				key: '',
 				button_key: '',
 				login_on: require("../../static/eye.png"),
@@ -264,7 +268,21 @@
 				},
 				change_pwd_key: false,
 				pre_pwd: '',
-				new_pwd: ''
+				new_pwd: '',
+				oldpProvinceDataList: provinceData.data,
+				newProvinceDataList: [
+					[],
+					[],
+					[]
+				],
+				multiIndex: [0, 0, 0],
+				select: '选择省市区',
+				addressData: {
+					name: '',
+					phone: '',
+					address: ''
+				},
+				binhao: '1'
 			}
 		},
 		methods: {
@@ -277,7 +295,8 @@
 				getApp().globalData.login_key = false;
 				this.key = false;
 				this.button_key = true;
-				this.globalData.cstm_or_sp = 1;
+				getApp().globalData.cstm_or_sp = 1;
+				this.cstm_or_sp=1;
 			},
 			change() {
 				this.change_key = true;
@@ -294,7 +313,7 @@
 					data: {
 						name: this.info.name,
 						sex: this.info.sex,
-						defaultaddress: this.info.address,
+						// defaultaddress: this.info.address,
 						birthday: this.info.birthday,
 						phone: this.info.phone,
 						headphoto: this.info.headphoto
@@ -313,6 +332,7 @@
 					}
 				})
 			},
+			
 			save_shop() {
 				// console.log("开始打印修改后的信息");
 				// console.log(this.info);
@@ -547,12 +567,13 @@
 							this.info = res.data;
 							console.log("开始打印个人信息");
 							console.log(res);
+							this.pre_address=res.data.address;
 						}
 					})
 				} else {
 					uni.request({
 						method: "GET",
-						url: 'https://v3710z5658.oicp.vip/business/getShopInfo',
+						url: 'http://49.235.88.155:8000/customer/getCustomerInfo',
 						data: {},
 						header: {
 							token: getApp().globalData.token

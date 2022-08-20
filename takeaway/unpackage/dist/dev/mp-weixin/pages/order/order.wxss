@@ -27,7 +27,7 @@
 }
 .p_1 {
 	font-weight: bolder;
-	margin-left: 10rpx;
+	margin-left: 20rpx;
 	margin-top: 15rpx;
 }
 .p_2 {
@@ -37,16 +37,17 @@
 	left: 600rpx;
 }
 .line {
-	background-color: #f4f5f5;
-	width: 90%;
+	background-color: #d5d3d3;
+	width: 100%;
 	height: 2rpx;
-	margin: auto;
+	margin-top: 30rpx;
+	margin-left: 0rpx;
 }
 .content {
 
 	/* display: flex; */
 
-	justify-content: flex-start;
+	/* justify-content: flex-start; */
 }
 .img_block1 {
 	display: inline-table;
@@ -54,7 +55,11 @@
 	width: 10px;
 	margin-left: 10rpx;
 }
-.imgkiddingme {}
+.imgkiddingme {
+	border-radius: 20rpx;
+	margin-top: 20rpx;
+	margin-left: 20rpx;
+}
 .des {
 	margin-left: 27rpx;
 	color: #8f8f94;
@@ -93,10 +98,20 @@
 	box-shadow: 4rpx 4rpx 2rpx 0rpx #8f8f94;
 }
 .btn_resp {
-	margin-left: 470rpx;
+	margin-top: 10rpx;
+	margin-left: 490rpx;
 	margin-bottom: 25rpx;
 	border-radius: 15rpx;
 	background-color: #fefa83;
+	text-align: center;
+	box-shadow: 4rpx 4rpx 2rpx 0rpx #8f8f94;
+}
+.btn_responded {
+	margin-top: 10rpx;
+	margin-left: 490rpx;
+	margin-bottom: 25rpx;
+	border-radius: 15rpx;
+	/* background-color: #fefa83; */
 	text-align: center;
 	box-shadow: 4rpx 4rpx 2rpx 0rpx #8f8f94;
 }
@@ -104,7 +119,7 @@
 	/* position: relative;left: 340rpx;top: -80rpx; */
 	border-radius: 15rpx;
 	background-color: #fefa83;
-	text-align: center; 
+	text-align: center;
 	box-shadow: 4rpx 4rpx 2rpx 0rpx #8f8f94;
 	height: 58rpx;
 	margin-left: 20rpx;
@@ -132,5 +147,86 @@ button::after {
 	position: relative;
 	top: 300rpx;
 	left: 0rpx;
+}
+.destination {
+	position: relative;
+	top: 70rpx;
+	left: -180rpx;
+}
+.second_block {
+	display: flex;
+	margin-top: 70rpx;
+}
+.des1 {
+	position: absolute;
+	left: 220rpx;
+
+	font-size: 30rpx;
+	text-align: center;
+
+	overflow: hidden;
+	/* break-all(允许在单词内换行。) */
+	word-break: break-all;
+	/* 超出部分省略号 */
+	text-overflow: ellipsis;
+	/* 对象作为伸缩盒子模型显示 */
+	display: -webkit-box;
+	/* 设置或检索伸缩盒对象的子元素的排列方式 */
+	-webkit-box-orient: vertical;
+	/* 显示的行数 */
+	-webkit-line-clamp: 1;
+}
+.des2 {
+	position: absolute;
+	left: 520rpx;
+	color: #ffb420;
+	font-size: 30rpx;
+	text-align: center;
+
+	overflow: hidden;
+	/* break-all(允许在单词内换行。) */
+	word-break: break-all;
+	/* 超出部分省略号 */
+	text-overflow: ellipsis;
+	/* 对象作为伸缩盒子模型显示 */
+	display: -webkit-box;
+	/* 设置或检索伸缩盒对象的子元素的排列方式 */
+	-webkit-box-orient: vertical;
+	/* 显示的行数 */
+	-webkit-line-clamp: 1;
+}
+.des3 {
+	position: absolute;
+	left: 600rpx;
+
+	font-size: 30rpx;
+	text-align: center;
+
+	overflow: hidden;
+	/* break-all(允许在单词内换行。) */
+	word-break: break-all;
+	/* 超出部分省略号 */
+	text-overflow: ellipsis;
+	/* 对象作为伸缩盒子模型显示 */
+	display: -webkit-box;
+	/* 设置或检索伸缩盒对象的子元素的排列方式 */
+	-webkit-box-orient: vertical;
+	/* 显示的行数 */
+	-webkit-line-clamp: 1;
+}
+.needy_time {
+	margin-left: 25rpx;
+	/* color: #8f8f94; */
+	margin-top: 15rpx;
+}
+.take_time {
+	margin-left: 25rpx;
+	/* color: #8f8f94; */
+	margin-top: 15rpx;
+}
+.order_time1 {
+	margin-left: 25rpx;
+	/* color: #8f8f94; */
+	margin-top: 30rpx;
 }
 

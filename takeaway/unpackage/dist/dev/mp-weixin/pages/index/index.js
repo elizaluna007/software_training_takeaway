@@ -292,7 +292,7 @@ var _default =
     if (this.cstm_or_sp == 1) {
       //顾客端发送请求至/shop/getAllShopInfo接口
       uni.request({
-        url: 'https://v3710z5658.oicp.vip/shop/getAllShopInfo',
+        url: 'http://49.235.88.155:8000/shop/getAllShopInfo',
         method: "GET", //不设置，默认为get方式
         data: {},
 

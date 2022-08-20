@@ -112,12 +112,12 @@
 							<img src="../../static/star_yellow.png"v-if="cmt.point>=5" class="img_star">
 							<img src="../../static/star_grey.png"v-if="cmt.point<5" class="img_star">
 							
-							<p class="cmt_star_text" v-if="cmt.point<5">老板再来一碗</p>
-							<p class="cmt_star_text" v-if="cmt.point==4">好吃有待提高</p>
-							<p class="cmt_star_text" v-if="cmt.point==3">再接再厉</p>
-							<p class="cmt_star_text" v-if="cmt.point==2">差点摔碗</p>
-							<p class="cmt_star_text" v-if="cmt.point==1">狗都不吃了</p>
-							<p class="cmt_star_text" v-if="cmt.point==0">我是狗</p>
+							<p class="cmt_star_text" v-if="cmt.point<=5 & cmt.point>4">老板再来一碗</p>
+							<p class="cmt_star_text" v-if="cmt.point<=4 & cmt.point>3">好吃有待提高</p>
+							<p class="cmt_star_text" v-if="cmt.point<=3 & cmt.point>2">再接再厉</p>
+							<p class="cmt_star_text" v-if="cmt.point<=2 & cmt.point>1">差点摔碗</p>
+							<p class="cmt_star_text" v-if="cmt.point<=1 & cmt.point>0">狗都不吃了</p>
+							<p class="cmt_star_text" v-if="cmt.point<=0">我是狗</p>
 						</div>
 						<div>
 							<p class="comment_style">{{cmt.comment}}</p>

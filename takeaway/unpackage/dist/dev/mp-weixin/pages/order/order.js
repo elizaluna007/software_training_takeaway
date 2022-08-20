@@ -99,6 +99,16 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var m0 = __webpack_require__(/*! ../../static/logo.png */ 161)
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        m0: m0
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -227,6 +237,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -237,7 +266,8 @@ var _default =
       cstm_or_sp: '', //1顾客 0商家
       code: '',
       msg: '',
-      key_not: true };
+      key_not: true,
+      rsp_status: [] };
 
   },
 
@@ -287,6 +317,19 @@ var _default =
             _this.infos_sp = res.data;
             // console.log(res.data);
             console.log(res.data);
+            // 初始化rsp_status！！！！！！！！！！！！！！！！！
+            _this.rsp_status.splice(0, _this.rsp_status.length);
+            for (var i = 0; i < _this.infos_sp.length; i++) {
+              if (_this.infos_sp[i].taketime != "None") {
+                _this.rsp_status.push(true);
+              } else {
+                _this.rsp_status.push(false);
+              }
+
+            }
+            console.log("看一眼初始化结果");
+            console.log(_this.rsp_status);
+            console.log(_this.infos_sp.length);
           } });
 
       }
@@ -308,10 +351,10 @@ var _default =
     }
   },
   methods: {
-    restart: function restart() {
+    restart: function restart(object) {
       // 返回商家页面
-      uni.navigateTo({});
-
+      uni.navigateTo({
+        url: '/pages/index/shop?name=' + object.name_shop });
 
     },
     comment: function comment(object) {
@@ -327,7 +370,7 @@ var _default =
         url: '/pages/login/login_username' });
 
     },
-    response: function response(object) {var _this2 = this;
+    response: function response(object, idx) {var _this2 = this;
       // 响应订单
       //向后端接口/business/changeOrderStatus发送请求，未完成
       uni.request({
@@ -345,8 +388,23 @@ var _default =
           console.log(res);
           _this2.code = res.data.code;
           _this2.msg = res.data.msg;
+          _this2.rsp_status.splice(idx, 1, true);
+          console.log("看看数字");
+          console.log(_this2.rsp_status);
         } });
 
+
+      var time = new Date();
+      var year = time.getFullYear();
+      var month = time.getMonth() + 1;
+      var day = time.getDate();
+      var hours = time.getHours();
+      var min = time.getMinutes();
+      var sec = time.getSeconds();
+      this.infos_sp[idx].taketime = year + "-" + month + "-" + day + " " + hours + ":" + min + ":" + sec;
+      console.log("看看时间");
+      console.log(time);
+      console.log(this.infos_sp);
     },
     goto_detail: function goto_detail(object) {
       console.log("跳转到详细页面");

@@ -1,0 +1,1 @@
+<view><button data-event-opts="{{[['tap',[['get_location']]]]}}" bindtap="__e">开始发送定位信息</button><button data-event-opts="{{[['tap',[['getAddress']]]]}}" bindtap="__e">开始转换定位信息</button></view>

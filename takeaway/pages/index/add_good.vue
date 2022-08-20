@@ -1,9 +1,10 @@
 <template>
 	<view>
 		<p class="p_2">编辑信息</p>
+		<div class="out_block">
 		<!-- 下面放入你找到的+号图片 -->
 <!-- 		<img :src="../../staick" @click="upload_img()"> -->
-		<image src="../../static/KFC.jpg"@click="upload_img()"></image>
+		<image src="../../static/upload.png"@click="upload_img()" class="logo"></image>
 		<div>
 			<div class="line_block">
 				<p class="element">商品名称</p>
@@ -13,24 +14,25 @@
 			<div class="line"></div>
 			<div class="line_block">
 				<p class="element">菜单分组</p>
-				<input class="content" style="position: relative;left: 140rpx;" placeholder="请填写"
+				<input class="content" style="position: relative;left: 100rpx;" placeholder="请填写"
 					v-model="category"></input>
 			</div>
 			<div class="line"></div>
 			<div class="line_block">
 				<p class="element">分量</p>
-				<input class="content" style="position: relative;left: 140rpx;" placeholder="请填写"
+				<input class="content" style="position: relative;left: 100rpx;" placeholder="请填写"
 					v-model="description"></input>
 			</div>
 			<div class="line"></div>
 			<div class="line_block">
 				<p class="element">价格</p>
-				<input class="content" style="position: relative;left: 140rpx;" placeholder="请填写"
+				<input class="content" style="position: relative;left: 100rpx;" placeholder="请填写"
 					v-model="price"></input>
 			</div>
 			<div class="line"></div>
-			<button @click="save()">增加</button>
+			<button @click="save()" class="btn_style" >增加</button>
 			<!-- 			<button @click="delete()">删除</button> -->
+		</div>
 		</div>
 	</view>
 </template>
@@ -126,5 +128,91 @@
 </script>
 
 <style>
+.p_2{
+	margin: 20rpx;
+	font-size: 45rpx;
+	font-weight: 600;
+}
+.line{
+	background-color: #bbbbbb;
+			width: 90%;
+			height: 2rpx;
+			margin: auto;
+	
+			margin-top: 10rpx;
+}
 
+.line_block{
+	display: flex;
+}
+
+	
+.logo{
+	width: 250rpx;
+	height: 250rpx;
+	border-radius: 20rpx;
+	margin-left: 30rpx;
+	margin-top: 20rpx;
+}
+
+.out_block{
+	align-items: center;
+			vertical-align: center;
+			/* display: flex; */
+			object-fit: fill;
+			margin: 20rpx;
+			border-width: 100%;
+			border: 3rpx solid #bbbbbb;
+			box-shadow: #8f8f94;
+			border-radius: 20rpx;
+			/* box-shadow:
+				5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+				19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+				85px 57px 80px rgba(0, 0, 0, 0.016); */
+
+}
+
+.element{
+	color: #909090;
+			margin-left: 30rpx;
+			font-size: 40rpx;
+			margin-top: 10rpx;
+			width: 200rpx;
+}
+
+.line_block {
+		display: flex;
+		margin-left: 30rpx;
+		margin-right: 30rpx;
+		margin-top: 30rpx;
+	}
+	
+	.content{
+		font-size: 40rpx;
+				padding-right: 30rpx;
+				margin-right: 30rpx;
+				margin-top: 10rpx;
+	}
+	
+	.btn_block{
+		margin-top: 30rpx;
+		margin-bottom: 30rpx;
+	}
+	
+	.btn_style{
+		border: none;
+				background-color: #f0e3f2;
+				text-align: center;
+				justify-content: center;
+				height: 90rpx;
+				width: 150rpx;
+				margin-top: 30rpx;
+				border-radius: 45rpx;
+				/* font-size: 40rpx; */
+				margin-bottom: 30rpx;
+	}
+	
+	button::after{
+		border: none;
+	}
 </style>

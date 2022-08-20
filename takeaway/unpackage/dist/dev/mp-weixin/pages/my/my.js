@@ -369,9 +369,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
 var _index = __webpack_require__(/*! ../../js_sdk/mmmm-image-tools/index.js */ 26);
 
 
@@ -612,14 +609,12 @@ var _provinceAndCity = _interopRequireDefault(__webpack_require__(/*! ./province
 //
 //
 //
-//
-//
-//
-var _default = { data: function data() {return { cstm_or_sp: '', key: '', button_key: '', login_on: __webpack_require__(/*! ../../static/eye.png */ 42), login_no: __webpack_require__(/*! ../../static/l_or_r.jpg */ 43), info: '', change_key: false, change_no_key: true, update_info: { name: '', sex: '', address: '', birthday: '', phone: '', headphoto: '' }, change_pwd_key: false, pre_pwd: '', new_pwd: '' };}, methods: { goto: function goto(url) {uni.navigateTo({ url: '/pages/login/login_username' });}, logout: function logout() {getApp().globalData.login_key = false;this.key = false;this.button_key = true;this.globalData.cstm_or_sp = 1;}, change: function change() {this.change_key = true;this.change_no_key = false;}, save: function save() {// console.log("开始打印修改后的信息");
+var _default = { data: function data() {return { pre_address: "", address_1: "", address_2: "", address_3: "", address_detail: "", address_all: "", address_update: "", cstm_or_sp: 1, key: '', button_key: '', login_on: __webpack_require__(/*! ../../static/eye.png */ 42), login_no: __webpack_require__(/*! ../../static/l_or_r.jpg */ 43), info: '', change_key: false, change_no_key: true, update_info: { name: '', sex: '', address: '', birthday: '', phone: '', headphoto: '' }, change_pwd_key: false, pre_pwd: '', new_pwd: '', oldpProvinceDataList: _provinceAndCity.default.data, newProvinceDataList: [[], [], []], multiIndex: [0, 0, 0], select: '选择省市区', addressData: { name: '', phone: '', address: '' }, binhao: '1' };}, methods: { goto: function goto(url) {uni.navigateTo({ url: '/pages/login/login_username' });}, logout: function logout() {getApp().globalData.login_key = false;this.key = false;this.button_key = true;getApp().globalData.cstm_or_sp = 1;this.cstm_or_sp = 1;}, change: function change() {this.change_key = true;this.change_no_key = false;}, save: function save() {// console.log("开始打印修改后的信息");
       // console.log(this.info);
       uni.request({ method: "POST", // url: 'http://127.0.0.1:4523/m1/1437509-0-default/customer/changeCustomerInfo',
         url: 'https://v3710z5658.oicp.vip/customer/changeCustomerInfo', // url: 'https://5t764096g4.goho.co/customer/changeCustomerInfo',
-        data: { name: this.info.name, sex: this.info.sex, defaultaddress: this.info.address, birthday: this.info.birthday, phone: this.info.phone, headphoto: this.info.headphoto }, header: { token: getApp().globalData.token }, success: function success(res) {// this.info = res.data;
+        data: { name: this.info.name, sex: this.info.sex, // defaultaddress: this.info.address,
+          birthday: this.info.birthday, phone: this.info.phone, headphoto: this.info.headphoto }, header: { token: getApp().globalData.token }, success: function success(res) {// this.info = res.data;
           // console.log("修改信息成功");
           uni.showToast({ title: "修改成功", icon: 'exception', duration: 850 });} });}, save_shop: function save_shop() {// console.log("开始打印修改后的信息");
       // console.log(this.info);
@@ -681,12 +676,38 @@ var _default = { data: function data() {return { cstm_or_sp: '', key: '', button
                   // 	}
                   // })
                 } }); // that.avatarUpload(base64); //同时将头像上传至数据库进行存储
-            }).catch(function (error) {console.error(error);});} });}} }, onLoad: function onLoad() {var _this3 = this;this.key = getApp().globalData.login_key;this.button_key = !this.key;if (this.key == true) {this.cstm_or_sp = getApp().globalData.cstm_or_sp;if (this.cstm_or_sp == 1) {uni.request({ method: "GET", url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo', // url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
-          // url: 'https://5t764096g4.goho.co/customer/getCustomerInfo',
-          data: {}, header: { token: getApp().globalData.token }, success: function success(res) {_this3.info = res.data;console.log("开始打印个人信息");console.log(res);} });} else {
+            }).catch(function (error) {console.error(error);});} });
+
+      }
+
+    } },
+
+  onLoad: function onLoad() {var _this3 = this;
+    this.key = getApp().globalData.login_key;
+    this.button_key = !this.key;
+    if (this.key == true) {
+      this.cstm_or_sp = getApp().globalData.cstm_or_sp;
+      if (this.cstm_or_sp == 1) {
         uni.request({
           method: "GET",
-          url: 'https://v3710z5658.oicp.vip/business/getShopInfo',
+          url: 'https://v3710z5658.oicp.vip/customer/getCustomerInfo',
+          // url:'http://127.0.0.1:4523/m1/1437509-0-default/customer/getCustomerInfo',
+          // url: 'https://5t764096g4.goho.co/customer/getCustomerInfo',
+          data: {},
+          header: {
+            token: getApp().globalData.token },
+
+          success: function success(res) {
+            _this3.info = res.data;
+            console.log("开始打印个人信息");
+            console.log(res);
+            _this3.pre_address = res.data.address;
+          } });
+
+      } else {
+        uni.request({
+          method: "GET",
+          url: 'http://49.235.88.155:8000/customer/getCustomerInfo',
           data: {},
           header: {
             token: getApp().globalData.token },
