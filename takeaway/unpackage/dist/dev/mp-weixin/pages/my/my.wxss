@@ -103,7 +103,8 @@
 	margin-left: 30rpx;
 	font-size: 40rpx;
 	margin-top: 10rpx;
-	/* width:250rpx; */
+	width: 300rpx;
+	text-justify: auto;
 }
 .line_block {
 	display: flex;
@@ -157,5 +158,19 @@
 }
 button::after {
 	border: none;
+}
+input_text1 {
+	margin-left: 30rpx;
+	font-size: 40rpx;
+	margin-top: 10rpx;
+}
+input_text2 {
+	margin-left: 20rpx;
+	text-align: center;
+	margin: auto;
+}
+.input_block {
+	text-align: center;
+	margin-left: 30rpx;
 }
 

@@ -1,21 +1,16 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/my/address",
-			"style": {
-				"navigationBarTitleText": "地址",
-				"enablePullDownRefresh": true
-			}
-		},{
-			"path": "pages/my/my",
-			"style": {
-				"navigationBarTitleText": "我的",
-				"enablePullDownRefresh": true
-			}
-		},{
 			"path": "pages/index/index", //启动项，外卖系统第一次登录以游客身份进入外卖首页，所有拥有的页面都在pages里存储
 			"style": {
 				"navigationBarTitleText": "首页", //显示上标签显示当前页面名称
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/order/comment",
+			"style": {
+				"navigationBarTitleText": "评论",
 				"enablePullDownRefresh": true
 			}
 		},{
@@ -48,12 +43,6 @@
 				"navigationBarTitleText": "订单",
 				"enablePullDownRefresh": true
 			}
-		},{
-			"path": "pages/order/comment",
-			"style": {
-				"navigationBarTitleText": "评论",
-				"enablePullDownRefresh": true
-			}
 		},
 		{
 			"path": "pages/login/login_shop_phone",
@@ -68,7 +57,19 @@
 				"enablePullDownRefresh": true
 			}
 		},
-		
+		{
+			"path": "pages/my/address",
+			"style": {
+				"navigationBarTitleText": "地址",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": true
+			}
+		},
 		
 
 

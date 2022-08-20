@@ -3,18 +3,18 @@
 		<!-- 总view -->
 		<view class="content" v-if="cstm_or_sp">
 			<!-- 顾客端界面 -->
-			<view class="content1"></view>
-			<view class="search-block">
-				<view class="search-ico-wapper">
-					<image src="../../static/search.png" class="search-ico" mode=""></image>
+			<view class="content1">
+				<view class="get_loc" @click="get_location()">
+					<image src=../../static/loca.png style="height: 50rpx;width: 50rpx;"></image>
 				</view>
-				<input v-model="search_content" type="text" value="" placeholder=" 一切美食,尽在小橘子!" class="search-text"
-					maxlength="10" focus />
-			</view>
-			<view class="shadow">
-			</view>
-			<view><button class="button-search" hover-class="bg-click"
-					style="position: relative; left: 180rpx; top: -153rpx" @click="search_goto()">搜索</button>
+				<view class="search-block">
+					<view class="search-ico-wapper">
+						<image src="../../static/search.png" class="search-ico" mode=""></image>
+					</view>
+					<input v-model="search_content" type="text" value="" placeholder=" 一切美食,尽在小橘子!" class="search-text"
+						maxlength="10" focus></input>
+				</view>
+				<button class="button-search" @click="search_goto()">搜索</button>
 			</view>
 			<view class="swiper_all">
 				<swiper circular indicator-dots mode="widthFix" class="img_out" autoplay="true" interval="2000">
@@ -54,10 +54,26 @@
 			<!-- 商家端页面 -->
 			<!-- 顶端商家信息展示 -->
 			<view class="topic">
+
 				<image class="logo_sp" :src="logo"></image>
 				<text class="shopName">{{name}}</text>
-				<text class="topic_text" space="ensp">月售{{sale}}</text>
+				<div style="display: flex;">
+					<text class="topic_text" space="ensp">月售{{sale}}</text>
+					<view class="btn_add">
+						<button class="p_add" @click="add_item">添加菜品</button>
+					</view>
+				</div>
 			</view>
+			<div class="line1"></div>
+			<div style="display: flex;">
+				<p
+					style="font-size: 35rpx;margin-left: 10rpx;margin-top: 20rpx;color: #b0a7d7;border-radius: 10rpx;width: 155rpx;text-align: center;font-weight: 600;">
+					菜品分类</p>
+				<p
+					style="font-size: 35rpx;margin-left: 200rpx;margin-top: 20rpx;color: #b0a7d7;border-radius: 10rpx;width: 155rpx;text-align: center;font-weight: 600;">
+					菜品详情</p>
+			</div>
+
 
 			<!-- 商家菜品展示 -->
 			<view style="height: 80%; display:flex;margin-top: 20rpx;">
@@ -71,14 +87,15 @@
 						<view :class="active===index?'active_p_5':'p_5_sp'">{{category.category}}</view>
 					</view>
 				</scroll-view>
-							
+
 				<!-- 右侧滚动栏 -->
 				<scroll-view class="dish_pos_right" scroll-y="true" @scroll="rightScroll" :scroll-into-view="active_id">
 					<!-- 商品种类 -->
 					<view class="right_box" v-for="(category,index1) in categories" :key="index1"
 						:id="'category'+index1">
 						<!-- 放置商品种类中具体商品 -->
-						<view class="list_2" v-for="(goods,index2) in category.dishes" :key="index2" @click="change_good(goods)">
+						<view class="list_2" v-for="(goods,index2) in category.dishes" :key="index2"
+							@click="change_good(goods)">
 							<!-- 图片 -->
 							<img :src="goods.logo" class="img_style_sp" mode='aspectFit' />
 							<!-- 描述框 -->
@@ -97,10 +114,8 @@
 					</view>
 				</scroll-view>
 
-				<view class="btn_add">
-					<image :src="add_icon" class="p_add" @click="add_item"></image>
-				</view>
-			</view>		
+
+			</view>
 		</view>
 	</view>
 </template>
@@ -142,9 +157,7 @@
 			}
 		},
 
-		onLoad() {
 
-		},
 		onShow() {
 			this.cstm_or_sp = getApp().globalData.cstm_or_sp;
 			console.log("确定状态")
@@ -152,7 +165,8 @@
 			if (this.cstm_or_sp == 1) {
 				//顾客端发送请求至/shop/getAllShopInfo接口
 				uni.request({
-					url: 'http://49.235.88.155:8000/shop/getAllShopInfo',
+					// url: 'http://49.235.88.155:8000/shop/getAllShopInfo',
+					url: getApp().globalData.shop_getAllShopInfo,
 					method: "GET", //不设置，默认为get方式
 					data: {
 
@@ -171,7 +185,7 @@
 			} else {
 				//商家端发送请求至/business/getAllGoods接口
 				uni.request({
-					url: 'https://v3710z5658.oicp.vip/business/getAllGoods',
+					url: getApp().globalData.business_getAllGoods,
 					method: "GET", //不设置，默认为get方式
 					data: {},
 					header: {
@@ -193,6 +207,13 @@
 
 		},
 		methods: {
+			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
+			onPullDownRefresh() {
+				console.log('refresh');
+				setTimeout(function() {
+					uni.stopPullDownRefresh();
+				}, 1500);
+			},
 			//点击轮播图去往店铺
 			swiper_to_shop(shop_name) {
 				this.key = getApp().globalData.login_key;
@@ -247,7 +268,7 @@
 						arr.push(top);
 					});
 					that.rightHeightList = arr; //主要是它
-					console.log("打印右侧数据高度数组:",that.rightHeightList);
+					console.log("打印右侧数据高度数组:", that.rightHeightList);
 				}).exec()
 			},
 			//右侧滚动栏滑动监听
@@ -263,16 +284,73 @@
 				}
 			},
 			//增加商品按钮响应
-			add_item(){
+			add_item() {
 				uni.navigateTo({
 					url: '/pages/index/add_good'
 				})
 			},
 			//点击商品去往商品信息修改响应
-			change_good(obj){
+			change_good(obj) {
 				uni.navigateTo({
-					url: '/pages/index/change_good?good_name=' + obj.good
+					url: '/pages/index/change_good?good_name=' + obj.name
 				})
+			},
+			//获取定位 按钮响应
+			get_location() {
+				console.log("开始定位");
+				let then = this;
+				uni.getLocation({
+					type: 'wgs84',
+					success: function(res) {
+						console.log(res);
+						console.log('当前位置的经度：' + res.longitude);
+						console.log('当前位置的纬度：' + res.latitude);
+						this.longitude = res.longitude;
+						this.latitude = res.latitude;
+						let lon = this.longitude;
+						let lat = this.latitude;
+						uni.request({
+							url: 'https://api.map.baidu.com/reverse_geocoding/v3/', //仅为示例，并非真实接口地址。
+							data: {
+								output: 'json',
+								location: `${lat},${lon}`,
+								ak: "ymrWo3nwuxL08RBwkKfRBsxC2NIHjF0v",
+								extensions: 'base',
+								batch: false
+							},
+							success: (res) => {
+								console.log("通过经纬度逆地址解析", res);
+								console.log(res.data.result.formatted_address);
+								uni.request({
+									method: 'GET',
+									url: getApp().globalData.customer_changeAddress,
+									data: {
+										data: res.data.result.formatted_address,
+									},
+									header: {
+										token: getApp().globalData.token
+									},
+									success: (res) => {
+										console.log(res)
+										if (res.data.code == 1) {
+											uni.showToast({
+												title: "定位成功",
+												icon: 'exception',
+												duration: 850
+											})
+										} else {
+											uni.showToast({
+												title: "定位失败",
+												icon: 'error',
+												duration: 850
+											})
+										}
+									}
+								})
+							}
+						});
+					}
+				});
 			}
 		}
 	}
@@ -313,15 +391,15 @@
 	.button-search {
 		width: 130rpx;
 		height: 60rpx;
-		display: flex;
-		margin-block: 0rpx;
-		margin-left: 205px;
-		line-height: 60rpx;
-		justify-content: center;
-		border-radius: 25px;
 
+		border-radius: 25px;
+		position: relative;
+		left: 0rpx;
+		top: 40rpx;
+		margin: 0rpx;
 		/* background:linear-gradient(to right, #fefa83,#b0a7d7) ; */
 		background-color: #fefa83;
+		border-color: 10rpx solid #fefa83;
 		font-size: 13px;
 	}
 
@@ -330,36 +408,48 @@
 	}
 
 	/* 清除uniapp button按钮默认样式（去掉边框） */
-	button::after {
-		border: none;
-	}
+	// button::after {
+	// 	border: none;
+	// }
 
 	.content1 {
 
-		height: 80upx;
+		height: 130rpx;
+		display: flex;
 
 	}
 
+	.get_loc {
+		height: 80rpx;
+		width: 80rpx;
+		position: relative;
+		left: 40rpx;
+		top: 30rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
 	page {
-		height:100%;
+		height: 100%;
 	}
 
 	/* 搜索框 */
 
-	.search-ico,
-	.search-ico-1 {
+	.search-ico {
 
 		width: 40upx;
 
 		height: 40upx;
-
+		position: relative;
+		top: 10rpx;
 	}
 
 	.search-text {
 		background-color: #f4f5f5;
 		font-size: 14px;
 		height: 60upx;
-		width: 480upx;
+		width: 420rpx;
 		margin-left: 0rpx;
 	}
 
@@ -370,23 +460,18 @@
 
 		flex-direction: row;
 
-		padding-left: 60upx;
-
 		position: relative;
 
-		top: -32upx;
+		top: 40rpx;
+		left: 50rpx;
+		height: 60rpx;
+		width: 480rpx;
 
 	}
 
 	.search-ico-wapper {
 
 		background-color: #f4f5f5;
-
-		display: flex;
-
-		flex-direction: column;
-
-		justify-content: center;
 
 		padding: 0upx 0upx 1upx 40upx;
 
@@ -396,53 +481,11 @@
 
 	}
 
-	.search-ico-wapper1 {
-
-		background-color: #f4f5f5;
-
-		display: flex;
-
-		flex-direction: column;
-
-		justify-content: center;
-
-		padding: 0upx 40upx 10upx 0upx;
-
-		border-bottom-right-radius: 18px;
-
-		border-top-right-radius: 18px;
-
-	}
-
-	.shadow {
-
-		width: 638upx;
-
-		height: 60upx;
-
-		border-radius: 18px;
-
-		-moz-box-shadow: 0 10 10px #e6e6e6;
-
-		-webkit-box-shadow: 0 0 10px #e6e6e6;
-
-		box-shadow: 0 10 10 10px #e6e6e6;
-
-		position: relative;
-
-		top: -90upx;
-
-		left: 60upx;
-
-	}
-
-
 	.swiper_all {
 		/* height: 100%; */
 		width: 80%;
 		height: 180px;
 		/* 			height: 9/16*100vw; */
-		margin-top: -50px;
 		text-align: center;
 		box-shadow: 100 10 10 100px #ff557f;
 		;
@@ -549,12 +592,16 @@
 	}
 
 	.content {
-		background-image: url("https://wx1.sinaimg.cn/mw2000/006Qjcu1gy1h561t2xpz2j30dw0dqtaf.jpg");
+		// background-image: 
 		background-size: 300rpx;
 		background-repeat: no-repeat;
 		background-position: 450rpx 690rpx;
 		background-attachment: fixed;
 
+	}
+
+	button::after {
+		border: none;
 	}
 
 	.logo {
@@ -579,16 +626,18 @@
 	/* 以下为商家端样式 */
 	.topic {
 		display: flex;
-		border: 1rpx solid $uni-border-color;
-	
+		border-color: #8f8f94;
+
 	}
+
 	.logo_sp {
 		height: 200rpx;
 		width: 200rpx;
-		margin-top: 10rpx;
-		margin-left: 0rpx;
+		margin-top: 15rpx;
+		margin-left: 15rpx;
+		border-radius: 20rpx;
 	}
-	
+
 	.shopName {
 		display: flex;
 		margin-top: 15rpx;
@@ -596,16 +645,16 @@
 		margin-left: 20rpx;
 		font-weight: 600;
 	}
-	
+
 	.topic_text {
 		display: flex;
 		margin-top: 130rpx;
 		font-size: 30rpx;
 		position: absolute;
-		left: 220rpx;
+		left: 240rpx;
 		color: #8f8f94;
 	}
-	
+
 	.cate_pos_left {
 		height: 100%;
 		width: 20%;
@@ -655,7 +704,7 @@
 	}
 
 	.p_1_sp {
-		margin-top: 10rpx;
+		margin-top: -20rpx;
 		font-size: 35rpx;
 		width: 260rpx;
 		// font-weight: 600;
@@ -737,17 +786,31 @@
 		font-size: 30rpx;
 		height: 300rpx;
 	}
-	
-	.btn_add{
+
+	.btn_add {
 		position: absolute;
-		bottom: 10rpx;
+		// bottom: 10rpx;
 	}
-	
+
 	.p_add {
-		position: fixed;
-		height: 100rpx;
-		width: 100rpx;
-		bottom: 40rpx;
-		right: 40rpx;
+		border: none;
+		background-color: #f0e3f2;
+		text-align: center;
+
+		height: 90rpx;
+		margin-top: 30rpx;
+		border-radius: 45rpx;
+		position: relative;
+		left: 30rpx;
+		top: 90rpx;
+	}
+
+
+	.line1 {
+
+		width: 90%;
+		height: 2rpx;
+		margin: auto;
+		color: #8f8f94;
 	}
 </style>

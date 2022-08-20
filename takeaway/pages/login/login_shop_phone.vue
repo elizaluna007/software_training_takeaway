@@ -46,9 +46,7 @@
 			<button class="btn_style" @click="_check_register">登录</button>
 		</view>
 		<view class="flexs">
-	<!-- 		<a class="first" href="" @click="toRegister">注册</a> -->
-		<!-- 	<a class="second" href="" @click="toLogin_Username">用户名登录</a> -->
-		</view>
+	</view>
 
 	</view>
 </template>
@@ -71,6 +69,13 @@
 			}
 		},
 		methods: {
+			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
+					onPullDownRefresh() {
+						console.log('refresh');
+						setTimeout(function() {
+							uni.stopPullDownRefresh();
+						}, 1500);
+					},
 			goto_help() {
 				uni.navigateTo({
 					url: '/pages/help/help'
@@ -106,7 +111,7 @@
 					})
 				} else {
 					uni.request({
-						url: 'https://v3710z5658.oicp.vip/business/shopLogin', //仅为示例，并非真实接口地址。
+						url: getApp().globalData.business_shopLogin, //仅为示例，并非真实接口地址。
 						// url: 'https://5t764096g4.goho.co/customer/customerLogin', //仅为示例，并非真实接口地址。
 						method: "POST", //不设置，默认为get方式
 						data: {
@@ -185,7 +190,11 @@
 		width: 540rpx;
 		border-bottom-style: solid;
 		border-bottom-width: 2rpx;
+		border-left-width: 0rpx;
+		border-top-width: 0rpx;
+		border-right-width: 0rpx;
 		border-bottom-color: #afafaf;
+		font-size: 38rpx;
 	}
 
 	.pic_pos {

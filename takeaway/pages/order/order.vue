@@ -6,7 +6,7 @@
 
 			<view class="all_block" v-if="cstm_or_sp">
 				<!-- 顾客的页面 -->
-				<div class="out_block" v-for="info in infos" :key="info">
+				<div class="out_block" v-for="info in infos" >
 					<view @click="goto_detail(info)">
 						<div class="first_line">
 							<div style="display: flex;">
@@ -18,7 +18,7 @@
 						</div>
 						<div class="line"></div>
 						<div class="content">
-							<div class="img_block1" v-for="info_good in info.goods" :key="info_good">
+							<div class="img_block1" v-for="info_good in info.goods" >
 								<div>
 									<img :src="info_good.logo" style="width: 150rpx; height: 150rpx; "
 										class="imgkiddingme">
@@ -47,13 +47,13 @@
 
 			<view v-if="cstm_or_sp != 1">
 				<!-- 商家的页面 未改-->
-				<div class="out_block" v-for="(info_sp,index1) in infos_sp" :key="info_sp">
+				<div class="out_block" v-for="(info_sp,index1) in infos_sp" >
 					<view>
 						<div class="first_line">
 							<div style="display: flex;">
 								<p class="p_1">{{info_sp.customername}}</p>
 								<div class="loca" style="display: flex;">
-									<img src="../../static/logo.png"
+									<img src="../../static/loca.png"
 										style="width: 35rpx;height: 35rpx; position: relative;top: 75rpx;left: -190rpx;"></img>
 									<p class=" destination">{{info_sp.destination}}</p>
 
@@ -69,7 +69,7 @@
 						</div>
 						<div class="line"></div>
 						<div class="content">
-							<div class="img_block2" v-for="info_good_sp in info_sp.goods" :key="index1"
+							<div class="img_block2" v-for="info_good_sp in info_sp.goods" 
 								style="display: flex;">
 
 								<img :src="info_good_sp.logo" style="width: 150rpx; height: 150rpx; "
@@ -141,7 +141,7 @@
 					//顾客端发送请求至order/getAllOrdersInfo接口
 					uni.request({
 						// url: 'http://127.0.0.1:4523/m1/1437509-0-default/order/getAllOrdersInfo',
-						url: 'https://v3710z5658.oicp.vip/order/getAllOrdersInfo',
+						url: getApp().globalData.order_getAllOrdersInfo,
 						method: 'GET',
 						data: {
 
@@ -160,7 +160,7 @@
 					//商家端发送请求至/business/getAllOrders接口
 					uni.request({
 						// url: 'http://127.0.0.1:4523/m1/1437509-0-default/order/getAllOrdersInfo',
-						url: 'https://v3710z5658.oicp.vip/business/getAllOrders',
+						url: getApp().globalData.business_getAllOrders,
 						method: 'GET',
 						data: {
 
@@ -207,6 +207,13 @@
 			}
 		},
 		methods: {
+			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
+					onPullDownRefresh() {
+						console.log('refresh');
+						setTimeout(function() {
+							uni.stopPullDownRefresh();
+						}, 1500);
+					},
 			restart(object) {
 				// 返回商家页面
 				uni.navigateTo({
@@ -230,7 +237,7 @@
 				// 响应订单
 				//向后端接口/business/changeOrderStatus发送请求，未完成
 				uni.request({
-					url: 'https://v3710z5658.oicp.vip/business/changeOrderStatus',
+					url: getApp().globalData.business_changeOrderStatus,
 					method: 'POST',
 					data: {
 						paytime: object.paytime,

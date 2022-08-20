@@ -40,7 +40,16 @@
 		data() {
 			return {
 				name: '',
-				info: '',
+				info: 
+				{
+					name:'',
+					credit:'',
+					sale:'',
+					thresholdprice:'',
+					distance:'',
+					needytime:''
+					
+				},
 				search_content: ''
 			}
 		},
@@ -48,7 +57,7 @@
 		onLoad(result) {
 			this.name = result.search_content;
 			uni.request({
-				url: 'https://v3710z5658.oicp.vip/shop/searchShopByName', //仅为示例，并非真实接口地址。
+				url: getApp().globalData.shop_searchShopByName, //仅为示例，并非真实接口地址。
 				method: "GET", //不设置，默认为get方式
 				data: {
 					name: this.name
@@ -64,6 +73,13 @@
 			})
 		},
 		methods: {
+			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
+					onPullDownRefresh() {
+						console.log('refresh');
+						setTimeout(function() {
+							uni.stopPullDownRefresh();
+						}, 1500);
+					},
 			goto_shop(object) {
 				this.key = getApp().globalData.login_key;
 				if (this.key == true) {

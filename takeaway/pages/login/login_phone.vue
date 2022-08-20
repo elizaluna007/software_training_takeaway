@@ -46,8 +46,8 @@
 			<button class="btn_style" @click="_check_register">登录</button>
 		</view>
 		<view class="flexs">
-			<a class="first" href="" @click="toRegister">注册</a>
-			<a class="second" href="" @click="toLogin_Username">用户名登录</a>
+			<a class="first" @click="toRegister">注册</a>
+			<a class="second" @click="toLogin_Username">用户名登录</a>
 		</view>
 
 	</view>
@@ -71,34 +71,33 @@
 			}
 		},
 		methods: {
-			goto_help() {
-				uni.navigateTo({
-					url: '/pages/help/help'
-				})
-			},
-			goto_shop()
-			{
-				uni.navigateTo({
-					url:'/pages/login/login_shop_username'
-				})
-			},
-			toRegister(url) {
-				uni.navigateTo({
-					url: '/pages/register/register'
-				})
-			},
-			checkChoose: function() {
-				this.sure = !this.sure;
-				// console.log(this.sure);
-			},
+			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
+					onPullDownRefresh() {
+						console.log('refresh');
+						setTimeout(function() {
+							uni.stopPullDownRefresh();
+						}, 1500);
+					},
 			_check_register() {
-				if (this.sure == false) {
+				if (this.telephone == '') {
+					uni.showToast({
+						title: "手机号为空",
+						icon: 'error',
+						duration: 850
+					})
+				} else if (this.password == '') {
+					uni.showToast({
+						title: "密码为空",
+						icon: 'error',
+						duration: 850
+					})
+				} else if (this.sure == false) {
 					uni.showToast({
 						title: "请先阅读并同意协议",
 						icon: 'error',
 						duration: 850
 					})
-				} else if (this.telephone == '' | this.telephone.length != 11) {
+				} else if (this.telephone.length != 11) {
 					uni.showToast({
 						title: "手机号错误",
 						icon: 'error',
@@ -112,7 +111,7 @@
 					})
 				} else {
 					uni.request({
-						url: 'https://v3710z5658.oicp.vip/customer/customerLogin', //仅为示例，并非真实接口地址。
+						url: getApp().globalData.customer_customerLogin, //仅为示例，并非真实接口地址。
 						// url: 'https://5t764096g4.goho.co/customer/customerLogin', //仅为示例，并非真实接口地址。
 						method: "POST", //不设置，默认为get方式
 						data: {
@@ -125,6 +124,7 @@
 
 						success: (res) => {
 							console.log(res);
+
 							console.log(res)
 							if (res.data.code == 1) {
 								// console.log("开始跳转");
@@ -133,7 +133,7 @@
 								this.Data = res.data;
 								getApp().globalData.token = res.data.data.Oauth_Token;
 								getApp().globalData.login_key = true;
-								
+								getApp().globalData.cstm_or_sp = 0;
 								uni.reLaunch({
 									url: '/pages/my/my'
 								})
@@ -149,6 +149,26 @@
 					});
 				}
 			},
+			goto_help() {
+				uni.navigateTo({
+					url: '/pages/help/help'
+				})
+			},
+			goto_shop() {
+				uni.navigateTo({
+					url: '/pages/login/login_shop_username'
+				})
+			},
+			toRegister(url) {
+				uni.navigateTo({
+					url: '/pages/register/register'
+				})
+			},
+			checkChoose: function() {
+				this.sure = !this.sure;
+				// console.log(this.sure);
+			},
+
 			toLogin_Username(url) {
 				uni.navigateTo({
 					url: '/pages/login/login_username'
@@ -190,7 +210,11 @@
 		width: 540rpx;
 		border-bottom-style: solid;
 		border-bottom-width: 2rpx;
+		border-left-width: 0rpx;
+		border-top-width: 0rpx;
+		border-right-width: 0rpx;
 		border-bottom-color: #afafaf;
+		font-size: 38rpx;
 	}
 
 	.pic_pos {

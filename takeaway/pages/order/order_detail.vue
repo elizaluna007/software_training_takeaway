@@ -81,7 +81,7 @@
 			uni.request({
 				// url: 'http://127.0.0.1:4523/m1/1437509-0-default/order/getAllOrdersInfo',
 				//url: 'https://5t764096g4.goho.co/order/getOneOrderInfo',//kx
-				url: 'https://v3710z5658.oicp.vip/order/getOneOrderInfo',//wj
+				url: getApp().globalData.order_getOneOrderInfo,//wj
 				method: 'GET',
 				data: {
 					// timestamp:"2022-08-15 11:04:05",
@@ -91,14 +91,21 @@
 					token: getApp().globalData.token
 				},
 				success: (res) => {
+					console.log(res.data);
 					console.log("开始获取订单具体信息");
 					this.infos = res.data;
 					// console.log(res.data);
-					console.log(res.data.goods[0].logo);
 				}
 			})
 		},
 		methods: {
+			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
+					onPullDownRefresh() {
+						console.log('refresh');
+						setTimeout(function() {
+							uni.stopPullDownRefresh();
+						}, 1500);
+					}
 
 		}
 	}

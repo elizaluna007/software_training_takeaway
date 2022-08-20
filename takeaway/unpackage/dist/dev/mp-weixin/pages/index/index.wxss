@@ -52,82 +52,71 @@
 .button-search {
   width: 130rpx;
   height: 60rpx;
-  display: flex;
-  margin-block: 0rpx;
-  margin-left: 205px;
-  line-height: 60rpx;
-  justify-content: center;
   border-radius: 25px;
+  position: relative;
+  left: 0rpx;
+  top: 40rpx;
+  margin: 0rpx;
   /* background:linear-gradient(to right, #fefa83,#b0a7d7) ; */
   background-color: #fefa83;
+  border-color: 10rpx solid #fefa83;
   font-size: 13px;
 }
 .bg-click {
   background-color: #b0a7d7;
 }
 /* 清除uniapp button按钮默认样式（去掉边框） */
-button::after {
-  border: none;
-}
 .content1 {
+  height: 130rpx;
+  display: flex;
+}
+.get_loc {
   height: 80rpx;
+  width: 80rpx;
+  position: relative;
+  left: 40rpx;
+  top: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 page {
   height: 100%;
 }
 /* 搜索框 */
-.search-ico,
-.search-ico-1 {
+.search-ico {
   width: 40rpx;
   height: 40rpx;
+  position: relative;
+  top: 10rpx;
 }
 .search-text {
   background-color: #f4f5f5;
   font-size: 14px;
   height: 60rpx;
-  width: 480rpx;
+  width: 420rpx;
   margin-left: 0rpx;
 }
 .search-block {
   display: flex;
   flex-direction: row;
-  padding-left: 60rpx;
   position: relative;
-  top: -32rpx;
+  top: 40rpx;
+  left: 50rpx;
+  height: 60rpx;
+  width: 480rpx;
 }
 .search-ico-wapper {
   background-color: #f4f5f5;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   padding: 0rpx 0rpx 1rpx 40rpx;
   border-bottom-left-radius: 18px;
   border-top-left-radius: 18px;
-}
-.search-ico-wapper1 {
-  background-color: #f4f5f5;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0rpx 40rpx 10rpx 0rpx;
-  border-bottom-right-radius: 18px;
-  border-top-right-radius: 18px;
-}
-.shadow {
-  width: 638rpx;
-  height: 60rpx;
-  border-radius: 18px;
-  box-shadow: 0 10 10 10px #e6e6e6;
-  position: relative;
-  top: -90rpx;
-  left: 60rpx;
 }
 .swiper_all {
   /* height: 100%; */
   width: 80%;
   height: 180px;
   /* 			height: 9/16*100vw; */
-  margin-top: -50px;
   text-align: center;
   box-shadow: 100 10 10 100px #ff557f;
   background-color: #f4f4f4;
@@ -210,11 +199,13 @@ page {
   margin: auto;
 }
 .content {
-  background-image: url("https://wx1.sinaimg.cn/mw2000/006Qjcu1gy1h561t2xpz2j30dw0dqtaf.jpg");
   background-size: 300rpx;
   background-repeat: no-repeat;
   background-position: 450rpx 690rpx;
   background-attachment: fixed;
+}
+button::after {
+  border: none;
 }
 .logo {
   height: 200rpx;
@@ -235,13 +226,14 @@ page {
 /* 以下为商家端样式 */
 .topic {
   display: flex;
-  border: 1rpx solid #c8c7cc;
+  border-color: #8f8f94;
 }
 .logo_sp {
   height: 200rpx;
   width: 200rpx;
-  margin-top: 10rpx;
-  margin-left: 0rpx;
+  margin-top: 15rpx;
+  margin-left: 15rpx;
+  border-radius: 20rpx;
 }
 .shopName {
   display: flex;
@@ -255,7 +247,7 @@ page {
   margin-top: 130rpx;
   font-size: 30rpx;
   position: absolute;
-  left: 220rpx;
+  left: 240rpx;
   color: #8f8f94;
 }
 .cate_pos_left {
@@ -295,7 +287,7 @@ page {
   box-shadow: 5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04), 19px 12.7px 17.9px rgba(0, 0, 0, 0.024), 85px 57px 80px rgba(0, 0, 0, 0.016);
 }
 .p_1_sp {
-  margin-top: 10rpx;
+  margin-top: -20rpx;
   font-size: 35rpx;
   width: 260rpx;
 }
@@ -358,13 +350,22 @@ page {
 }
 .btn_add {
   position: absolute;
-  bottom: 10rpx;
 }
 .p_add {
-  position: fixed;
-  height: 100rpx;
-  width: 100rpx;
-  bottom: 40rpx;
-  right: 40rpx;
+  border: none;
+  background-color: #f0e3f2;
+  text-align: center;
+  height: 90rpx;
+  margin-top: 30rpx;
+  border-radius: 45rpx;
+  position: relative;
+  left: 30rpx;
+  top: 90rpx;
+}
+.line1 {
+  width: 90%;
+  height: 2rpx;
+  margin: auto;
+  color: #8f8f94;
 }
 

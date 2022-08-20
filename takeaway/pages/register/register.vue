@@ -77,6 +77,13 @@
 		},
 		onLoad() {},
 		methods: {
+			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
+					onPullDownRefresh() {
+						console.log('refresh');
+						setTimeout(function() {
+							uni.stopPullDownRefresh();
+						}, 1500);
+					},
 			goto_help() {
 				uni.navigateTo({
 					url: '/pages/help/help'
@@ -91,13 +98,31 @@
 				console.log(this.sure);
 			},
 			_check_register() {
-				if (this.sure == false) { //如果sure值为false，弹框提示
+				if (this.account == '') { //如果账号为空，弹框提示
+					uni.showToast({
+						title: "账号为空",
+						icon: 'exception',
+						duration: 850
+					})
+				} else if (this.password == '') { //如果第一次输入密码为空，弹框提示
+					uni.showToast({
+						title: "输入密码为空",
+						icon: 'exception',
+						duration: 850
+					})
+				} else if (this.repassword == '') { //如果第二次输入密码为空，弹框提示
+					uni.showToast({
+						title: "确认密码为空",
+						icon: 'exception',
+						duration: 850
+					})
+				} else if (this.sure == false) { //如果sure值为false，弹框提示
 					uni.showToast({
 						title: "请先阅读并同意协议",
 						icon: 'exception',
 						duration: 850
 					})
-				} else if (this.password.length < 6) { //如果密码错误，弹框提示
+				} else if (this.password.length < 6) { //如果密码少于6位，弹框提示
 					uni.showToast({
 						title: "密码小于6位",
 						icon: 'exception',
@@ -111,7 +136,7 @@
 					})
 				} else { //当全部输入正确时，向数据库发送手机号以及密码
 					uni.request({
-						url: 'https://v3710z5658.oicp.vip/customer/customerRegister', //仅为示例，并非真实接口地址。
+						url: getApp().globalData.customer_customerRegister, //真实接口地址。
 						method: "POST", //不设置，默认为get方式
 						data: {
 							account: this.account,
@@ -122,9 +147,12 @@
 						success: (res) => {
 							this.code = res.data.code
 							this.msg = res.data.msg
+
+
 							if (this.code) {
 								uni.navigateTo({
-									url: '/pages/login/login_username'
+									url: '/pages/login/login_username?is_hint=1&account=' + this
+										.account + '&password=' + this.password
 								})
 							} else {
 								uni.showToast({
@@ -133,9 +161,11 @@
 									duration: 850
 								})
 							}
+
 						}
+
 					});
-					
+
 				}
 			},
 			goto1(url) { //点击跳转到根据手机号登录页面
@@ -187,6 +217,10 @@
 		border-bottom-style: solid;
 		border-bottom-width: 2rpx; //输入框下划线
 		border-bottom-color: #afafaf; //输入框下划线颜色
+		border-left-width: 0rpx;
+		border-top-width: 0rpx;
+		border-right-width: 0rpx;
+		font-size: 38rpx;
 	}
 
 	.agree_block {

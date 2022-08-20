@@ -9,7 +9,7 @@
 .btn_style {
 	background-color: #fefa83;
 	border-radius: 20rpx;
-	width: 500rpx;
+	width: 600rpx;
 	box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
 	margin-top: 200rpx;
 }

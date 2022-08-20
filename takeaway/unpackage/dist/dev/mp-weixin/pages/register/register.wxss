@@ -28,6 +28,10 @@
 	border-bottom-style: solid;
 	border-bottom-width: 2rpx; /*输入框下划线 */
 	border-bottom-color: #afafaf; /*输入框下划线颜色 */
+	border-left-width: 0rpx;
+	border-top-width: 0rpx;
+	border-right-width: 0rpx;
+	font-size: 38rpx;
 }
 .agree_block {
 	/*设置同意框区域的大小与位置 */

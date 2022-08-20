@@ -4,7 +4,9 @@
 		<div class="out_block">
 		<!-- 下面放入你找到的+号图片 -->
 <!-- 		<img :src="../../staick" @click="upload_img()"> -->
-		<image src="../../static/upload.png"@click="upload_img()" class="logo"></image>
+		<image src="../../static/upload.png"@click="upload_img()" class="logo" v-if="img_key"></image>
+		<img class="logo" :src="imgArr"v-if="!img_key"@click="upload_img()">
+		
 		<div>
 			<div class="line_block">
 				<p class="element">商品名称</p>
@@ -30,6 +32,12 @@
 					v-model="price"></input>
 			</div>
 			<div class="line"></div>
+			<div class="line_block">
+				<p class="element">库存</p>
+				<input class="content" style="position: relative;left: 100rpx;" placeholder="请填写"
+					v-model="stock"></input>
+			</div>
+			<div class="line"></div>
 			<button @click="save()" class="btn_style" >增加</button>
 			<!-- 			<button @click="delete()">删除</button> -->
 		</div>
@@ -45,24 +53,41 @@
 	export default {
 		data() {
 			return {
-				name: '111111',
-				price: '11111',
-				logo: '1111',
-				description: '111',
-				category:'111'
+				img_key:1,
+				imgArr: '',
+				name: '',
+				price: '',
+				logo: '',
+				description: '',
+				category:'',
+				stock:''
 			}
 		},
 		methods: {
-			
+			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
+					onPullDownRefresh() {
+						console.log('refresh');
+						setTimeout(function() {
+							uni.stopPullDownRefresh();
+						}, 1500);
+					},
 			upload_img() {
 				let that = this;
 				uni.chooseImage({
-					count: 1,
+					count: 5,
 					sizeType: ['original', 'compressed'],
 					sourceType: ['album', 'camera'],
-					success: function(res) {
+					success: res=> {
 						console.log("选取图片成功");
 						var tempFilePaths = res.tempFilePaths;
+						that.imgArr = res.tempFilePaths
+						uni.previewImage({
+							//current, //当前的图片路径必填
+							urls: this.imgArr, //数组文件路径必填
+							loop: true, //循环在5+app才有效
+							indicator: "default" //指数器同样也是5+app有效
+						})
+						that.img_key=0;
 						pathToBase64(tempFilePaths[0]) //图像转base64工具
 							.then(base64 => {
 								that.avatar = base64; //将文件转化为base64并显示
@@ -71,6 +96,7 @@
 								// console.log("开始打印base64");
 								// console.log(JSON.stringify(base64));
 								that.logo = JSON.stringify(base64);
+								// that.logo = JSON.stringify(base64);
 								// that.avatarUpload(base64); //同时将头像上传至数据库进行存储
 							})
 						// .catch(error => {
@@ -81,41 +107,46 @@
 			},
 			save() {
 				console.log("开始打印修改过的信息");
+				console.log(this.logo);
 				uni.request({
 					method: "POST",
 					// url: 'https://v3710z5658.oicp.vip/business/addGood',
-					url: 'http://127.0.0.1:4523/m1/1437509-0-default/business/addGood',
+					url: getApp().globalData.business_addGood,
 					data: {
 						name: this.name,
 						price: this.price,
 						logo: this.logo,
 						description: this.description,
 						category: this.category,
+						stock:this.stock
 					},
 					header: {
 						token: getApp().globalData.token
 					},
 					success: (res) => {
-						console.log("修改信息成功");
+						console.log("添加成功");
 						console.log(res);
-						// if(res.data.code==1)
-						// {
-						// 	uni.showToast({
-						// 		title: "修改成功",
-						// 		icon: 'exception',
-						// 		duration: 850
-						// 	})
-						// 	uni.navigateTo({
-						// 		url:'/pages/index/index'
-						// 	})
-						// }
-						// else{
-						// 	uni.showToast({
-						// 		title: "修改失败",
-						// 		icon: 'error',
-						// 		duration: 850
-						// 	})
-						// }
+						if(res.data.code==1)
+						{
+							uni.showToast({
+								title: "添加成功",
+								icon: 'exception',
+								duration: 850
+							})
+							uni.switchTab({
+								url:'/pages/index/index'
+							})
+						}
+						else{
+							uni.showToast({
+								title: "添加失败",
+								icon: 'error',
+								duration: 850
+							})
+							uni.switchTab({
+								url:'/pages/index/index'
+							})
+						}
 					}
 				})
 			}

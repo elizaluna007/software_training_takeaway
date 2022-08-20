@@ -21,7 +21,11 @@
 	width: 540rpx;
 	border-bottom-style: solid;
 	border-bottom-width: 2rpx;
+	border-left-width: 0rpx;
+	border-top-width: 0rpx;
+	border-right-width: 0rpx;
 	border-bottom-color: #afafaf;
+	font-size: 38rpx;
 }
 .pic_pos {
 	width: 50rpx;

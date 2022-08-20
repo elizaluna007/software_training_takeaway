@@ -363,7 +363,7 @@ page {
   height: 10%;
   width: 100%;
   margin-bottom: 20rpx;
-  padding-bottom: 20rpx;
+  padding-bottom: 40rpx;
   border-bottom: 5rpx solid #c8c7cc;
   display: flex;
   align-items: center;
@@ -373,25 +373,12 @@ page {
   height: 60rpx;
   margin-top: -10rpx;
 }
-.content .shop_info .shop_info_img {
-  height: 25%;
-  width: 100%;
-  margin-bottom: 20rpx;
-  padding-bottom: 20rpx;
-  border-bottom: 5rpx solid #c8c7cc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.content .shop_info .shop_info_img image {
-  height: 100%;
-  margin: 10rpx;
-}
 .content .shop_info .shop_info_msg {
   height: 15%;
   width: 100%;
+  margin-top: -10rpx;
   margin-bottom: 20rpx;
-  padding-bottom: 20rpx;
+  padding-bottom: 40rpx;
   border-bottom: 5rpx solid #c8c7cc;
 }
 .content .shop_info .shop_info_msg image {
@@ -504,5 +491,9 @@ page {
 .rightblock {
   margin-top: -22rpx;
   margin-left: 20rpx;
+}
+.icon {
+  width: 150rpx;
+  height: 15rpx;
 }
 

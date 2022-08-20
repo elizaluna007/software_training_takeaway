@@ -45,8 +45,8 @@
 			<button class="btn_style" @click="_check_register">登录</button>
 		</view>
 		<view class="flexs">
-			<a class="first" href="" @click="toRegister">注册</a>
-			<a class="second" href="" @click="toLogin_Phone">手机号登录</a>
+			<a class="first" @click="toRegister">注册</a>
+			<a class="second" @click="toLogin_Phone">手机号登录</a>
 		</view>
 
 	</view>
@@ -66,14 +66,20 @@
 				openeye: require("../../static/eye.png"), //小眼睛图片地址
 				nopeneye: require("../../static/no_eye.png"),
 				seen: 0,
-				get_code:1,
+				get_code: 1,
 			}
 		},
 		methods: {
-			goto_help()
-			{
+			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
+					onPullDownRefresh() {
+						console.log('refresh');
+						setTimeout(function() {
+							uni.stopPullDownRefresh();
+						}, 1500);
+					},
+			goto_help() {
 				uni.navigateTo({
-					url:'/pages/help/help'
+					url: '/pages/help/help'
 				})
 			},
 			changeType() {
@@ -84,8 +90,22 @@
 				this.sure = !this.sure;
 				// console.log(this.sure);
 			},
+
+
 			_check_register() {
-				if (this.sure == false) {
+				if (this.account == '') {
+					uni.showToast({
+						title: "用户名为空",
+						icon: 'error',
+						duration: 850
+					})
+				} else if (this.password == '') {
+					uni.showToast({
+						title: "密码为空",
+						icon: 'error',
+						duration: 850
+					})
+				} else if (this.sure == false) {
 					uni.showToast({
 						title: "请先阅读并同意协议",
 						icon: 'error',
@@ -99,25 +119,25 @@
 					})
 				} else {
 					uni.request({
-						// url: 'https://v3710z5658.oicp.vip/business/shopLogin', //仅为示例，并非真实接口地址。
-						url:'https://5t764096g4.goho.co/business/shopLogin',
+						url: getApp().globalData.business_shopLogin, //仅为示例，并非真实接口地址。
+						//url:'https://5t764096g4.goho.co/business/shopLogin',
 						method: "POST", //不设置，默认为get方式
 						data: {
 							phone: this.telephone,
 							account: this.account,
 							password: this.password,
-							code:this.get_code,
+							code: this.get_code,
 						},
 						header: {},
 						//登录时发送数据到数据库成功得到相应返回的数据
 						success: (res) => {
 							console.log("开始打印商铺用户名登录时返回的信息");
-							console.log(res);													
+							console.log(res);
 							if (res.data.code == 1) {
 								this.code = res.data.code;
 								this.msg = res.data.msg;
 								getApp().globalData.token = res.data.data.token;
-								getApp().globalData.cstm_or_sp=0;
+								getApp().globalData.cstm_or_sp = 0;
 								getApp().globalData.login_key = true;
 								console.log("开始打印登录信息");
 								console.log(res);
@@ -179,7 +199,11 @@
 		width: 540rpx;
 		border-bottom-style: solid;
 		border-bottom-width: 2rpx;
+		border-left-width: 0rpx;
+		border-top-width: 0rpx;
+		border-right-width: 0rpx;
 		border-bottom-color: #afafaf;
+		font-size: 38rpx;
 	}
 
 	.pic_pos {

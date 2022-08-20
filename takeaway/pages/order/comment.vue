@@ -2,9 +2,9 @@
 	<view class="out_block">
 		<view>
 			<p class="title">您对商家/菜品满意吗？</p>
-			<checkbox-group @change="checkChoose" >
+			<checkbox-group>
 				<label class="checkbox">
-					<checkbox value="cb"/>
+					<checkbox value="cb" />
 				</label>
 			</checkbox-group>
 			<text class="checkmessage">匿名提交</text>
@@ -16,11 +16,11 @@
 
 		<view class="uni-common-mt">
 			<view>
-				<view  class="three_com" v-for="(item1,index1) in clicked_list" :key="index1">
+				<view class="three_com" v-for="(item1,index1) in clicked_list">
 					<img class="type1" :src="type[index1]"></img>
-					
-					<view v-for="(item2,index2) in clicked_list[index1]" @click="choise(index1,index2)" :key="index2">
-					
+
+					<view v-for="(item2,index2) in clicked_list[index1]" @click="choise(index1,index2)">
+
 						<view v-if="item2">
 							<image :src="star_yes" class="star"></image>
 						</view>
@@ -28,32 +28,49 @@
 							<image :src="star_no" class="star"></image>
 						</view>
 					</view>
-					
+
 					<img class="type2" :src="grade_chi[index1]"></img>
 				</view>
 			</view>
 		</view>
 
 		<view class="weui-input">
-			<input class="input_style" v-model="comment" placeholder="说说味道怎么样,给大家参考" />
+			<textarea class="input_style" v-model="comment" placeholder="说说味道怎么样,给大家参考"></textarea>
+			<div v-if="pic_key" class="img_style" @click="upLoad">
+				<img class="insert_pic" :src="imgArr" >
+			</div>
+			<div v-if="pic_key === 0" class="img_style" @click="upLoad">
+				<img class="insert_pic" src="../../static/upload.png">
+			</div>
 		</view>
-		<button @click="submit" class="btn_style" size="mini">提交</button>
+
+
+		<view class="two_button">
+			<button @click="submit" class="btn_style" size="mini">提交</button>
+		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		pathToBase64,
+		base64ToPath
+	} from '../../js_sdk/mmmm-image-tools/index.js';
 	export default {
 		data() {
 			return {
+				imgArr: '',
+				pic_key: 0,
+				pic: '',
 				paytime: '',
 				logo: '',
 				shop_name: '',
 				clicked_list: [], //对应星星个数
-				star_yes:'../../static/star_yellow.png',
+				star_yes: '../../static/star_yellow.png',
 				star_no: '../../static/star_grey.png',
 				comment: '',
-				grade: [0,0,0],
-				grade_chi:['','',''],
+				grade: [0, 0, 0],
+				grade_chi: ['', '', ''],
 				type: ['../../static/deliver.png', '../../static/wrapping.png', '../../static/flavor.png']
 			}
 		},
@@ -78,6 +95,27 @@
 
 		},
 		methods: {
+			upLoad() {
+
+				let that = this;
+
+				uni.chooseImage({
+					count: 5, //在h5浏览器限制不住
+					success: res => {
+						// console.log(this)
+						this.imgArr = res.tempFilePaths
+					}
+				})
+
+
+				uni.previewImage({
+					//current, //当前的图片路径必填
+					urls: this.imgArr, //数组文件路径必填
+					loop: true, //循环在5+app才有效
+					indicator: "default" //指数器同样也是5+app有效
+				})
+				this.pic_key = 1;
+			},
 			//点击选择
 			choise(group, num) {
 				console.log("点击了", group),
@@ -98,21 +136,17 @@
 							k++;
 						}
 					}
-					this.grade.splice(i,1,k)
-					if(k == 1){
-						this.grade_chi.splice(i,1,'../../static/verybad.png')
-					}
-					else if(k == 2){
-						this.grade_chi.splice(i,1,'../../static/bad.png')
-					}
-					else if(k == 3){
-						this.grade_chi.splice(i,1,'../../static/normal.png')
-					}
-					else if(k == 4){
-						this.grade_chi.splice(i,1,'../../static/good.png')
-					}
-					else{
-						this.grade_chi.splice(i,1,'../../static/very good.png')
+					this.grade.splice(i, 1, k)
+					if (k == 1) {
+						this.grade_chi.splice(i, 1, '../../static/verybad.png')
+					} else if (k == 2) {
+						this.grade_chi.splice(i, 1, '../../static/bad.png')
+					} else if (k == 3) {
+						this.grade_chi.splice(i, 1, '../../static/normal.png')
+					} else if (k == 4) {
+						this.grade_chi.splice(i, 1, '../../static/good.png')
+					} else {
+						this.grade_chi.splice(i, 1, '../../static/very good.png')
 					}
 				}
 				console.log("评分")
@@ -121,13 +155,14 @@
 			submit() {
 				//向接口addComment发送请求
 				uni.request({
-					url: 'https://v3710z5658.oicp.vip/comment/addComment',
+					url: getApp().globalData.comment_addComment,
 					method: 'POST',
 					data: {
 						shop_name: this.shop_name,
 						comment: this.comment,
 						grade: this.grade,
-						order_time: this.paytime
+						order_time: this.paytime,
+						picture: this.pic
 					},
 					header: {
 						token: getApp().globalData.token
@@ -149,11 +184,11 @@
 </script>
 
 <style>
-		
-	.first_line{
+	.first_line {
 		margin-top: 15rpx;
 		display: flex;
 	}
+
 	.logo_shop {
 		width: 80rpx;
 		height: 80rpx;
@@ -179,7 +214,7 @@
 	.three_com {
 		display: flex;
 		justify-content: space-between;
-		justify-items: center; 
+		justify-items: center;
 		width: 50%;
 		color: #999;
 
@@ -191,55 +226,88 @@
 		margin-left: 15rpx;
 		animation: switch 1s ease-out infinite;
 	}
-	
+
 	@keyframes switch {
-	    0%, 100% {
-	        transform: scale(1);
-	    }
-	    50% {
-	        transform: scale(0.9);
-	    }
+
+		0%,
+		100% {
+			transform: scale(1);
+		}
+
+		50% {
+			transform: scale(0.9);
+		}
 	}
 
 	.weui-input {
-		display: flex; //居中显示
-		margin-left: 35rpx;
-		margin-top: 20rpx;
+		margin: 20rpx;
+		margin-top: 60rpx;
+		border-width: 100%;
+		border: 3rpx solid #bbbbbb;
+		box-shadow: #8f8f94;
+		border-radius: 20rpx;
+		box-shadow:
+			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+			85px 57px 80px rgba(0, 0, 0, 0.016);
+
+
 	}
 
 	.input_style {
-		width: 680rpx;
+		/* 		width: 680rpx;
 		height: 400rpx;
 		border-style: solid;
 		border-width: 2rpx; //输入框下划线
-		border-color:#8f8f94; //输入框下划线颜色
-		border-radius: 20rpx;
+		border-color: #8f8f94; //输入框下划线颜色
+		border-radius: 20rpx; */
+		height: 300rpx;
+		margin-top: 20rpx;
+		margin-left: 20rpx;
+
 	}
-	
-	.type1{
+
+	.type1 {
 		width: 68rpx;
 		height: 35rpx;
 		margin-top: 25rpx;
 		margin-left: 20rpx;
 	}
-	.type2{
+
+	.type2 {
 		width: 130rpx;
 		height: 35rpx;
 		margin-top: 20rpx;
 		margin-left: 10rpx;
 	}
-	
-	.title{
+
+	.title {
 		font-size: 45rpx;
 		font-weight: 600;
 		margin-left: 20rpx;
 		margin-top: 10rpx;
 	}
-	
-	.checkbox{
-		position: absolute;top: 10rpx;left: 520rpx;
+
+	.checkbox {
+		position: absolute;
+		top: 10rpx;
+		left: 520rpx;
 	}
-	
+
+	.img_style {
+		margin-top: 20rpx;
+		margin-bottom: 40rpx;
+		margin-left: 20rpx;
+		width: 280rpx;
+		height: 280rpx;
+	}
+
+	.insert_pic {
+		height: 300rpx;
+		border-radius: 20rpx;
+		width:300rpx;
+	}
+
 	/* .out_block{
 		align-items: center;
 		vertical-align: center;
@@ -250,29 +318,36 @@
 		border: 3rpx solid #000000;
 		box-shadow: #8f8f94;
 		border-radius: 7%; */
-		/* box-shadow:
+	/* box-shadow:
 			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
 			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
 			85px 57px 80px rgba(0, 0, 0, 0.016); */
 	/* } */
-	
-	.checkmessage{
-		position: absolute;top: 15rpx;left: 580rpx;
+
+	.checkmessage {
+		position: absolute;
+		top: 15rpx;
+		left: 580rpx;
 		color: #8f8f94;
 	}
-	
-	.btn_style{
-		width: 200rpx;
-		margin-top: 80rpx;
-		margin-left: 270rpx;
-		background-color: #fefa83;
-		font-size: 30rpx;
-		border-radius: 15rpx;
-		box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
-		
+
+	.two_button {
+		display: flex;
 	}
-		
-	button::after{
-		border:none;
+
+	.btn_style {
+		border: none;
+		font-size: 40rpx;
+		background-color: #fefa83;
+		text-align: center;
+		justify-content: center;
+		height: 90rpx;
+		margin-top: 30rpx;
+		border-radius: 45rpx;
+		box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
+	}
+
+	button::after {
+		border: none;
 	}
 </style>

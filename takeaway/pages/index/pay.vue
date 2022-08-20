@@ -22,10 +22,17 @@
 			console.log(this.dishes)
 		},
 		methods: {
+			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
+					onPullDownRefresh() {
+						console.log('refresh');
+						setTimeout(function() {
+							uni.stopPullDownRefresh();
+						}, 1500);
+					},
 			_pay(){
 				//请求交换数据
 				uni.request({
-					url: 'https://v3710z5658.oicp.vip/buy/confirmShoppingCart', //仅为示例，并非真实接口地址。
+					url: getApp().globalData.buy_confirmShoppingCart, //仅为示例，并非真实接口地址。
 					method: "POST", //不设置，默认为get方式
 					data: {
 						name: this.name,
@@ -65,7 +72,7 @@
 	.btn_style {
 		background-color: #fefa83;
 		border-radius: 20rpx;
-		width: 500rpx;
+		width: 600rpx;
 		box-shadow: 4rpx 4rpx 2rpx 2rpx #8f8f94;
 		margin-top: 200rpx;
 	}

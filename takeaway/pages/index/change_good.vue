@@ -2,7 +2,8 @@
 	<view>
 		<p class="p_2">基础信息</p> 
 		<div class="out_block">
-		<img :src="info_get.logo" @click="upload_img()" class="logo">
+		<img :src="info_get.logo" @click="upload_img()" class="logo" v-if="img_key">
+		<img class="logo" :src="imgArr" @click="upload_img()"v-if="!img_key">
 		<div>
 			<div class="line_block">
 				<p class="element">商品名称</p>
@@ -52,6 +53,8 @@
 	export default {
 		data() {
 			return {
+				img_key:1,
+				imgArr: '',
 				good_name: '',
 				pre_name: '',
 				info_get: '',
@@ -59,10 +62,17 @@
 			}
 		},
 		methods: {
+			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
+					onPullDownRefresh() {
+						console.log('refresh');
+						setTimeout(function() {
+							uni.stopPullDownRefresh();
+						}, 1500);
+					},
 			delete_good() {
 				uni.request({
 					method: 'GET',
-					url: 'https://v3710z5658.oicp.vip/business/deleteGood',
+					url: getApp().globalData.business_deleteGood,
 					header: {
 						token: getApp().globalData.token
 					},
@@ -79,7 +89,7 @@
 								icon: 'exception',
 								duration: 850
 							})
-							uni.navigateTo({
+							uni.switchTab({
 								url:'/pages/index/index'
 							})
 						}
@@ -90,18 +100,29 @@
 								duration: 850
 							})
 						}
+						uni.switchTab({
+							url:'/pages/index/index'
+						})
 					}
 				})
 			},
 			upload_img() {
 				let that = this;
 				uni.chooseImage({
-					count: 1,
+					count: 5,
 					sizeType: ['original', 'compressed'],
 					sourceType: ['album', 'camera'],
 					success: function(res) {
 						console.log("选取图片成功");
 						var tempFilePaths = res.tempFilePaths;
+						that.imgArr = res.tempFilePaths
+						uni.previewImage({
+							//current, //当前的图片路径必填
+							urls: this.imgArr, //数组文件路径必填
+							loop: true, //循环在5+app才有效
+							indicator: "default" //指数器同样也是5+app有效
+						})
+						that.img_key=0;
 						pathToBase64(tempFilePaths[0]) //图像转base64工具
 							.then(base64 => {
 								that.avatar = base64; //将文件转化为base64并显示
@@ -123,7 +144,7 @@
 				console.log(this.info_get);
 				uni.request({
 					method: "POST",
-					url: 'https://v3710z5658.oicp.vip/business/changeGood',
+					url: getApp().globalData.business_changeGood,
 					data: {
 						pre_name: this.pre_name,
 						new_name: this.info_get.item_name,
@@ -141,12 +162,13 @@
 						console.log(res);
 						if(res.data.code==1)
 						{
+							console.log("修改成功")
 							uni.showToast({
 								title: "修改成功",
 								icon: 'exception',
 								duration: 850
 							})
-							uni.navigateTo({
+							uni.navigateBack({
 								url:'/pages/index/index'
 							})
 						}
@@ -156,6 +178,9 @@
 								icon: 'error',
 								duration: 850
 							})
+							uni.switchTab({
+								url:'/pages/index/index'
+							})
 						}
 					}
 				})
@@ -163,11 +188,13 @@
 		},
 		onLoad(res) {
 			this.good_name = res.good_name;
+			console.log(res);
+			console.log(this.good_name);
 			uni.request({
 				method: 'GET',
-				url: 'https://v3710z5658.oicp.vip/business/getOneGood',
+				url: getApp().globalData.business_getOneGood,
 				data: {
-					item_name: "香辣鸭腿堡"
+					item_name: this.good_name
 				},
 				header: {
 					token: getApp().globalData.token

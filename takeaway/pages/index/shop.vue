@@ -19,10 +19,10 @@
 				<!-- 右侧滚动栏 -->
 				<scroll-view class="dish_pos_right" scroll-y="true" @scroll="rightScroll" :scroll-into-view="active_id">
 					<!-- 商品种类 -->
-					<view class="right_box" v-for="(category,index1) in categories" :key="index1"
+					<view class="right_box" v-for="(category,index1) in categories" 
 						:id="'category'+index1">
 						<!-- 放置商品种类中具体商品 -->
-						<view class="list_2" v-for="(goods,index2) in category.dishes" :key="index2">
+						<view class="list_2" v-for="(goods,index2) in category.dishes" >
 							<!-- 图片 -->
 							<img :src="goods.logo" class="img_style" mode='aspectFit' />
 							<!-- 描述框 -->
@@ -68,16 +68,21 @@
 			<view class="bottom_hint" v-else-if="active_tabBar===1">
 				<div class="comment_all">
 					<div class="comment_on">
-						<p class="comment_point" >
+						<p class="comment_point">
 							{{comment_infos.averagepoint}}
-						</p>		
+						</p>
 						<p class="comment_pointdes">商家评分</p>
 						<div class="starline1" style="display: flex;">
-							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"></img>
-							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"></img>
-							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"></img>
-							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"></img>
-							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"></img>
+							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"
+								v-if="comment_infos.averagepoint>=1"></img>
+							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"
+								v-if="comment_infos.averagepoint>=2"></img>
+							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"
+								v-if="comment_infos.averagepoint>=3"></img>
+							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"
+								v-if="comment_infos.averagepoint>=4"></img>
+							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"
+								v-if="comment_infos.averagepoint>=5"></img>
 						</div>
 						<div class="rightblock">
 							<p class="flavor_style" style="color: #8f8f94;">口味</p>
@@ -87,12 +92,12 @@
 							<p class="wrap_style" style="color: #8f8f94;">包装</p>
 							<p class="wrap_point" style="margin-top: 5rpx;">{{comment_infos.averagepoint}}</p>
 						</div>
-						<div class="rightblock" >
+						<div class="rightblock">
 							<p class="satisfy_style" style="color: #8f8f94;">满意度</p>
 							<p class="satisfy_point" style="margin-top: 5rpx;">{{comment_infos.averagepoint}}</p>
 						</div>
 					</div>
-					<div  v-for="cmt in comment_infos.info" class="comment_one">
+					<div v-for="cmt in comment_infos.info" class="comment_one">
 						<div class="logo_line">
 							<img :src="cmt.icon" class="logo_style">
 							<div class="des_logo_line">
@@ -101,29 +106,30 @@
 							</div>
 						</div>
 						<div class="star">
-							<img src="../../static/star_yellow.png"v-if="cmt.point>=1" class="img_star">
-							<img src="../../static/star_grey.png"v-if="cmt.point==0" class="img_star">
-							<img src="../../static/star_yellow.png"v-if="cmt.point>=2" class="img_star">
-							<img src="../../static/star_grey.png"v-if="cmt.point<2" class="img_star">
-							<img src="../../static/star_yellow.png"v-if="cmt.point>=3" class="img_star">
-							<img src="../../static/star_grey.png"v-if="cmt.point<3" class="img_star">
-							<img src="../../static/star_yellow.png"v-if="cmt.point>=4" class="img_star">
-							<img src="../../static/star_grey.png"v-if="cmt.point<4" class="img_star">
-							<img src="../../static/star_yellow.png"v-if="cmt.point>=5" class="img_star">
-							<img src="../../static/star_grey.png"v-if="cmt.point<5" class="img_star">
-							
+							<img src="../../static/star_yellow.png" v-if="cmt.point>=1" class="img_star">
+							<img src="../../static/star_grey.png" v-if="cmt.point==0" class="img_star">
+							<img src="../../static/star_yellow.png" v-if="cmt.point>=2" class="img_star">
+							<img src="../../static/star_grey.png" v-if="cmt.point<2" class="img_star">
+							<img src="../../static/star_yellow.png" v-if="cmt.point>=3" class="img_star">
+							<img src="../../static/star_grey.png" v-if="cmt.point<3" class="img_star">
+							<img src="../../static/star_yellow.png" v-if="cmt.point>=4" class="img_star">
+							<img src="../../static/star_grey.png" v-if="cmt.point<4" class="img_star">
+							<img src="../../static/star_yellow.png" v-if="cmt.point>=5" class="img_star">
+							<img src="../../static/star_grey.png" v-if="cmt.point<5" class="img_star">
+
 							<p class="cmt_star_text" v-if="cmt.point<=5 & cmt.point>4">老板再来一碗</p>
 							<p class="cmt_star_text" v-if="cmt.point<=4 & cmt.point>3">好吃有待提高</p>
 							<p class="cmt_star_text" v-if="cmt.point<=3 & cmt.point>2">再接再厉</p>
 							<p class="cmt_star_text" v-if="cmt.point<=2 & cmt.point>1">差点摔碗</p>
 							<p class="cmt_star_text" v-if="cmt.point<=1 & cmt.point>0">狗都不吃了</p>
-							<p class="cmt_star_text" v-if="cmt.point<=0">我是狗</p>
+							<p class="cmt_star_text" v-if="cmt.point<=0 & cmt.point>-1">我是狗</p>
 						</div>
 						<div>
 							<p class="comment_style">{{cmt.comment}}</p>
 						</div>
-						<div>
-							<img :src="cmt.picture"class="pic_style">
+						<div v-if="cmt.code!=0">
+							<img :src="cmt.picture" class="pic_style">
+							<!-- <img :src="cmt.picture"class="pic_style" v-if="cmt.pitcure!=null"> -->
 						</div>
 					</div>
 				</div>
@@ -132,9 +138,9 @@
 			<view class="shop_info" v-else-if="active_tabBar===2">
 				<!-- 商家地址栏 -->
 				<view class="shop_info_addr">
-					<image class="addr_icon" src="../../static/wxb定位.png"></image>
-					<text class="addr_text">{{address}}</text>
-					<image class="phone_icon" src="../../static/phone.png" @click="phoneClick"></image>
+					<image class="icon" src="../../static/loca.png"></image>
+					<text class="addr_text" style="margin-left: 20rpx;">{{address}}</text>
+					<image class="icon" src="../../static/phone.png" @click="phoneClick"></image>
 				</view>
 				<!-- 店铺照片 -->
 				<!-- <view class="shop_info_img">
@@ -145,23 +151,23 @@
 				<!-- 商家配送信息 -->
 				<view class="shop_info_msg">
 					<view class="shop_info_text">
-						<image class="send_icon" src="../../static/send_service.png"></image>
-						<view>配送服务 : 由商家提供配送服务</view>
+						<image class="icon" src="../../static/send_service.png"></image>
+						<view style="margin-left: 20rpx;">配送服务 : 由商家提供配送服务</view>
 					</view>
 					<view class="shop_info_text">
-						<image class="time_icon" src="../../static/send_time.png"></image>
-						<view>配送时间 : {{begintime}}-{{endtime}}</view>
+						<image class="icon" src="../../static/send_time.png"></image>
+						<view style="margin-left: 20rpx;">配送时间 : {{begintime}}-{{endtime}}</view>
 					</view>
 				</view>
 				<!-- 商家welcome -->
 				<view class="shop_info_wel">
 					<view class="shop_info_text">
-						<image class="wel_icon" src="../../static/welcome.png"></image>
-						<view>欢迎光临{{name}}，专业外送，全程保温。</view>
+						<image class="icon" src="../../static/welcome.png"></image>
+						<view style="margin-left: 20rpx;">欢迎光临{{name}}，专业外送，全程保温。</view>
 					</view>
 					<view class="shop_info_text">
-						<image class="service_icon" src="../../static/shop_service.png"></image>
-						<view>商家服务 : 可开发票</view>
+						<image class="icon" src="../../static/shop_service.png"></image>
+						<view style="margin-left: 20rpx;">商家服务 : 可开发票</view>
 					</view>
 				</view>
 			</view>
@@ -177,9 +183,9 @@
 			<!-- 购物车物品项 -->
 			<scroll-view class="shop_dish_pos" scroll-y="true">
 				<!-- 商品种类 -->
-				<view class="right_box" v-for="(category,index1) in categories" :key="index1" :id="'category'+index1">
+				<view class="right_box" v-for="(category,index1) in categories"  :id="'category'+index1">
 					<!-- 放置商品种类中具体商品 -->
-					<view class="list_2" v-for="(goods,index2) in category.dishes" :key="index2"
+					<view class="list_2" v-for="(goods,index2) in category.dishes" 
 						v-if="dish_number[index1][index2]!=0">
 						<!-- 图片 -->
 						<img :src="goods.logo" class="img_style" mode='aspectFit' />
@@ -284,7 +290,7 @@
 			console.log(this.name);
 			uni.request({
 
-				url: 'https://v3710z5658.oicp.vip/shop/getAllGoodsByName', //仅为示例，并非真实接口地址。
+				url: getApp().globalData.shop_getAllGoodsByName, //仅为示例，并非真实接口地址。
 				method: "GET", //不设置，默认为get方式
 				data: {
 					name: this.name,
@@ -332,7 +338,7 @@
 			// 延迟2秒后再获取页面组件高度信息
 			setTimeout(() => {
 				this.getHeightList();
-			}, 2000);
+			}, 5000);
 		},
 		methods: {
 			//隐藏购物车
@@ -426,24 +432,6 @@
 						}
 					}
 				}
-				//请求交换数据
-				uni.request({
-					url: 'https://v3710z5658.oicp.vip/buy/setAllitem', //仅为示例，并非真实接口地址。
-					method: "POST", //不设置，默认为get方式
-					data: {
-						shop_name: this.name,
-						dishes: this.shop_Car,
-					},
-					header: {
-						token: getApp().globalData.token,
-					},
-					//登录时发送数据到数据库成功得到相应返回的数据
-					success: (res) => {
-						console.log(res)
-						this.pay_code = res.data.code
-						this.pay_msg = res.data.msg
-					}
-				});
 			},
 			//跳转到支付页面
 			goto_pay() {
@@ -461,24 +449,6 @@
 						}
 					}
 				}
-				//请求交换数据
-				uni.request({
-					url: 'https://v3710z5658.oicp.vip/buy/confirmShoppingCart', //仅为示例，并非真实接口地址。
-					method: "POST", //不设置，默认为get方式
-					data: {
-						name: this.name,
-						dishes: this.shop_Car,
-					},
-					header: {
-						token: getApp().globalData.token,
-					},
-					//登录时发送数据到数据库成功得到相应返回的数据
-					success: (res) => {
-						console.log(res)
-						// this.sumprice = res.data.sumprice//可以接受，但没必要
-						this.pay_item = res.data.goods
-					}
-				});
 				//实现跳转
 				uni.navigateTo({
 					url: '/pages/index/pay?name=' + this.name + '&shop_Car=' + encodeURIComponent(JSON.stringify(
@@ -505,7 +475,7 @@
 					this.active_tabBar = 1;
 					uni.request({
 						method: 'GET',
-						url: 'https://v3710z5658.oicp.vip/comment/getCommentsByName',
+						url: getApp().globalData.comment_getCommentsByName,
 						// url: 'http://127.0.0.1:4523/m1/1437509-0-default/comment/getCommentsByName',
 						data: {
 							shop_name: this.name
@@ -523,7 +493,7 @@
 				} else {
 					this.active_tabBar = 2;
 					uni.request({
-						url: 'https://v3710z5658.oicp.vip/shop/getOneShopInfo', //仅为示例，并非真实接口地址。
+						url: getApp().globalData.shop_getOneShopInfo, //仅为示例，并非真实接口地址。
 						method: "GET", //不设置，默认为get方式
 						data: {
 							name_shop: this.name
@@ -883,7 +853,7 @@
 
 		.shop_car {
 			position: absolute;
-			bottom:40rpx;
+			bottom: 40rpx;
 			margin-left: 35rpx;
 			background-color: #000000;
 			height: 80rpx;
@@ -909,7 +879,7 @@
 
 		.pay {
 			position: absolute;
-			bottom:40rpx;
+			bottom: 40rpx;
 			text-align: center;
 			font-size: 35rpx;
 			margin-left: 540rpx;
@@ -974,7 +944,7 @@
 				height: 10%;
 				width: 100%;
 				margin-bottom: 20rpx;
-				padding-bottom: 20rpx;
+				padding-bottom: 40rpx;
 				border-bottom: 5rpx solid $uni-border-color;
 				display: flex;
 				//justify-content: center; //横轴居中
@@ -987,28 +957,29 @@
 				}
 			}
 
-			.shop_info_img {
-				height: 25%;
-				width: 100%;
-				margin-bottom: 20rpx;
-				padding-bottom: 20rpx;
-				border-bottom: 5rpx solid $uni-border-color;
-				display: flex;
-				justify-content: center;
-				align-items: center;
+			// .shop_info_img {
+			// 	height: 25%;
+			// 	width: 100%;
+			// 	margin-bottom: 20rpx;
+			// 	padding-bottom: 20rpx;
+			// 	border-bottom: 5rpx solid $uni-border-color;
+			// 	display: flex;
+			// 	justify-content: center;
+			// 	align-items: center;
 
-				image {
-					//width: 100%;
-					height: 100%;
-					margin: 10rpx;
-				}
-			}
+			// 	image {
+			// 		//width: 100%;
+			// 		height: 100%;
+			// 		margin: 10rpx;
+			// 	}
+			// }
 
 			.shop_info_msg {
 				height: 15%;
 				width: 100%;
+				margin-top: -10rpx;
 				margin-bottom: 20rpx;
-				padding-bottom: 20rpx;
+				padding-bottom: 40rpx;
 				border-bottom: 5rpx solid $uni-border-color;
 
 				image {
@@ -1052,14 +1023,15 @@
 		height: 200rpx;
 		margin-left: 30rpx;
 	}
-	.comment_one{
+
+	.comment_one {
 		margin: 20rpx;
 		align-items: left;
 		vertical-align: center;
 		text-align: left;
 		// display: flex;
 		// object-fit: fill;
-		
+
 		// border-width: 100%;
 		border: 3rpx solid #f8f8f8;
 		box-shadow: #8f8f94;
@@ -1069,54 +1041,63 @@
 			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
 			85px 57px 80px rgba(0, 0, 0, 0.016);
 	}
-	
-	.comment_on{
-		display:flex;
+
+	.comment_on {
+		display: flex;
 		margin-top: -60rpx;
 		margin-left: 25rpx;
 	}
-	.logo_line{
+
+	.logo_line {
 		display: flex;
 	}
-	.logo_style{
+
+	.logo_style {
 		width: 120rpx;
 		height: 120rpx;
 		border-radius: 20rpx;
 		margin: 15rpx;
 	}
-	.des_logo_line{
+
+	.des_logo_line {
 		margin-left: 15rpx;
 	}
-	.p_name{
+
+	.p_name {
 		font-size: 40rpx;
 		margin-top: 15rpx;
-		
+
 	}
-	.cmt_star_text{
+
+	.cmt_star_text {
 		margin-left: 10rpx;
 		margin-top: 20rpx;
 		color: #8f8f94;
 	}
-	.p_time{
+
+	.p_time {
 		margin-top: 10rpx;
 		color: #8f8f94;
 	}
-	.img_star{
+
+	.img_star {
 		width: 50rpx;
 		height: 50rpx;
 		margin-left: 10rpx;
 		margin-top: 15rpx;
 	}
-	.star{
+
+	.star {
 		display: flex;
 	}
-	
-	.comment_style{
+
+	.comment_style {
 		margin-top: 20rpx;
-		
-		
+
+
 	}
-	.pic_style{
+
+	.pic_style {
 		width: 300rpx;
 		height: 300rpx;
 		margin-top: 20rpx;
@@ -1124,28 +1105,36 @@
 		margin-bottom: 20rpx;
 		margin-left: 10rpx;
 	}
-	
-	.comment_point{
+
+	.comment_point {
 		color: #ffb420;
 		font-size: 50rpx;
 		margin-bottom: 10rpx;
 		margin-top: 5rpx;
-		
-	}
-	
-	.starline1{
-		position: relative;left: -105rpx;top: 30rpx;		
-		}
 
-		
-	.comment_pointdes{
+	}
+
+	.starline1 {
+		position: relative;
+		left: -105rpx;
+		top: 30rpx;
+	}
+
+
+	.comment_pointdes {
 		color: #8f8f94;
 		margin-top: -20rpx;
 		margin-left: 20rpx;
 	}
-	
-	.rightblock{
+
+	.rightblock {
 		margin-top: -22rpx;
 		margin-left: 20rpx;
+	}
+	
+		
+	.icon{
+		width: 150rpx;
+		height: 15rpx;
 	}
 </style>
