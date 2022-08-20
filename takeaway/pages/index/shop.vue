@@ -137,11 +137,11 @@
 					<image class="phone_icon" src="../../static/phone.png" @click="phoneClick"></image>
 				</view>
 				<!-- 店铺照片 -->
-				<view class="shop_info_img">
+				<!-- <view class="shop_info_img">
 					<image class="" src="../../static/KFC.jpg"></image>
 					<image class="" src="../../static/KFC.jpg"></image>
 					<image class="" src="../../static/KFC.jpg"></image>
-				</view>
+				</view> -->
 				<!-- 商家配送信息 -->
 				<view class="shop_info_msg">
 					<view class="shop_info_text">
@@ -332,7 +332,7 @@
 			// 延迟2秒后再获取页面组件高度信息
 			setTimeout(() => {
 				this.getHeightList();
-			}, 5000);
+			}, 2000);
 		},
 		methods: {
 			//隐藏购物车

@@ -534,7 +534,7 @@ var _default =
     // 延迟2秒后再获取页面组件高度信息
     setTimeout(function () {
       _this2.getHeightList();
-    }, 5000);
+    }, 2000);
   },
   methods: {
     //隐藏购物车

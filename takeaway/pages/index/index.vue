@@ -87,7 +87,7 @@
 								<p class="p_2_sp">{{goods.description}}</p>
 								<p class="p_3_sp">销量:{{goods.sale}}</p>
 								<p class="p_4_sp">¥{{goods.price}}</p>
-								<p class="">库存:{{goods.stock}}</p>
+								<p style="position: relative;left:160rpx;bottom: 40rpx;">库存:{{goods.stock}}</p>
 							</div>
 						</view>
 					</view>
@@ -186,11 +186,11 @@
 						this.categories = res.data.categories
 					}
 				});
+				setTimeout(() => {
+					this.getHeightList();
+				}, 2000);
 			}
 
-		},
-		onReady() {
-			this.getHeightList();
 		},
 		methods: {
 			//点击轮播图去往店铺

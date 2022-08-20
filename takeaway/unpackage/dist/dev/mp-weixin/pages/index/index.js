@@ -326,11 +326,11 @@ var _default =
           _this.categories = res.data.categories;
         } });
 
+      setTimeout(function () {
+        _this.getHeightList();
+      }, 2000);
     }
 
-  },
-  onReady: function onReady() {
-    this.getHeightList();
   },
   methods: {
     //点击轮播图去往店铺
