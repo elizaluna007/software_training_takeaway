@@ -55,24 +55,58 @@
 	margin-top: 15rpx;
 }
 .foodname {
-	margin-top: 15rpx;
+	margin-top: 25rpx;
+	width: 300rpx;
+	overflow: hidden;
+	/* break-all(允许在单词内换行。) */
+	word-break: break-all;
+	/* 超出部分省略号 */
+	text-overflow: ellipsis;
+	/* 对象作为伸缩盒子模型显示 */
+	display: -webkit-box;
+	/* 设置或检索伸缩盒对象的子元素的排列方式 */
+	-webkit-box-orient: vertical;
+	/* 显示的行数 */
+	-webkit-line-clamp: 1;
 }
 .des1 {
-	position: relative;
-	left: -220rpx;
-	top: 70rpx;
 	color: #8f8f94;
+	margin-top: 15rpx;
+	
+	width: 300rpx;
+	overflow: hidden;
+	/* break-all(允许在单词内换行。) */
+	word-break: break-all;
+	/* 超出部分省略号 */
+	text-overflow: ellipsis;
+	/* 对象作为伸缩盒子模型显示 */
+	display: -webkit-box;
+	/* 设置或检索伸缩盒对象的子元素的排列方式 */
+	-webkit-box-orient: vertical;
+	/* 显示的行数 */
+	-webkit-line-clamp: 1;
 }
 .des2 {
-	position: relative;
-	left: -300rpx;
-	top: 130rpx;
 	color: #8f8f94;
+	margin-top: 15rpx;
+	width: 300rpx;
+	
+	overflow: hidden;
+	/* break-all(允许在单词内换行。) */
+	word-break: break-all;
+	/* 超出部分省略号 */
+	text-overflow: ellipsis;
+	/* 对象作为伸缩盒子模型显示 */
+	display: -webkit-box;
+	/* 设置或检索伸缩盒对象的子元素的排列方式 */
+	-webkit-box-orient: vertical;
+	/* 显示的行数 */
+	-webkit-line-clamp: 1;
 }
 .cost {
 	position: absolute;
 	left: 610rpx;
-	margin-top: 15rpx;
+	margin-top: 25rpx;
 	font-weight: 600;
 }
 .fee1 {
@@ -124,37 +158,32 @@
 	margin-left: 15rpx;
 	color: #8f8f94;
 	margin-top: 15rpx;
+	width: 200rpx;
 }
 .expected_time2 {
-	margin-left: 420rpx;
+	margin-left: 320rpx;
 	margin-top: 15rpx;
 }
 .address1 {
 	margin-left: 15rpx;
 	color: #8f8f94;
 	margin-top: 15rpx;
+	width: 200rpx;
 }
 .address2 {
-	margin-left: 420rpx;
+	margin-left: 320rpx;
 	margin-top: 15rpx;
 }
 .service1 {
 	margin-left: 15rpx;
 	color: #8f8f94;
 	margin-top: 15rpx;
+	width: 200rpx;
 }
 .service2 {
-	margin-left: 230rpx;
+	margin-left: 120rpx;
 	margin-top: 15rpx;
 	margin-bottom: 15rpx;
 }
 
-/* 	.all_block{
-	background-image: url("https://wx1.sinaimg.cn/mw2000/006Qjcu1gy1h561t2xpz2j30dw0dqtaf.jpg");
-	background-size: 300rpx;
-	background-repeat: no-repeat;
-	background-position: 450rpx 690rpx;
-	background-attachment: fixed;
-		
-} */
 

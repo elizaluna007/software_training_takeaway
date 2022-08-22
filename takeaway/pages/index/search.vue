@@ -1,22 +1,11 @@
 <template>
 	<view class="content">
-		<!-- <view class="content1"></view>
-		<view class="search-block">
-			<view class="search-ico-wapper">
-				<image src="../../static/search.png" class="search-ico" mode=""></image>
-			</view>
-			<input v-module="search_content"type="text" value="" placeholder=" 一切美食,尽在小橘子!" class="search-text" maxlength="10" focus />
-		</view>
-		<view class="shadow">
-		</view>
-		<view><button class="button-search" hover-class="bg-click"
-				style="position: relative; left: 180rpx; top: -153rpx" @click="search_goto()">搜索</button>
-		</view> -->
 		<!-- 列表框 -->
 		<el-col class="home-card">
 			<!-- 卡片 -->
 			<el-card class="list">
 				<!-- 图片 -->
+				<!-- 点击会触发goto_shop函数，前往对应商家 -->
 				<img :src="info.logo" class="img_style" @click="goto_shop(info)" />
 				<!-- 描述框 -->
 				<div class="describe" @click="goto_shop()">
@@ -39,25 +28,26 @@
 	export default {
 		data() {
 			return {
-				name: '',
-				info: 
+				name: '', //搜索结果，来自上个界面
+				info: ///shop/searchShopByName接口得到的信息
 				{
-					name:'',
-					credit:'',
-					sale:'',
-					thresholdprice:'',
-					distance:'',
-					needytime:''
-					
+					name: '',
+					credit: '',
+					sale: '',
+					thresholdprice: '',
+					distance: '',
+					needytime: ''
+
 				},
-				search_content: ''
+				//search_content: ''之前需求的变量，暂时无用
+				key: false, //布尔 true登录 false未登录
 			}
 		},
-
+		//页面初始加载 通过name向/shop/searchShopByName接口发送请求
 		onLoad(result) {
 			this.name = result.search_content;
 			uni.request({
-				url: getApp().globalData.shop_searchShopByName, //仅为示例，并非真实接口地址。
+				url: getApp().globalData.shop_searchShopByName,
 				method: "GET", //不设置，默认为get方式
 				data: {
 					name: this.name
@@ -74,14 +64,16 @@
 		},
 		methods: {
 			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
-					onPullDownRefresh() {
-						console.log('refresh');
-						setTimeout(function() {
-							uni.stopPullDownRefresh();
-						}, 1500);
-					},
+			onPullDownRefresh() {
+				console.log('refresh');
+				setTimeout(function() {
+					uni.stopPullDownRefresh();
+				}, 1500);
+			},
+			//前往对应商铺
 			goto_shop(object) {
 				this.key = getApp().globalData.login_key;
+				//已登录前往商家
 				if (this.key == true) {
 					console.log("前往商铺");
 					console.log(object.name);
@@ -89,19 +81,12 @@
 						url: '/pages/index/shop?name=' + object.name
 					})
 				} else {
+					// 未登录前往登录
 					uni.navigateTo({
 						url: '/pages/login/login_username'
 					})
 				}
 			},
-			// search_goto(){
-			// 	console.log("这是要搜索的内容");
-			// 	console.log(this.search_content);
-			// 	uni.navigateTo({
-			// 		url: '/pages/index/search?search_content=' + this.search_content + '&token=' + this.token
-			// 		// url: '/pages/index/search?search_content=this.search_content & token=this.token'
-			// 	})
-			// }
 
 		}
 	}
@@ -158,7 +143,7 @@
 		background-color: #b0a7d7;
 	}
 
-	// 清除uniapp button按钮默认样式（去掉边框）
+/* 	清除uniapp button按钮默认样式（去掉边框） */
 	button::after {
 		border: none;
 	}
@@ -289,18 +274,54 @@
 	.p_1 {
 		font-size: 50rpx;
 		margin-left: 19rpx;
+		width:200rpx;
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
 	}
 
 	.p_2 {
 		font-size: 40rpx;
 		color: #ffb420;
 		margin-left: 19rpx;
+		width:200rpx;
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
 	}
 
 	.p_3 {
 		font-size: 40rpx;
 		color: #8f96a0;
 		margin-left: 19rpx;
+		width:200rpx;
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
 	}
 
 

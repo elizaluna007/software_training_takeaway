@@ -1,11 +1,13 @@
 <template>
 	<view class="content">
 		<view class="order_page">
+			<!-- 顶部显示商家信息 -->
 			<view class="topic">
 				<image class="logo" :src="logo"></image>
 				<text class="shopName">{{name}}</text>
 				<text class="topic_text" space="ensp">{{credit}}分 月售{{sale}} 配送约{{needytime}}分钟</text>
 			</view>
+			<!-- 导航框，显示点菜，评论，商家 -->
 			<view class="three_button">
 				<button :class="active_tabBar===0?'active_order':'order'" @click="active_tabBar_Handle(0)">点菜</button>
 				<button :class="active_tabBar===1?'active_command':'command'"
@@ -19,10 +21,9 @@
 				<!-- 右侧滚动栏 -->
 				<scroll-view class="dish_pos_right" scroll-y="true" @scroll="rightScroll" :scroll-into-view="active_id">
 					<!-- 商品种类 -->
-					<view class="right_box" v-for="(category,index1) in categories" 
-						:id="'category'+index1">
+					<view class="right_box" v-for="(category,index1) in categories" :id="'category'+index1">
 						<!-- 放置商品种类中具体商品 -->
-						<view class="list_2" v-for="(goods,index2) in category.dishes" >
+						<view class="list_2" v-for="(goods,index2) in category.dishes">
 							<!-- 图片 -->
 							<img :src="goods.logo" class="img_style" mode='aspectFit' />
 							<!-- 描述框 -->
@@ -72,6 +73,7 @@
 							{{comment_infos.averagepoint}}
 						</p>
 						<p class="comment_pointdes">商家评分</p>
+						<!-- 显示商家评分 -->
 						<div class="starline1" style="display: flex;">
 							<img style="width: 30rpx;height: 30rpx;" src="../../static/star_yellow.png"
 								v-if="comment_infos.averagepoint>=1"></img>
@@ -105,6 +107,7 @@
 								<p class="p_time">{{cmt.time}}</p>
 							</div>
 						</div>
+						<!-- 显示商家评分 -->
 						<div class="star">
 							<img src="../../static/star_yellow.png" v-if="cmt.point>=1" class="img_star">
 							<img src="../../static/star_grey.png" v-if="cmt.point==0" class="img_star">
@@ -139,8 +142,8 @@
 				<!-- 商家地址栏 -->
 				<view class="shop_info_addr">
 					<image class="icon" src="../../static/loca.png"></image>
-					<text class="addr_text" style="margin-left: 20rpx;">{{address}}</text>
-					<image class="icon" src="../../static/phone.png" @click="phoneClick"></image>
+					<text class="addr_text" style="margin-left: 20rpx;width: 530rpx;">{{address}}</text>
+					<image class="icon-phone" src="../../static/phone.png" @click="phoneClick"></image>
 				</view>
 				<!-- 店铺照片 -->
 				<!-- <view class="shop_info_img">
@@ -183,9 +186,9 @@
 			<!-- 购物车物品项 -->
 			<scroll-view class="shop_dish_pos" scroll-y="true">
 				<!-- 商品种类 -->
-				<view class="right_box" v-for="(category,index1) in categories"  :id="'category'+index1">
+				<view class="right_box" v-for="(category,index1) in categories" :id="'category'+index1">
 					<!-- 放置商品种类中具体商品 -->
-					<view class="list_2" v-for="(goods,index2) in category.dishes" 
+					<view class="list_3" v-for="(goods,index2) in category.dishes"
 						v-if="dish_number[index1][index2]!=0">
 						<!-- 图片 -->
 						<img :src="goods.logo" class="img_style" mode='aspectFit' />
@@ -273,6 +276,7 @@
 				address: '', //商家地址
 				begintime: '', //商家配送营业开始时间
 				endtime: '', //商家配送营业结束时间
+				//显示商家评分数组
 				comment_infos: {
 					info: {
 
@@ -281,15 +285,16 @@
 				}
 			}
 		},
+		//销毁页面时触发shop_transform()函数，保留购物车内容
 		onUnload() {
 			this.shop_transform();
 		},
+		//初始加载页面时向/shop/getAllGoodsByName接口发送请求
 		onLoad(index_data) {
 			this.name = index_data.name;
 			console.log("名字");
 			console.log(this.name);
 			uni.request({
-
 				url: getApp().globalData.shop_getAllGoodsByName, //仅为示例，并非真实接口地址。
 				method: "GET", //不设置，默认为get方式
 				data: {
@@ -349,18 +354,21 @@
 			exit_phone_hint() {
 				this.phone_hidden = 1;
 			},
+			//增加对应商品数量
 			click_add(index1, index2) {
 				let idx = index2;
 				this.dish_number[index1].splice(index2, 1, this.dish_number[index1][idx] + 1)
 				this.sumprice += this.categories[index1].dishes[index2].price
 				console.log(this.dish_number)
 			},
+			//减少对应商品数量
 			click_sub(index1, index2) {
 				let idx = index2;
 				this.dish_number[index1].splice(index2, 1, this.dish_number[index1][idx] - 1)
 				this.sumprice -= this.categories[index1].dishes[index2].price
 				console.log(this.dish_number)
 			},
+			//点击左侧导航栏跳转至右侧对应商品
 			leftClickHandle(index) {
 				this.active = index;
 				this.active_id = 'category' + index;
@@ -436,6 +444,7 @@
 			//跳转到支付页面
 			goto_pay() {
 				//购物车数据处理及与后端交换数据
+				this.shop_Car.splice(0,this.shop_Car.length);
 				for (let i = 0; i < this.categories.length; i++) {
 					for (let j = 0; j < this.categories[i].dishes.length; j++) {
 						if (this.dish_number[i][j] != 0) {
@@ -547,6 +556,7 @@
 			width: 200rpx;
 			margin-top: 10rpx;
 			margin-left: 0rpx;
+			border-radius: 20%;
 		}
 
 		.shopName {
@@ -664,13 +674,13 @@
 			object-fit: fill;
 			background-color: #ffffff;
 			border-width: 100%;
-			border-top: 1rpx solid #f8f8f8;
-			box-shadow: #8f8f94;
-			border-radius: 7%;
-			box-shadow:
-				5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
-				19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
-				85px 57px 80px rgba(0, 0, 0, 0.016);
+			border-bottom: 1rpx solid $uni-border-color;
+			// box-shadow: #8f8f94;
+			// border-radius: 7%;
+			// box-shadow:
+			// 	5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+			// 	19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+			// 	85px 57px 80px rgba(0, 0, 0, 0.016);
 		}
 
 		.active_list {
@@ -681,23 +691,23 @@
 			vertical-align: center;
 			display: flex;
 			object-fit: fill;
-			border: 1rpx solid #f8f8f8;
-			box-shadow: #8f8f94;
-			border-radius: 7%;
-			box-shadow:
-				5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
-				19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
-				85px 57px 80px rgba(0, 0, 0, 0.016);
+			border-bottom: 1rpx solid $uni-border-color;
+			// box-shadow: #8f8f94;
+			// border-radius: 7%;
+			// box-shadow:
+			// 	5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
+			// 	19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
+			// 	85px 57px 80px rgba(0, 0, 0, 0.016);
 			background-color: #fefa83;
 		}
 
 
 
 		.dish_pos_right {
-			height: 90%;
-			width: 70%;
+			height: 85%;
+			width: 76%;
 			display: flex;
-			margin-left: 200rpx;
+			margin-left: 170rpx;
 
 			.right_box {
 				display: block;
@@ -714,7 +724,7 @@
 		}
 
 		.cate_pos_left {
-			height: 70%;
+			height: 63%;
 			width: 20%;
 			display: flex;
 			position: absolute;
@@ -766,28 +776,70 @@
 			margin-top: 10rpx;
 			font-size: 35rpx;
 			width: 260rpx;
-			// font-weight: 600;
-			// display: table-column;
-
-
+			
+			overflow: hidden;
+			/* break-all(允许在单词内换行。) */
+			word-break: break-all;
+			/* 超出部分省略号 */
+			text-overflow: ellipsis;
+			/* 对象作为伸缩盒子模型显示 */
+			display: -webkit-box;
+			/* 设置或检索伸缩盒对象的子元素的排列方式 */
+			-webkit-box-orient: vertical;
+			/* 显示的行数 */
+			-webkit-line-clamp: 1;
 		}
 
 		.p_2 {
 
 			color: #ffb420;
 			margin-top: 10rpx;
+			overflow: hidden;
+			/* break-all(允许在单词内换行。) */
+			word-break: break-all;
+			/* 超出部分省略号 */
+			text-overflow: ellipsis;
+			/* 对象作为伸缩盒子模型显示 */
+			display: -webkit-box;
+			/* 设置或检索伸缩盒对象的子元素的排列方式 */
+			-webkit-box-orient: vertical;
+			/* 显示的行数 */
+			-webkit-line-clamp: 1;
+			
 		}
 
 		.p_3 {
 
 			color: #8f96a0;
 			margin-top: 10rpx;
+			overflow: hidden;
+			/* break-all(允许在单词内换行。) */
+			word-break: break-all;
+			/* 超出部分省略号 */
+			text-overflow: ellipsis;
+			/* 对象作为伸缩盒子模型显示 */
+			display: -webkit-box;
+			/* 设置或检索伸缩盒对象的子元素的排列方式 */
+			-webkit-box-orient: vertical;
+			/* 显示的行数 */
+			-webkit-line-clamp: 1;
 		}
 
 		.p_4 {
 
 			color: #c83c23;
 			margin-top: 10rpx;
+			overflow: hidden;
+			/* break-all(允许在单词内换行。) */
+			word-break: break-all;
+			/* 超出部分省略号 */
+			text-overflow: ellipsis;
+			/* 对象作为伸缩盒子模型显示 */
+			display: -webkit-box;
+			/* 设置或检索伸缩盒对象的子元素的排列方式 */
+			-webkit-box-orient: vertical;
+			/* 显示的行数 */
+			-webkit-line-clamp: 1;
 		}
 
 		.p_5 {
@@ -795,6 +847,10 @@
 			width: 100%;
 			height: 50rpx;
 			font-size: 30rpx;
+			//垂直水平居中
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
 		.active_p_5 {
@@ -802,6 +858,10 @@
 			width: 100%;
 			height: 50rpx;
 			font-size: 30rpx;
+			//垂直水平居中
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
 		//购物车页面
@@ -846,6 +906,19 @@
 					justify-content: center;
 					overflow: hidden;
 				}
+			}
+			.list_3 {
+			
+				height: 250rpx;
+				width: 100%;
+				display: flex;
+				margin-top: 20rpx;
+				margin-left: 10rpx;
+				margin-right: 20rpx;
+				border-width: 100%;
+				border: 1rpx solid #e5e5e5;
+				border-radius: 7%;
+
 			}
 		}
 
@@ -955,24 +1028,14 @@
 					height: 60rpx;
 					margin-top: -10rpx;
 				}
+
+				.icon-phone {
+					width: 60rpx;
+					height: 60rpx;
+					position: absolute;
+					left: 650rpx;
+				}
 			}
-
-			// .shop_info_img {
-			// 	height: 25%;
-			// 	width: 100%;
-			// 	margin-bottom: 20rpx;
-			// 	padding-bottom: 20rpx;
-			// 	border-bottom: 5rpx solid $uni-border-color;
-			// 	display: flex;
-			// 	justify-content: center;
-			// 	align-items: center;
-
-			// 	image {
-			// 		//width: 100%;
-			// 		height: 100%;
-			// 		margin: 10rpx;
-			// 	}
-			// }
 
 			.shop_info_msg {
 				height: 15%;
@@ -1131,9 +1194,9 @@
 		margin-top: -22rpx;
 		margin-left: 20rpx;
 	}
-	
-		
-	.icon{
+
+
+	.icon {
 		width: 150rpx;
 		height: 15rpx;
 	}

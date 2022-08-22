@@ -115,7 +115,7 @@
 .insert_pic {
 	height: 300rpx;
 	border-radius: 20rpx;
-	width:300rpx;
+	width: 300rpx;
 }
 
 /* .out_block{

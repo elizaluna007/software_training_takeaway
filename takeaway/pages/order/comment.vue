@@ -1,7 +1,9 @@
 <template>
+	<!-- 顾客评论页面 -->
 	<view class="out_block">
 		<view>
 			<p class="title">您对商家/菜品满意吗？</p>
+			<!-- 匿名提交按钮 -->
 			<checkbox-group>
 				<label class="checkbox">
 					<checkbox value="cb" />
@@ -9,11 +11,12 @@
 			</checkbox-group>
 			<text class="checkmessage">匿名提交</text>
 		</view>
+		<!-- 商铺名和logo -->
 		<view class="first_line">
 			<image :src="logo" class="logo_shop"></image>
 			<text class="name_shop">{{shop_name}}</text>
 		</view>
-
+		<!-- 点星星功能，3行，每行5颗星星 -->
 		<view class="uni-common-mt">
 			<view>
 				<view class="three_com" v-for="(item1,index1) in clicked_list">
@@ -33,21 +36,26 @@
 				</view>
 			</view>
 		</view>
-
+		<!-- 评论框，支持文字评论和上传图片 -->
 		<view class="weui-input">
 			<textarea class="input_style" v-model="comment" placeholder="说说味道怎么样,给大家参考"></textarea>
-			<div v-if="pic_key" class="img_style" @click="upLoad">
-				<img class="insert_pic" :src="imgArr" >
-			</div>
-			<div v-if="pic_key === 0" class="img_style" @click="upLoad">
-				<img class="insert_pic" src="../../static/upload.png">
-			</div>
+			<!-- 上传图片功能，上传之后的图片，点击图片可预览 -->
+			<view style="display: flex;">
+				<div v-if="pic_key" class="img_style" @click="pre_pic">
+					<img class="insert_pic" :src="imgArr">
+				</div>
+				<div class="img_style" @click="upLoad">
+					<img class="insert_pic" src="../../static/upload.png">
+				</div>
+			</view>
 		</view>
 
-
+		<!-- 提交按钮，向后的发送请求 -->
 		<view class="two_button">
 			<button @click="submit" class="btn_style" size="mini">提交</button>
 		</view>
+		<!-- 底部留白 -->
+		<view style="height: 30rpx;width: 100%;"></view>
 	</view>
 </template>
 
@@ -59,28 +67,31 @@
 	export default {
 		data() {
 			return {
-				imgArr: '',
-				pic_key: 0,
-				pic: '',
-				paytime: '',
-				logo: '',
-				shop_name: '',
+				imgArr: '', //上传图片 需转变为base64格式
+				pic_key: 0, //判断显示评论图片 0默认图片 1上传图片
+				pic: '', //最终向后端发送的图片内容
+				paytime: '', //订单时间 来源于上个界面 向后端发送
+				logo: '', //商铺logo 来源于上个界面 用于显示
+				shop_name: '', //商铺名 来源于上个界面 用于显示
 				clicked_list: [], //对应星星个数
-				star_yes: '../../static/star_yellow.png',
-				star_no: '../../static/star_grey.png',
-				comment: '',
-				grade: [0, 0, 0],
-				grade_chi: ['', '', ''],
+				star_yes: '../../static/star_yellow.png', //星星被点亮的图片
+				star_no: '../../static/star_grey.png', //星星未被点亮的图片
+				comment: '', //用户输入的评论向后端发送
+				grade: [0, 0, 0], //提交的星星数量 向后端发送
+				grade_chi: ['', '', ''], //星星数量对应的评价等级
+				////星星数量对应的三种评价等级的存储数组
 				type: ['../../static/deliver.png', '../../static/wrapping.png', '../../static/flavor.png']
 			}
 		},
 
+		//页面初始化时从上个页面获取数据并显示
 		onLoad(order_data) {
 			console.log("获取order页面信息")
 			console.log(order_data)
 			this.paytime = order_data.paytime;
 			this.logo = order_data.logo_shop;
 			this.shop_name = order_data.name_shop;
+			//初始化星星数组
 			for (let i = 0; i < 3; i++) {
 				let now = [];
 				for (let j = 0; j < 5; j++) {
@@ -95,34 +106,45 @@
 
 		},
 		methods: {
+			//上传图片功能
 			upLoad() {
-
 				let that = this;
-
 				uni.chooseImage({
 					count: 5, //在h5浏览器限制不住
 					success: res => {
 						// console.log(this)
 						this.imgArr = res.tempFilePaths
+						this.pic_key = 1;
 					}
 				})
 
 
+				// uni.previewImage({
+				// 	//current, //当前的图片路径必填
+				// 	urls: this.imgArr, //数组文件路径必填
+				// 	loop: true, //循环在5+app才有效
+				// 	indicator: "default" //指数器同样也是5+app有效
+				// })
+
+			},
+			//图片预览
+			pre_pic() {
 				uni.previewImage({
 					//current, //当前的图片路径必填
 					urls: this.imgArr, //数组文件路径必填
 					loop: true, //循环在5+app才有效
 					indicator: "default" //指数器同样也是5+app有效
 				})
-				this.pic_key = 1;
 			},
-			//点击选择
+			//点击选择星星个数
 			choise(group, num) {
-				console.log("点击了", group),
-					console.log("点击了", num)
+				console.log("点击了", group)
+				console.log("点击了", num)
+				//每次点击时先清空数组
 				for (let j = 0; j < 5; j++) {
 					this.clicked_list[group].splice(j, 1, false);
 				}
+				//修改星星数组
 				num = num + 1;
 				for (let i = 0; i < num; i++) {
 
@@ -136,6 +158,7 @@
 							k++;
 						}
 					}
+					//根据星星数量显示对应评分
 					this.grade.splice(i, 1, k)
 					if (k == 1) {
 						this.grade_chi.splice(i, 1, '../../static/verybad.png')
@@ -153,7 +176,7 @@
 				console.log(this.grade)
 			},
 			submit() {
-				//向接口addComment发送请求
+				//向接口/comment/addComment发送请求
 				uni.request({
 					url: getApp().globalData.comment_addComment,
 					method: 'POST',
@@ -305,7 +328,7 @@
 	.insert_pic {
 		height: 300rpx;
 		border-radius: 20rpx;
-		width:300rpx;
+		width: 300rpx;
 	}
 
 	/* .out_block{

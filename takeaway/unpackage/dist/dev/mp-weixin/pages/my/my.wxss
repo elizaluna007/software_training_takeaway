@@ -65,6 +65,18 @@
 	background-color: #fff;
 	line-height: 60px;
 	font-weight: bolder;
+
+	overflow: hidden;
+	/* break-all(允许在单词内换行。) */
+	word-break: break-all;
+	/* 超出部分省略号 */
+	text-overflow: ellipsis;
+	/* 对象作为伸缩盒子模型显示 */
+	display: -webkit-box;
+	/* 设置或检索伸缩盒对象的子元素的排列方式 */
+	-webkit-box-orient: vertical;
+	/* 显示的行数 */
+	-webkit-line-clamp: 1;
 }
 .p_2 {
 	font-weight: 500;
@@ -80,24 +92,6 @@
 
 	margin-top: 10rpx;
 }
-
-/* 	.detail {
-	display: flex;
-}
-
-.line_block {
-	display: flex;
-	margin-left: 30rpx;
-}
-
-.element {
-	color: #bbbbbb;
-	margin-left: 30rpx;
-}
-
-.content {
-	float: right;
-} */
 .element {
 	color: #909090;
 	margin-left: 30rpx;
@@ -105,6 +99,10 @@
 	margin-top: 10rpx;
 	width: 300rpx;
 	text-justify: auto;
+
+	display: flex;
+	align-items: center;
+	word-break: keep-all;
 }
 .line_block {
 	display: flex;
@@ -117,6 +115,26 @@
 	padding-right: 30rpx;
 	margin-right: 30rpx;
 	margin-top: 10rpx;
+	height: auto;
+	text-align: center;
+}
+.content_shop_edit {
+	font-size: 40rpx;
+	padding-right: 30rpx;
+	position: relative;
+	left: 45rpx;
+	/* margin-left: 30rpx; */
+	margin-top: 10rpx;
+	height: auto;
+}
+.content_cust_edit {
+	font-size: 40rpx;
+	padding-right: 30rpx;
+	position: relative;
+	left: 45rpx;
+	/* margin-left: 30rpx; */
+	margin-top: 10rpx;
+	height: auto;
 }
 .btn_style_2 {
 	width: 300rpx;

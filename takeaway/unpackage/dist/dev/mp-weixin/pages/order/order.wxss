@@ -90,7 +90,7 @@
 }
 .two_btn {}
 .btn_style {
-	margin-left: 320rpx;
+	margin-right: 100rpx;
 	margin-bottom: 25rpx;
 	border-radius: 15rpx;
 	background-color: #fefa83;
@@ -122,7 +122,7 @@
 	text-align: center;
 	box-shadow: 4rpx 4rpx 2rpx 0rpx #8f8f94;
 	height: 58rpx;
-	margin-left: 20rpx;
+	margin-left: 100rpx;
 }
 button::after {
 	border: none;
@@ -148,21 +148,25 @@ button::after {
 	top: 300rpx;
 	left: 0rpx;
 }
+.des_icon{
+	width: 35rpx;
+	height: 35rpx; 
+	margin-left:20rpx ;
+	margin-top: 5rpx;
+}
 .destination {
-	position: relative;
-	top: 70rpx;
-	left: -180rpx;
+	width: 80%;
+	margin-left: 30rpx;
 }
 .second_block {
 	display: flex;
-	margin-top: 70rpx;
+	align-items: center;
+	justify-content: center;
 }
 .des1 {
-	position: absolute;
-	left: 220rpx;
-
 	font-size: 30rpx;
-	text-align: center;
+	width: 200rpx;
+	margin-left:10rpx ;
 
 	overflow: hidden;
 	/* break-all(允许在单词内换行。) */
@@ -177,11 +181,10 @@ button::after {
 	-webkit-line-clamp: 1;
 }
 .des2 {
-	position: absolute;
-	left: 520rpx;
 	color: #ffb420;
 	font-size: 30rpx;
-	text-align: center;
+	width: 100rpx;
+	margin-left:10rpx ;
 
 	overflow: hidden;
 	/* break-all(允许在单词内换行。) */
@@ -196,12 +199,10 @@ button::after {
 	-webkit-line-clamp: 1;
 }
 .des3 {
-	position: absolute;
-	left: 600rpx;
-
 	font-size: 30rpx;
-	text-align: center;
-
+	width: 200rpx;
+	margin-left:10rpx ;
+	
 	overflow: hidden;
 	/* break-all(允许在单词内换行。) */
 	word-break: break-all;

@@ -47,6 +47,7 @@ page {
   width: 200rpx;
   margin-top: 10rpx;
   margin-left: 0rpx;
+  border-radius: 20%;
 }
 .content .shopName {
   display: flex;
@@ -146,10 +147,7 @@ page {
   object-fit: fill;
   background-color: #ffffff;
   border-width: 100%;
-  border-top: 1rpx solid #f8f8f8;
-  box-shadow: #8f8f94;
-  border-radius: 7%;
-  box-shadow: 5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04), 19px 12.7px 17.9px rgba(0, 0, 0, 0.024), 85px 57px 80px rgba(0, 0, 0, 0.016);
+  border-bottom: 1rpx solid #d9d8dd;
 }
 .content .active_list {
   align-items: center;
@@ -159,17 +157,14 @@ page {
   vertical-align: center;
   display: flex;
   object-fit: fill;
-  border: 1rpx solid #f8f8f8;
-  box-shadow: #8f8f94;
-  border-radius: 7%;
-  box-shadow: 5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04), 19px 12.7px 17.9px rgba(0, 0, 0, 0.024), 85px 57px 80px rgba(0, 0, 0, 0.016);
+  border-bottom: 1rpx solid #d9d8dd;
   background-color: #fefa83;
 }
 .content .dish_pos_right {
-  height: 90%;
-  width: 70%;
+  height: 85%;
+  width: 76%;
   display: flex;
-  margin-left: 200rpx;
+  margin-left: 170rpx;
 }
 .content .dish_pos_right .right_box {
   display: block;
@@ -182,7 +177,7 @@ page {
   height: 300rpx;
 }
 .content .cate_pos_left {
-  height: 70%;
+  height: 63%;
   width: 20%;
   display: flex;
   position: absolute;
@@ -221,30 +216,80 @@ page {
   margin-top: 10rpx;
   font-size: 35rpx;
   width: 260rpx;
+  overflow: hidden;
+  /* break-all(允许在单词内换行。) */
+  word-break: break-all;
+  /* 超出部分省略号 */
+  text-overflow: ellipsis;
+  /* 对象作为伸缩盒子模型显示 */
+  display: -webkit-box;
+  /* 设置或检索伸缩盒对象的子元素的排列方式 */
+  -webkit-box-orient: vertical;
+  /* 显示的行数 */
+  -webkit-line-clamp: 1;
 }
 .content .p_2 {
   color: #ffb420;
   margin-top: 10rpx;
+  overflow: hidden;
+  /* break-all(允许在单词内换行。) */
+  word-break: break-all;
+  /* 超出部分省略号 */
+  text-overflow: ellipsis;
+  /* 对象作为伸缩盒子模型显示 */
+  display: -webkit-box;
+  /* 设置或检索伸缩盒对象的子元素的排列方式 */
+  -webkit-box-orient: vertical;
+  /* 显示的行数 */
+  -webkit-line-clamp: 1;
 }
 .content .p_3 {
   color: #8f96a0;
   margin-top: 10rpx;
+  overflow: hidden;
+  /* break-all(允许在单词内换行。) */
+  word-break: break-all;
+  /* 超出部分省略号 */
+  text-overflow: ellipsis;
+  /* 对象作为伸缩盒子模型显示 */
+  display: -webkit-box;
+  /* 设置或检索伸缩盒对象的子元素的排列方式 */
+  -webkit-box-orient: vertical;
+  /* 显示的行数 */
+  -webkit-line-clamp: 1;
 }
 .content .p_4 {
   color: #c83c23;
   margin-top: 10rpx;
+  overflow: hidden;
+  /* break-all(允许在单词内换行。) */
+  word-break: break-all;
+  /* 超出部分省略号 */
+  text-overflow: ellipsis;
+  /* 对象作为伸缩盒子模型显示 */
+  display: -webkit-box;
+  /* 设置或检索伸缩盒对象的子元素的排列方式 */
+  -webkit-box-orient: vertical;
+  /* 显示的行数 */
+  -webkit-line-clamp: 1;
 }
 .content .p_5 {
   text-align: center;
   width: 100%;
   height: 50rpx;
   font-size: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .content .active_p_5 {
   text-align: center;
   width: 100%;
   height: 50rpx;
   font-size: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .content .shop_car_page {
   height: 100%;
@@ -282,6 +327,17 @@ page {
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+}
+.content .shop_car_page .list_3 {
+  height: 250rpx;
+  width: 100%;
+  display: flex;
+  margin-top: 20rpx;
+  margin-left: 10rpx;
+  margin-right: 20rpx;
+  border-width: 100%;
+  border: 1rpx solid #e5e5e5;
+  border-radius: 7%;
 }
 .content .shop_car {
   position: absolute;
@@ -345,14 +401,14 @@ page {
 .content .phone_hint .phone_hint_bottom .cancel {
   margin-left: 0rpx;
   margin-right: 0rpx;
-  border-top: 10rpx solid #c8c7cc;
+  border-top: 10rpx solid #d9d8dd;
   padding-top: 15rpx;
 }
 .content .shop_info {
   height: 70%;
   width: 90%;
   margin: 20rpx;
-  border: 1rpx solid #c8c7cc;
+  border: 1rpx solid #d9d8dd;
   border-radius: 20rpx;
   padding: 20rpx;
   display: flex;
@@ -364,7 +420,7 @@ page {
   width: 100%;
   margin-bottom: 20rpx;
   padding-bottom: 40rpx;
-  border-bottom: 5rpx solid #c8c7cc;
+  border-bottom: 5rpx solid #d9d8dd;
   display: flex;
   align-items: center;
 }
@@ -373,13 +429,19 @@ page {
   height: 60rpx;
   margin-top: -10rpx;
 }
+.content .shop_info .shop_info_addr .icon-phone {
+  width: 60rpx;
+  height: 60rpx;
+  position: absolute;
+  left: 650rpx;
+}
 .content .shop_info .shop_info_msg {
   height: 15%;
   width: 100%;
   margin-top: -10rpx;
   margin-bottom: 20rpx;
   padding-bottom: 40rpx;
-  border-bottom: 5rpx solid #c8c7cc;
+  border-bottom: 5rpx solid #d9d8dd;
 }
 .content .shop_info .shop_info_msg image {
   width: 60rpx;

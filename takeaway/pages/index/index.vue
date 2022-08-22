@@ -4,9 +4,11 @@
 		<view class="content" v-if="cstm_or_sp">
 			<!-- 顾客端界面 -->
 			<view class="content1">
+				<!-- 左上角图片，点击可获得用户位置 触发get_location()函数 -->
 				<view class="get_loc" @click="get_location()">
 					<image src=../../static/loca.png style="height: 50rpx;width: 50rpx;"></image>
 				</view>
+				<!-- 搜索框 点击搜索触发search_goto()函数 -->
 				<view class="search-block">
 					<view class="search-ico-wapper">
 						<image src="../../static/search.png" class="search-ico" mode=""></image>
@@ -16,6 +18,7 @@
 				</view>
 				<button class="button-search" @click="search_goto()">搜索</button>
 			</view>
+			<!-- 滚动广告显示 -->
 			<view class="swiper_all">
 				<swiper circular indicator-dots mode="widthFix" class="img_out" autoplay="true" interval="2000">
 					<!-- v-for循环遍历数组 -->
@@ -24,8 +27,9 @@
 					</swiper-item>
 				</swiper>
 			</view>
+			<!-- 商家信息，展示商家信息，点击可进入商家 -->
 			<!-- 列表框 -->
-			<view class="home-card">
+			<view>
 				<!-- 卡片 -->
 				<view class="list" v-for="info in infos">
 					<!-- 图片 -->
@@ -46,6 +50,8 @@
 						<p class="p_5">{{info.distance}}km</p>
 					</div>
 				</view>
+				<!-- 底部留空 -->
+				<view style="height: 150rpx;width: 100%;"></view>
 			</view>
 		</view>
 
@@ -54,7 +60,6 @@
 			<!-- 商家端页面 -->
 			<!-- 顶端商家信息展示 -->
 			<view class="topic">
-
 				<image class="logo_sp" :src="logo"></image>
 				<text class="shopName">{{name}}</text>
 				<div style="display: flex;">
@@ -65,6 +70,7 @@
 				</div>
 			</view>
 			<div class="line1"></div>
+			<!-- 提示栏 -->
 			<div style="display: flex;">
 				<p
 					style="font-size: 35rpx;margin-left: 10rpx;margin-top: 20rpx;color: #b0a7d7;border-radius: 10rpx;width: 155rpx;text-align: center;font-weight: 600;">
@@ -84,7 +90,7 @@
 					<view :class="active===index?'active_list':'list_sp'" v-for="(category,index) in categories"
 						@click="leftClickHandle(index)">
 						<!-- 描述框 -->
-						<view :class="active===index?'active_p_5':'p_5_sp'">{{category.category}}</view>
+						<view :class="active===index?'active_p_0_sp':'p_0_sp'">{{category.category}}</view>
 					</view>
 				</scroll-view>
 
@@ -104,7 +110,7 @@
 								<p class="p_2_sp">{{goods.description}}</p>
 								<p class="p_3_sp">销量:{{goods.sale}}</p>
 								<p class="p_4_sp">¥{{goods.price}}</p>
-								<p style="position: relative;left:160rpx;bottom: 40rpx;">库存:{{goods.stock}}</p>
+								<p class="p_5_sp">库存:{{goods.stock}}</p>
 							</div>
 						</view>
 					</view>
@@ -126,6 +132,7 @@
 			return {
 				//以下变量用于该页面用户端
 				search_content: '',
+				//滚动广告图片
 				swipers: [{
 						shop_name: "肯德基", //商铺名
 						//图片地址
@@ -140,16 +147,17 @@
 						url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0156726107918911013eaf704b3222.jpg%401280w_1l_2o_100sh.jpg&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662972171&t=6c16760c4faac1aa82fdf28bccd23127',
 					}
 				],
-				infos: '',
+				infos: '', //接口/shop/getAllShopInfo得到的数据
+				address_info: '', //首页定位功能传参
 				//以下两个变量用于确定用户状态
 				key: '', //布尔 true登录 false未登录
 				cstm_or_sp: '', //数字 1顾客 0商家
+
 				//以下变量用于该页面商家端
 				name: '', //商家名
 				logo: '', //商家logo
 				sale: '', //商家销量
 				categories: [], //商家菜单
-
 				active: 0, //左侧滚动栏选中项的id
 				active_id: '', //右侧与左侧对应所需的变量
 				rightHeightList: [], //右侧滚动栏数据的高度数组
@@ -157,11 +165,12 @@
 			}
 		},
 
-
+		//每次页面show时，发送请求得到渲染数据
 		onShow() {
 			this.cstm_or_sp = getApp().globalData.cstm_or_sp;
 			console.log("确定状态")
 			console.log(this.cstm_or_sp)
+			//this.cstm_or_sp为1时顾客端
 			if (this.cstm_or_sp == 1) {
 				//顾客端发送请求至/shop/getAllShopInfo接口
 				uni.request({
@@ -172,6 +181,7 @@
 
 					},
 					header: {
+						// 顾客端首页不需要登录，所以不需要token
 						// token: getApp().globalData.token,
 					},
 					success: (res) => {
@@ -181,14 +191,15 @@
 						this.infos = res.data;
 					}
 				})
-
 			} else {
+				//this.cstm_or_sp为0时商家端
 				//商家端发送请求至/business/getAllGoods接口
 				uni.request({
 					url: getApp().globalData.business_getAllGoods,
 					method: "GET", //不设置，默认为get方式
 					data: {},
 					header: {
+						//token统一放在header中
 						token: getApp().globalData.token,
 					},
 					success: (res) => {
@@ -297,66 +308,59 @@
 			},
 			//获取定位 按钮响应
 			get_location() {
-				console.log("开始定位");
-				let then = this;
-				uni.getLocation({
-					type: 'wgs84',
-					success: function(res) {
-						console.log(res);
-						console.log('当前位置的经度：' + res.longitude);
-						console.log('当前位置的纬度：' + res.latitude);
-						this.longitude = res.longitude;
-						this.latitude = res.latitude;
-						let lon = this.longitude;
-						let lat = this.latitude;
+				uni.request({
+					method: 'GET',
+					url: 'https://restapi.amap.com/v3/ip?parameters',
+					data: {
+						key: "547e87a60120f0351ed920f211c44909"
+					},
+					success: (res) => {
+						console.log("高德地图定位结果——");
+						console.log(res)
+						console.log(res.data.rectangle)
+						console.log(typeof(res.data.rectangle))
+						this.Data.location = res.data.rectangle;
+						this.address_info = res.data.rectangle
+						console.log("开始打印需要发送的定位信息")
+						console.log(typeof(this.Data));
+						console.log(this.Data.location);
 						uni.request({
-							url: 'https://api.map.baidu.com/reverse_geocoding/v3/', //仅为示例，并非真实接口地址。
+							method: 'POST',
+							url: customer_changeAddress1,
 							data: {
-								output: 'json',
-								location: `${lat},${lon}`,
-								ak: "ymrWo3nwuxL08RBwkKfRBsxC2NIHjF0v",
-								extensions: 'base',
-								batch: false
+								// address:this.Data
+								location: this.address_info
+							},
+							header: {
+								token: getApp().globalData.token
 							},
 							success: (res) => {
-								console.log("通过经纬度逆地址解析", res);
-								console.log(res.data.result.formatted_address);
-								uni.request({
-									method: 'GET',
-									url: getApp().globalData.customer_changeAddress,
-									data: {
-										data: res.data.result.formatted_address,
-									},
-									header: {
-										token: getApp().globalData.token
-									},
-									success: (res) => {
-										console.log(res)
-										if (res.data.code == 1) {
-											uni.showToast({
-												title: "定位成功",
-												icon: 'exception',
-												duration: 850
-											})
-										} else {
-											uni.showToast({
-												title: "定位失败",
-												icon: 'error',
-												duration: 850
-											})
-										}
-									}
-								})
+								console.log(res);
+								console.log(res)
+								if (res.data.code == 1) {
+									uni.showToast({
+										title: "定位成功",
+										icon: 'exception',
+										duration: 850
+									})
+								} else {
+									uni.showToast({
+										title: "定位失败",
+										icon: 'error',
+										duration: 850
+									})
+								}
 							}
-						});
+						})
 					}
-				});
+				})
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
+	//顾客端样式
 	.pic_block {
 		margin-left: 25px;
 		border-radius: 100px;
@@ -383,10 +387,6 @@
 		margin-top: 10px;
 	}
 
-	.time {
-		color: #8f8f94;
-		margin-top: 10px;
-	}
 
 	.button-search {
 		width: 130rpx;
@@ -499,10 +499,6 @@
 		height: 100%;
 	}
 
-	.home-card {
-		background-color: #ffffff;
-	}
-
 	.swp_img {
 		width: 100%;
 		height: 100%;
@@ -519,18 +515,54 @@
 	.p_1 {
 		font-size: 50rpx;
 		margin-left: 19rpx;
+
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
 	}
 
 	.p_2 {
 		font-size: 40rpx;
 		color: #ffb420;
 		margin-left: 19rpx;
+
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
 	}
 
 	.p_3 {
 		font-size: 40rpx;
 		color: #8f96a0;
 		margin-left: 19rpx;
+
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
 	}
 
 	.p_4 {
@@ -540,6 +572,17 @@
 		left: 550rpx;
 		margin-top: -35rpx;
 
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
 	}
 
 	.p_5 {
@@ -548,7 +591,17 @@
 		position: absolute;
 		left: 550rpx;
 		margin-top: 15rpx;
-
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
 	}
 
 
@@ -586,16 +639,14 @@
 	}
 
 	.time {
-		/* margin-top: 50rpx;
-			margin-block-start: 30rpx; */
 		margin: auto;
 	}
 
 	.content {
-		// background-image: 
+		background-image: url(../static2/grape.jpg);
 		background-size: 300rpx;
 		background-repeat: no-repeat;
-		background-position: 450rpx 690rpx;
+		background-position: 430rpx 770rpx;
 		background-attachment: fixed;
 
 	}
@@ -641,9 +692,24 @@
 	.shopName {
 		display: flex;
 		margin-top: 15rpx;
-		font-size: 50rpx;
 		margin-left: 20rpx;
-		font-weight: 600;
+		font-size: 50rpx;
+		width: 550rpx;
+		height: 100rpx;
+		line-height: 120rpx;
+		font-weight: bolder;
+
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
 	}
 
 	.topic_text {
@@ -656,96 +722,157 @@
 	}
 
 	.cate_pos_left {
-		height: 100%;
+		height: 90%;
 		width: 20%;
 		display: flex;
-		// position: absolute;
-		// top: 330rpx;
-		//width: 150rpx;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 		margin-left: 10rpx;
 		background-color: #f8f8f8;
+
+
 	}
 
 	.active_list {
-		align-items: center;
 		height: 120rpx;
 		width: 123rpx;
 		margin-left: 10rpx;
-		vertical-align: center;
 		display: flex;
-		object-fit: fill;
-		border: 1rpx solid #f8f8f8;
-		box-shadow: #8f8f94;
-		border-radius: 7%;
-		box-shadow:
-			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
-			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
-			85px 57px 80px rgba(0, 0, 0, 0.016);
+		align-items: center;
+		justify-content: center;
+
+		border-bottom: 1rpx solid $uni-border-color;
 		background-color: #fefa83;
 	}
 
 	.list_sp {
-		align-items: center;
+
 		height: 120rpx;
 		width: 120rpx;
 		margin-left: 10rpx;
-		vertical-align: center;
 		display: flex;
-		object-fit: fill;
+		align-items: center;
+		justify-content: center;
 		background-color: #ffffff;
 		border-width: 100%;
-		border-top: 1rpx solid #f8f8f8;
-		box-shadow: #8f8f94;
-		border-radius: 7%;
-		box-shadow:
-			5.7px 3.8px 5.3px rgba(0, 0, 0, 0.04),
-			19px 12.7px 17.9px rgba(0, 0, 0, 0.024),
-			85px 57px 80px rgba(0, 0, 0, 0.016);
+		border-bottom: 1rpx solid $uni-border-color;
+	}
+
+	.p_0_sp {
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 50rpx;
+		font-size: 30rpx;
+	}
+
+	.active_p_0_sp {
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 50rpx;
+		font-size: 30rpx;
 	}
 
 	.p_1_sp {
 		margin-top: -20rpx;
 		font-size: 35rpx;
 		width: 260rpx;
-		// font-weight: 600;
-		// display: table-column;
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
 	}
 
 	.p_2_sp {
 
 		color: #ffb420;
 		margin-top: 10rpx;
+		width: 260rpx;
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
 	}
 
 	.p_3_sp {
 
 		color: #8f96a0;
 		margin-top: 10rpx;
+		width:260rpx;
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
 	}
 
 	.p_4_sp {
 
 		color: #c83c23;
 		margin-top: 10rpx;
+		width: 150rpx;
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
 	}
 
 	.p_5_sp {
-		text-align: center;
-		width: 100%;
-		height: 50rpx;
-		font-size: 30rpx;
+		position: relative;
+		left: 140rpx;
+		bottom: 45rpx;
+		width:200rpx;
+		overflow: hidden;
+		/* break-all(允许在单词内换行。) */
+		word-break: break-all;
+		/* 超出部分省略号 */
+		text-overflow: ellipsis;
+		/* 对象作为伸缩盒子模型显示 */
+		display: -webkit-box;
+		/* 设置或检索伸缩盒对象的子元素的排列方式 */
+		-webkit-box-orient: vertical;
+		/* 显示的行数 */
+		-webkit-line-clamp: 1;
+
 	}
 
-	.active_p_5 {
-		text-align: center;
-		width: 100%;
-		height: 50rpx;
-		font-size: 30rpx;
-	}
 
 	.dish_pos_right {
 		height: 100%;
-		width: 70%;
+		width: 77%;
 		display: flex;
 		// margin-left: 200rpx;
 
@@ -787,21 +914,18 @@
 		height: 300rpx;
 	}
 
-	.btn_add {
-		position: absolute;
-		// bottom: 10rpx;
-	}
+	.btn_add {}
 
 	.p_add {
 		border: none;
 		background-color: #f0e3f2;
 		text-align: center;
-
+		justify-content: center;
 		height: 90rpx;
 		margin-top: 30rpx;
 		border-radius: 45rpx;
-		position: relative;
-		left: 30rpx;
+		position: absolute;
+		left: 520rpx;
 		top: 90rpx;
 	}
 

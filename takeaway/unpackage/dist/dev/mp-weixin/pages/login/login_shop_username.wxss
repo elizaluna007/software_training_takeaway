@@ -43,7 +43,12 @@
 	display: flex;
 	margin-left: 100rpx;
 }
-.agree {}
+.agree1 {
+	text-align: left;
+}
+.agree ._span {
+	color: #FFB400;
+}
 .agree2 {
 	color: #FFB400;
 }
@@ -56,12 +61,8 @@
 	align-items: center;
 	margin-top: 50rpx;
 }
-.first {
-	left: 0;
-	margin-left: 90rpx;
-	color: #8f8f94;
-}
 .second {
+	position: absolute;
 	right: 0;
 	margin-right: 90rpx;
 	color: #8f8f94;

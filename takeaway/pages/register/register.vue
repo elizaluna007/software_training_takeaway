@@ -10,18 +10,18 @@
 
 		<view>
 			<view class="weui-input">
-				<input class="input_style" v-model="account" placeholder="请输入账号" maxlength='11' />
+				<input class="input_style" v-model="account" placeholder="请输入账号 (4-10位)" maxlength='10' />
 			</view>
 
 			<view class="weui-input">
-				<input class="input_style" :type="pwdType" v-model="password" placeholder="请输入密码" />
+				<input class="input_style" :type="pwdType" v-model="password" placeholder="请输入密码 (6位及以上)" />
 				<view>
 					<image :src="seen?openeye:nopeneye" @click="changeType" class="pic_pos"></image>
 				</view>
 			</view>
 
 			<view class="weui-input">
-				<input class="input_style" :type="pwdType" v-model="repassword" placeholder="请确认密码" />
+				<input class="input_style" :type="pwdType" v-model="repassword" placeholder="请确认密码 (6位及以上)" />
 				<view>
 					<image :src="seen?openeye:nopeneye" @click="changeType" class="pic_pos"></image>
 				</view>
@@ -78,12 +78,12 @@
 		onLoad() {},
 		methods: {
 			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
-					onPullDownRefresh() {
-						console.log('refresh');
-						setTimeout(function() {
-							uni.stopPullDownRefresh();
-						}, 1500);
-					},
+			onPullDownRefresh() {
+				console.log('refresh');
+				setTimeout(function() {
+					uni.stopPullDownRefresh();
+				}, 1500);
+			},
 			goto_help() {
 				uni.navigateTo({
 					url: '/pages/help/help'
@@ -122,6 +122,18 @@
 						icon: 'exception',
 						duration: 850
 					})
+				} else if (this.account.length < 4) { //如果用户输入账号小于4位
+					uni.showToast({
+						title: "账号少于4位",
+						icon: 'exception',
+						duration: 850
+					})
+				} else if (this.account.length > 10) { //如果用户输入账号大于10位
+					uni.showToast({
+						title: "账号少于4位",
+						icon: 'exception',
+						duration: 850
+					})
 				} else if (this.password.length < 6) { //如果密码少于6位，弹框提示
 					uni.showToast({
 						title: "密码小于6位",
@@ -147,7 +159,8 @@
 						success: (res) => {
 							this.code = res.data.code
 							this.msg = res.data.msg
-
+							console.log('code',this.code)
+							console.log('msg',this.msg)
 
 							if (this.code) {
 								uni.navigateTo({
@@ -156,7 +169,7 @@
 								})
 							} else {
 								uni.showToast({
-									title: "注册错误",
+									title: this.msg,
 									icon: 'error',
 									duration: 850
 								})

@@ -1,5 +1,7 @@
 <template>
+	<!-- 商家手机号登录页面 -->
 	<view>
+		<!-- 跳转至帮助页面 -->
 		<view class="help">
 			<text style="color: #8f8f94;" @click="goto_help()">帮助</text>
 		</view>
@@ -7,7 +9,7 @@
 		<view class="welcome_block">
 			<text class="welcome">欢迎登录小橘子</text>
 		</view>
-
+		<!-- 输入手机号和密码框 -->
 		<view>
 			<view class="weui-input">
 				<input type="number" class="input_style" v-model="telephone" placeholder="请输入商家号码" />
@@ -15,6 +17,7 @@
 
 			<view class="weui-input">
 				<input class="input_style" v-model="password" :type="pwdType" placeholder="请输入密码" />
+				<!-- 点击图片可显示密码是否可见 -->
 				<view>
 					<image :src="seen?openeye:nopeneye" @click="changeType" class="pic_pos"></image>
 				</view>
@@ -23,7 +26,7 @@
 		</view>
 
 		<view class="agree_block">
-
+			<!-- 选择输入同意协议 -->
 			<view class="choose">
 				<checkbox-group @change="checkChoose">
 					<label>
@@ -34,19 +37,19 @@
 
 			<view>
 				<!-- <text class="agree">我已阅读并同意《小橘子协议》 《个人信息保护协议》</text> -->
-				<div class="agree">
-					<p class=agree1 style="position: relative;left: -35rpx;">我已阅读并同意</p>
-					<p class=agree2 style="position: relative;left: 210rpx;top: -44rpx;">《小橘子协议》《个</p>
-					<p class=agree3 style="position: relative;left: -18rpx;top: -25rpx;">人信息保护协议》</p>
+				<div class="agree" style="display: flex;">
+					<p class="agree1" style="position: relative;left: 5rpx;width: 530rpx;">
+						我已阅读并同意<span>《小橘子协议》《个人信息保护协议》</span></p>
 				</div>
 			</view>
 
 		</view>
+		<!-- 登录按钮 -->
 		<view class="btn_block">
 			<button class="btn_style" @click="_check_register">登录</button>
 		</view>
 		<view class="flexs">
-	</view>
+		</view>
 
 	</view>
 </template>
@@ -54,42 +57,40 @@
 	export default {
 		data() {
 			return {
-				telephone: '',
-				account: '',
-				password: '',
-				code: '',
-				msg: '',
-				Data: '',
-				sure: false,
-				pwdType: "password",
-				openeye: require("../../static/eye.png"), //小眼睛图片地址
-				nopeneye: require("../../static/no_eye.png"),
-				seen: 0,
-				get_code: 0,
+				telephone: '', //商家输入的手机号
+				account: '', //商家账号
+				password: '', //商家输入的密码
+				code: '', //用于接受后端发送的登录状态
+				msg: '', //用于接受后端发送的登录信息
+				Data: '', //用于接受后端发送的登录数据
+				sure: false, //用于判断用户是否同意协议 true同意 false不同意
+				pwdType: "password", //判断密码是否可见的类型
+				openeye: require("../../static/eye.png"), //密码可视图片地址
+				nopeneye: require("../../static/no_eye.png"), //密码不可视图片地址
+				seen: 0, //判断密码是否可见
+				get_code: 0, //用于判断登录方式 0手机登录 1账号登录
 			}
 		},
 		methods: {
 			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
-					onPullDownRefresh() {
-						console.log('refresh');
-						setTimeout(function() {
-							uni.stopPullDownRefresh();
-						}, 1500);
-					},
+			onPullDownRefresh() {
+				console.log('refresh');
+				setTimeout(function() {
+					uni.stopPullDownRefresh();
+				}, 1500);
+			},
+			//跳转至帮助界面
 			goto_help() {
 				uni.navigateTo({
 					url: '/pages/help/help'
 				})
 			},
-			toRegister(url) {
-				uni.navigateTo({
-					url: '/pages/register/register'
-				})
-			},
+			//用于判断用户是否同意协议 true同意 false不同意
 			checkChoose: function() {
 				this.sure = !this.sure;
 				// console.log(this.sure);
 			},
+			//检验是否可以登录，不满足条件则提示信息 已满足发送请求
 			_check_register() {
 				if (this.sure == false) {
 					uni.showToast({
@@ -110,6 +111,7 @@
 						duration: 850
 					})
 				} else {
+					//条件已满足，向/business/business_shopLogin接口发送请求
 					uni.request({
 						url: getApp().globalData.business_shopLogin, //仅为示例，并非真实接口地址。
 						// url: 'https://5t764096g4.goho.co/customer/customerLogin', //仅为示例，并非真实接口地址。
@@ -124,22 +126,19 @@
 
 						success: (res) => {
 							console.log(res);
-							
-							console.log(res)
+							this.code = res.data.code;
+							this.msg = res.data.msg;
+							this.Data = res.data;
+							getApp().globalData.token = res.data.data.token;
+							getApp().globalData.login_key = true;
+							getApp().globalData.cstm_or_sp = 0;
 							if (res.data.code == 1) {
-								// console.log("开始跳转");
-								this.code = res.data.code;
-								this.msg = res.data.msg;
-								this.Data = res.data;
-								getApp().globalData.token = res.data.data.Oauth_Token;
-								getApp().globalData.login_key = true;
-								getApp().globalData.cstm_or_sp=0;
 								uni.reLaunch({
 									url: '/pages/my/my'
 								})
 							} else {
 								uni.showToast({
-									title: "登陆错误",
+									title: this.msg,
 									icon: 'error',
 									duration: 850
 								})
@@ -149,11 +148,7 @@
 					});
 				}
 			},
-			toLogin_Username(url) {
-				uni.navigateTo({
-					url: '/pages/login/login_username'
-				})
-			},
+			//转换密码是否可见
 			changeType() {
 				this.pwdType = this.pwdType === "password" ? "text" : "password";
 				this.seen = !this.seen;
@@ -216,7 +211,13 @@
 		margin-left: 100rpx;
 	}
 
-	.agree {}
+	.agree1 {
+		text-align: left;
+	}
+
+	.agree span {
+		color: #FFB400;
+	}
 
 	.agree2 {
 		color: #FFB400;

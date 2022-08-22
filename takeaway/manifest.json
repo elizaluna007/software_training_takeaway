@@ -76,5 +76,11 @@
     "vueVersion" : "2",
     "mp-qq" : {
         "appid" : "1112235014"
+    },
+    "h5" : {
+        "title" : "orange",
+        "router" : {
+            "mode" : "history"
+        }
     }
 }

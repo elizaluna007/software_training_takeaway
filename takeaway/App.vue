@@ -37,6 +37,7 @@
 			customer_changeHeadphoto: 'http://49.235.88.155:8000/customer/changeHeadphoto',
 			customer_changeAddress: 'http://49.235.88.155:8000/customer/changeAddress',
 			customer_addAddress:'http://49.235.88.155:8000/customer/addAddress',
+			customer_changeAddress1:'http://49.235.88.155:8000/customer/changeAddress1',
 			
 			//business
 			business_shopLogin: 'http://49.235.88.155:8000/business/shopLogin',
