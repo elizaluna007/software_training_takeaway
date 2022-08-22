@@ -1,8 +1,9 @@
 <template>
 	<!-- 商家用户名登录页面 -->
-	<view>
+	<view class="orange">
 		<!-- 跳转至帮助页面 -->
 		<view class="help">
+			<text style="color: #8f8f94;margin-right:20rpx;" @click="goto_cust()">顾客登录</text>
 			<text style="color: #8f8f94;" @click="goto_help()">帮助</text>
 		</view>
 
@@ -84,6 +85,12 @@
 			goto_help() {
 				uni.navigateTo({
 					url: '/pages/help/help'
+				})
+			},
+			//前往顾客登录
+			goto_cust() {
+				uni.navigateTo({
+					url: '/pages/login/login_username'
 				})
 			},
 			//转换密码是否可见
@@ -177,6 +184,12 @@
 </script>
 
 <style>
+	.orange{
+			background-image: url('@/pages/static2/orange4.png');
+			background-size: 200rpx;
+			background-repeat: no-repeat;
+			background-position:550rpx 40rpx;
+		}
 	.help {
 		text-align: right;
 		margin-top: 30rpx;

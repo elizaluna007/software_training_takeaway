@@ -15,7 +15,7 @@
 .line_block {
 	display: flex;
 }
-.logo {
+.logo_style {
 	width: 250rpx;
 	height: 250rpx;
 	border-radius: 20rpx;

@@ -44,8 +44,12 @@
 				<div v-if="pic_key" class="img_style" @click="pre_pic">
 					<img class="insert_pic" :src="imgArr">
 				</div>
-				<div class="img_style" @click="upLoad">
+				<div v-if="!pic_key" class="img_style" @click="upLoad">
 					<img class="insert_pic" src="../../static/upload.png">
+				</div>
+				<!-- 用户更改图片 点击可重新上传 -->
+				<div v-if="pic_key" class="img_style" @click="upLoad">
+				<img  class="insert_pic" src="../../static/modify_img.png"></img>
 				</div>
 			</view>
 		</view>
@@ -78,7 +82,7 @@
 				star_no: '../../static/star_grey.png', //星星未被点亮的图片
 				comment: '', //用户输入的评论向后端发送
 				grade: [0, 0, 0], //提交的星星数量 向后端发送
-				grade_chi: ['', '', ''], //星星数量对应的评价等级
+				grade_chi: ['../../static/write.png', '../../static/write.png', '../../static/write.png'], //星星数量对应的评价等级
 				////星星数量对应的三种评价等级的存储数组
 				type: ['../../static/deliver.png', '../../static/wrapping.png', '../../static/flavor.png']
 			}

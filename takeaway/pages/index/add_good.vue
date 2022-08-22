@@ -3,13 +3,15 @@
 		<!-- 商家端增加商品界面 由商家端首页index进入-->
 		<p class="p_2">编辑信息</p>
 		<div class="out_block">
-			<!-- 下面放入你找到的+号图片 -->
-			<!-- <img :src="../../staick" @click="upload_img()"> -->
-			<!-- 默认图片 点击该图片时触发upload_img()函数 上传图片 更改img_ke变1 -->
-			<image src="../../static/upload.png" @click="upload_img()" class="logo" v-if="img_key"></image>
-			<!-- 用户上传图片 点击可重新上传 -->
-			<img class="logo" :src="imgArr" v-if="!img_key" @click="upload_img()">
-
+			<!-- 下面放入你找到的+号图片 -->	
+			<view style="display: flex;">
+				<!-- 用户所上传的图片，点击可预览 -->
+				<img v-if="!img_key" class="logo_style" :src="imgArr" @click="pre_pic()"> </img>	
+				<!-- 默认图片 点击该图片时触发upload_img()函数 上传图片 更改img_ke变0 -->
+				<img v-if="img_key" src="../../static/upload.png" @click="upload_img()" class="logo_style"></img>
+				<!-- 用户更改图片 点击可重新上传 -->
+				<img v-if="!img_key" src="../../static/modify_img.png" @click="upload_img()" class="logo_style"></img>
+			</view>
 			<!-- 商家信息框 可以修改名称，菜单 分量 价格 库存 -->
 			<div>
 				<!-- 修改商品名称 -->
@@ -43,8 +45,8 @@
 				<div class="line"></div>
 				<div class="line_block">
 					<p class="element">库存</p>
-					<input class="content" style="position: relative;left: 100rpx;" placeholder="请填写"
-						v-model="stock" @blur="finish_Handle()"></input>
+					<input class="content" style="position: relative;left: 100rpx;" placeholder="请填写" v-model="stock"
+						@blur="finish_Handle()"></input>
 				</div>
 				<div class="line"></div>
 				<!-- 添加按钮 点击按钮触发save()函数 提交修改请求 -->
@@ -63,14 +65,14 @@
 	export default {
 		data() {
 			return {
-				img_key: 1,//决定上传图片处 1为默认图片 0为上传图片
-				imgArr: '',//上传图片 需转变为base64格式
-				name: '',//商品名称 商家输入 通过/business/addGood接口向后端发送
-				price: '',//菜单分组 商家输入 通过/business/addGood接口向后端发送
-				logo: '',//商品图片 商家输入 通过/business/addGood接口向后端发送
-				description: '',//分量 商家输入 通过/business/addGood接口向后端发送
-				category: '',//菜单分组 商家输入 通过/business/addGood接口向后端发送
-				stock: ''//库存 商家输入 通过/business/addGood接口向后端发送
+				img_key: 1, //决定上传图片处 1为默认图片 0为上传图片
+				imgArr: '', //上传图片 需转变为base64格式
+				name: '', //商品名称 商家输入 通过/business/addGood接口向后端发送
+				price: '', //菜单分组 商家输入 通过/business/addGood接口向后端发送
+				logo: '', //商品图片 商家输入 通过/business/addGood接口向后端发送
+				description: '', //分量 商家输入 通过/business/addGood接口向后端发送
+				category: '', //菜单分组 商家输入 通过/business/addGood接口向后端发送
+				stock: '' //库存 商家输入 通过/business/addGood接口向后端发送
 			}
 		},
 		methods: {
@@ -81,9 +83,8 @@
 					uni.stopPullDownRefresh();
 				}, 1500);
 			},
-			finish_Handle(){
-				if(this.stock>999)
-				{
+			finish_Handle() {
+				if (this.stock > 999) {
 					this.stock = '999+'
 				}
 			},
@@ -99,13 +100,9 @@
 						console.log("选取图片成功");
 						var tempFilePaths = res.tempFilePaths;
 						that.imgArr = res.tempFilePaths
-						uni.previewImage({
-							//current, //当前的图片路径必填
-							urls: this.imgArr, //数组文件路径必填
-							loop: true, //循环在5+app才有效
-							indicator: "default" //指数器同样也是5+app有效
-						})
+
 						that.img_key = 0;
+
 						pathToBase64(tempFilePaths[0]) //图像转base64工具
 							.then(base64 => {
 								that.avatar = base64; //将文件转化为base64并显示
@@ -121,6 +118,15 @@
 						// 	console.error(error)
 						// })
 					}
+				});
+			},
+			//预览图片
+			pre_pic() {
+				uni.previewImage({
+					//current, //当前的图片路径必填
+					urls: this.imgArr, //数组文件路径必填
+					loop: true, //循环在5+app才有效
+					indicator: "default" //指数器同样也是5+app有效
 				});
 			},
 			//增加按钮的函数 向/business/addGood接口发送请求
@@ -204,7 +210,7 @@
 	}
 
 
-	.logo {
+	.logo_style {
 		width: 250rpx;
 		height: 250rpx;
 		border-radius: 20rpx;

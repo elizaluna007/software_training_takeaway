@@ -44,7 +44,12 @@
 	display: flex; /*改变区域放置方式 */
 	margin-left: 100rpx; /*改变区域左边距 */
 }
-.agree {}
+.agree1 {
+	text-align: left;
+}
+.agree ._span {
+	color: #FFB400;
+}
 .agree2 {
 	color: #FFB400;
 }

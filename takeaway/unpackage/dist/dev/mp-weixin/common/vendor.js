@@ -1430,7 +1430,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_NAME":"orange","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"orange","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -2500,7 +2500,7 @@ uni$1;exports.default = _default;
 
 /***/ }),
 
-/***/ 101:
+/***/ 102:
 /*!***********************************************************************************************!*\
   !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/pages/my/provinceAndCity.js ***!
   \***********************************************************************************************/
@@ -4886,7 +4886,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 102:
+/***/ 103:
 /*!*************************************************************************************!*\
   !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/l_or_r.jpg ***!
   \*************************************************************************************/
@@ -5068,7 +5068,18 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPEAAADzCAIAAADY
 
 /***/ }),
 
-/***/ 27:
+/***/ 25:
+/*!*****************************************************************************************!*\
+  !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/modify_img.png ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPEAAADzCAYAAABXA/ACAAAP4klEQVR4nO3db2xUdb7H8U+Z2k47TGkHKEOFUIRuEEitVXeRcvWKNmSz7CJJI7DRdd2Ye42S5QEPeEJMrtlkc280GzZKVkMuu/E+wKSJ612N15StwQUki7C1C9hQim2gZQA7TltKZygy9wHOsX9mpnOmU+kX3q9HFc/8zinpu+d3/pIXj8fjAmDWjFu9AQAmh4gB44gYMI6IAeOIGDCOiAHjiBgwjogB44gYMC4/F4Ncv35dsVhMN27cyMVwwG0tLy9PM2bMkNfr1YwZk9+PTiri/v5+9fX1aWhoaNIbAtyJiouLVVZWJp/Pl/UYedncOx2PxxUKhTQwMCCPxyOfz6fCwkIVFhZmvSHAnSIejysWiykWi2lgYECSVFpaqvLy8qzGyyri8+fP6+rVq/L5fAoGg/J4PFmtHLjTXbt2TRcuXFAsFpPf79f8+fNdj+E64kuXLikSiaisrExz5851vUIA43V3d2twcFBz5sxRIBBw9VlXR9WxWEyRSEQFBQWaM2eOqxUBSC0xo+3t7XV9gthVxP39/ZKkQCCgvLw8VysCkJrH41FJSYni8bhznJwpVxFfvXpVkiZ1Jg1AcsXFxZK+6yxTriIeHh5WQUEBJ7KAKVBcXKy8vDwNDw+7+pzrK835+Tm5PwTAGHl5efJ4PHJ7wYjbLgHjiBgwjogB44gYMI6IAeOIGDCOiAHjiBgwjogB44gYMI6IAeOIGDCOiAHjiBgwjogB44gYMI6IAeOIGDCOiAHjiBgwjogB44gYMI6IAeOIGDCOiAHjiBgwjogB44gYMI6IAeOIGDCOiAHjiBgwjogB44gYMI6IAeOIGDCOiAHjiBgwjogB44gYMI6IAeOIGDCOiAHjiBgwLv9WbwCmxsmTJ9Xf3y9JKikp0YoVK27xFmGqEPFt6sSJEzp//rwkacGCBUR8G2M6DRhHxIBxRAwYR8SAcUQMGEfEgHFEDBhHxIBxRAwYR8SAcUQMGEfEgHFEDBhHxIBxRAwYR8SAcUQMGEfEgHG8nmeaOHfunPM6nVxIvF8r8fWnn36as7El6eGHH87peMgeEU8T586dy3loCf39/Tp8+HBOxyTi6YPpNGAcEQPGMZ2eJlauXKmFCxfmbLyPP/5Yly9fliTNnTtXjz32WM7GxvRCxNNESUmJSkpKcjZeYWHhqK9z+QsC0wvTacA4IgaMI2LAOCIGjCNiwDgiBowjYsA4IgaMI2LAOCIGjCNiwDgiBowjYsA4IgaMI2LAOCIGjCNiwDgiBozj9Ty3qU2bNt3qTcD3hD0xYBwRA8YRMWAcEQPGETFgHBEDxhExYBwRA8YRMWAcEQPGETFgHBEDxhExYBwRA8YRMWAcEQPGETFgHBEDxhExYBwRA8YRMWAcEQPGETFgHBEDxhExYBwRA8YRMWAcEQPGETFgHBEDxhExYBwRA8YRMWAcEQPGETFgHBEDxhExYBwRA8YRMWAcEQPGETFgXP6t3gC419XZKa/Xq3nB4K3elCnVF4no2GefSZLWPvHELd6a6YuIR7gYCikajU7pOkpLSzWrtHRSYzS+84462tu1tr5eDZs2ufps8/79k1r3RNLF1rx/vxr37VN1TY1e2Lp1wrEikYga9+2bcNw7HRGP8G5jo1pbWqZ0HQ2bNzs/kH2RiCKRSNrlx+5x+yIRdbS3S5L+5dFHXa8/EcVUIbbvHxGPsHDRIlfLJ4KvrqnJ+DOBQMD5+thnn00Y1di91qmTJyVJwYqKSU2nGzZvTvn/hoaGVFRU5Gq8qf7lgNSIeISf/PSnrpZ/8fnnJSmjqWEygUAg5S+AwcFBZ487UtNHH0mSfvbkk1mtMyHVHrN5/34daG7Wz595RjW1tRmPR8S3DhHfQjW1tSlD6ers1H/+5jej/uxiKKRQT48k6a9NTTpy+HBG69nY0JDRXvtiKOTEWDZixoDpjYiTaDl+PONAJOkPr78+4TKZhpTO3w4ccL5OtpdO5cfr10+4TDQa1Zu7d0uSZvr9+vD99yf8zKrVq13trTE1iDiJcDjs6gRXJstmElI60WhUfz9yRJL06+3bUx6zJvbeO3budP5sol8e0WhUb+za5ezlrwwMZPQ9/WDZsoy2HVOLiNMYeSY5mcQx8e49e1Iu84fXX8/JGe/DBw/qysCAJGnZvfcmXabv2zPdwYoKLaqszGjcRMCJPftEl60a33lHzU1Nmun3a/WaNS6+g+9cunQpo0td4d5e5+t0yy9ZujTj7/d2RMRGHPzkE+frrs7OpD+0ictV5eXlGY05MuAlVVVaVFmp5qYmSRoXcjQa1R/37FFrS4tm+v3avmOHvF5vVt9LqKfH9YmwdMs3bN5MxJjeWo4fd6a6ktTT3Z30h7anu1uSNGfu3IzG/eOePU7AL23b5kTZ3NSkry5f1pann9as0lK1ffGF/vutt3RlYGDcstkIVlRozSOPZP35sZYsXZqzsSwi4jQa9+3LaI+RmFZnI9U0MTGVHBwc1P/++c+SpFV1dTpy6JDaT5/Ww3V14z7Tff68JCkwe3ZG6/7l88/r8MGDow4ZGjZtUmD2bDXu26ezHR2aFww6U+2fbNigx+vrJxWwdHOmwE0huUPEaQQrKtJOTTO52eNsR4dzLJtMJr8kfD6fqmtqtGHjRh05dEgnWluTLtfV2Skp8z2T1+sdF1M0GlUgENBMv19XBgacbV9SVXXH7/GmKyJOY80jj2R0YivdzR6ZntgaewdVuLdXzU1N8vl82vL004pEIppVWqpgRYVCPT26GAqNOuscjUadPabbS1l9kYhOnTyp9tOndeTQIefP19bXa2lVlVo//1xHDh3S7197TdLNX26VixdrwcKFCgQCWnzPPa7Wh9wi4iwlzgQvqarKyXhjf1l0dXY6J5lmjXhoYvmKFQr19OhvBw6MOvnUduqUsz2ZTHcvhkL66MMP1fnll6OOt5dUVenx+notW77cGaemtlZPbdmitlOnnKBHfua3r76a5XeNXCDiNMK9vc4UdazESSRJKZeRbh7TZmNRZWXSS1crq6vV3NSkvx85ovUbNjihtX7+uSRlfNlnVmmpOr/8UlcGBrSqrk7V992nZcuX6/333lN3d7fC4bCWLF3qPIDh9XqdO8x+8dxz6ursVMeZMxoaGnL9VFaml5jGeuDBByf9BNjtiIjTaG5qcvaGqXS0t4+7PXIqLbv3XmdKnTgp1ReJONPg5StWZDSO1+vVv7/44rgnpFJ9v0uqquTz+Zy7tBZVVrq+rHO6rU1SdpeYpJvH+kQ8HhEnsWTpUjVs3qx/HDum+x94IOkyp9va1NrSouqamrR3Lh385JNRU89cqF+3Tm/v3av/++ADrV6zxnkoorqmxtUP+dhj51mlpfrtq68qEomo59u98bmuLrW2tDjH2/fdf/+kt3+iv7OxeLgiPSJOYlFlpU7885/qaG/X6jVrkl7OOX/unCTpXx9/POUdVNLNx/rOdXVN+rLMSA/X1anpo48U6ukZdbfVZG/tlL47/h67l70YCulCT8+kTmKd7eiQdPN2TTeXmIg4PSJO4cGHHtKB5ma9vXevioqKRt3on5i+zvT7Vbl4cdpx3D7eOFJXZ6c+fP/9pGe/n9qyRb9/7TUn4FV1dVnftfTBX/6iY0ePqry8XHPmzlVg9mxV3H23ysrKnL31vGBwUg9w9EUi312u4lJVThFxCvOCQf38mWf01u7demv37lH3USemrz9ctSqne9iERLyJS1PRaHTceioXL3aOjSXp0ccey3p9x44eVainJ+W0P3G9/AfLlikQCGh+Fi8kSLzMQHJ/CQzpEXEaNbW1+rcXX9Rbu3ercd8+nW5r03333+88AFC/bl1O15d4BHLkdeW19fXjlrsYCul//vSnUdG9sWuXtu/YkVUgL7/yinOGPXHG+VxXl3OjSiLwkdv16+3b0x5GjDXyuH0qfvHdyYh4AjW1tdqxc6fe2LVLrS0tzg/yo2vX5vRM6SsvvzwqyrX19apft27cOj49dEjvNjbqysCAZvr9emnbNufFef+xc6eeee65pMfwE0lMxZNNybs6O0ed6Drb0eEq4E9HXFdetXq1621DekScga/D4XF/9sF77+nY0aNavmKFllZVafE997iOuuX4cedr54e8rk4bNm4cN9bYKXawosK5RPTStm3OE0Zv792rwwcPqmHTppw92ZPN5aSEvkhE7zY2OtvMSwRyj4hTuBgK6bOjR3WguXnU/cOP19frTHu7mpuanGnmyGur1TU1Kvb5tGDhQklSUVGRKu6+e9TYidfWjnx7SHVNjX68fv24WMbGK90M/aktW5xpqdfr1QtbtzqvhE1cu66uqUl59nwyD224sefNN52/v6e2bPle1nmnIeJvXQyFdLajQ+2nT+tEa+uohxaCFRX62ZNPOnuRmtpard+wQW2nTulMe7tOnTzp7EkzuU86cZvixoYGne3oSPpSupHP747cjmd/9auUe8W1TzyhFStXOq/ebW1p0dmOjqyPlSeref/+UWfP3UzBkTki/lY0GtXbe/c6/z3T79cPV63SQz/6UdJoRt6GmPj8xVBIX4fDCofDCvf26qvLlyXdvM0wEfna+npnqjwvGNR//e53SbfH6/Vq1erVzkP4GxsaMjrWnRcM6oWtW9Vy/Lj+2tSkp599NmnA6d5Gko1ke/bVa9boH8eOSWIvPJXy4vF4PNOFz5w5I6/XqwULFkzlNt0yift5p9PrXtq++EKVixfn7Ixu4ix0rr+/VOMm/kWNyWx/YuzEPdy3s7Nnz8rj8WiRi3egEzEwjWQTMf8qImAcEQPGETFgHBEDxhExYBwRA8YRMWAcEQPGETFgHBEDxhExYBwRA8YRMWAcEQPGETFgHBEDxhExYBwRA8YRMWAcEQPGETFgHBEDxhExYBwRA8YRMWAcEQPGETFgHBEDxhExYBwRA8YRMWAcEQPGETFgHBEDxhExYBwRA8YRMWAcEQPGETFgHBEDxhExYBwRA8a5jvibb76Ziu0AoOz6chVxfn6+YrGY4vG46xUBSC/R1l133eXqc64iLi4udlYGILcSXRUVFbn6nKuIZ86cKUnq7e11tRIA6cXjcX399deSJL/f7+qzrvfEfr9fg4OD+uqrr1ytCEBqFy5cUCwWUyAQUH5+vqvPultaUnl5uWKxmMLhsGKxmILBoDwej9thAEgaHh5WT0+PYrGYfD6f5syZ43qMvHgWZ6mGh4cVCoU0NDQkj8cjn8+nwsJCFRYWut4A4E4Tj8cVi8UUi8U0MDAg6eah6vz585WXl+d6vKwiTgiHw4pEIrp+/Xq2QwB3tIKCApWVlWnWrFlZjzGpiBOGhoZ07do13bhxY7JDAXcEj8ejgoICeb3eSY+Vk4gB3DrcdgkYR8SAcUQMGEfEgHFEDBhHxIBxRAwYR8SAcUQMGEfEgHFEDBhHxIBx/w/6ykm6CavuUwAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ 28:
 /*!****************************************************************************************************!*\
   !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/js_sdk/mmmm-image-tools/index.js ***!
   \****************************************************************************************************/
@@ -11265,7 +11276,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_NAME":"orange","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"orange","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -11286,14 +11297,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_NAME":"orange","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"orange","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_NAME":"orange","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"orange","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -11379,7 +11390,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_NAME":"orange","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"orange","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -11800,7 +11811,7 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 56:
+/***/ 57:
 /*!******************************************************************************************!*\
   !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/star_yellow.png ***!
   \******************************************************************************************/
@@ -11811,7 +11822,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACt
 
 /***/ }),
 
-/***/ 57:
+/***/ 58:
 /*!****************************************************************************************!*\
   !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/star_grey.png ***!
   \****************************************************************************************/
@@ -11822,7 +11833,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACt
 
 /***/ }),
 
-/***/ 66:
+/***/ 67:
 /*!***********************************************************************************!*\
   !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/loca.png ***!
   \***********************************************************************************/
@@ -11833,7 +11844,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACt
 
 /***/ }),
 
-/***/ 77:
+/***/ 78:
 /*!**********************************************************************************!*\
   !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/eye.png ***!
   \**********************************************************************************/
@@ -11844,7 +11855,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACt
 
 /***/ }),
 
-/***/ 78:
+/***/ 79:
 /*!*************************************************************************************!*\
   !*** C:/Users/lenovo/Desktop/software_training_takeaway/takeaway/static/no_eye.png ***!
   \*************************************************************************************/

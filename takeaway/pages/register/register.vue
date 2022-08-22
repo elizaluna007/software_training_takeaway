@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="orange">
 		<view class="help">
 			<text style="color: #8f8f94;" @click="goto_help()">帮助</text>
 		</view>
@@ -10,7 +10,7 @@
 
 		<view>
 			<view class="weui-input">
-				<input class="input_style" v-model="account" placeholder="请输入账号 (4-10位)" maxlength='10' />
+				<input class="input_style" v-model="account" placeholder="请输入账号 (4-11位)" maxlength='11' />
 			</view>
 
 			<view class="weui-input">
@@ -42,10 +42,9 @@
 			</div> -->
 			<view>
 				<!-- <text class="agree">我已阅读并同意《小橘子协议》 《个人信息保护协议》</text> -->
-				<div class="agree">
-					<p class=agree1 style="position: relative;left: -35rpx;">我已阅读并同意</p>
-					<p class=agree2 style="position: relative;left: 210rpx;top: -44rpx;">《小橘子协议》《个</p>
-					<p class=agree3 style="position: relative;left: -18rpx;top: -25rpx;">人信息保护协议》</p>
+				<div class="agree" style="display: flex;">
+					<p class="agree1" style="position: relative;left: 5rpx;width: 530rpx;">
+						我已阅读并同意<span>《小橘子协议》《个人信息保护协议》</span></p>
 				</div>
 			</view>
 		</view>
@@ -101,49 +100,49 @@
 				if (this.account == '') { //如果账号为空，弹框提示
 					uni.showToast({
 						title: "账号为空",
-						icon: 'exception',
+						icon: 'error',
 						duration: 850
 					})
 				} else if (this.password == '') { //如果第一次输入密码为空，弹框提示
 					uni.showToast({
 						title: "输入密码为空",
-						icon: 'exception',
+						icon: 'error',
 						duration: 850
 					})
 				} else if (this.repassword == '') { //如果第二次输入密码为空，弹框提示
 					uni.showToast({
 						title: "确认密码为空",
-						icon: 'exception',
+						icon: 'error',
 						duration: 850
 					})
 				} else if (this.sure == false) { //如果sure值为false，弹框提示
 					uni.showToast({
 						title: "请先阅读并同意协议",
-						icon: 'exception',
+						icon: 'error',
 						duration: 850
 					})
 				} else if (this.account.length < 4) { //如果用户输入账号小于4位
 					uni.showToast({
 						title: "账号少于4位",
-						icon: 'exception',
+						icon: 'error',
 						duration: 850
 					})
 				} else if (this.account.length > 10) { //如果用户输入账号大于10位
 					uni.showToast({
 						title: "账号少于4位",
-						icon: 'exception',
+						icon: 'error',
 						duration: 850
 					})
 				} else if (this.password.length < 6) { //如果密码少于6位，弹框提示
 					uni.showToast({
 						title: "密码小于6位",
-						icon: 'exception',
+						icon: 'error',
 						duration: 850
 					})
 				} else if (this.repassword != this.password) { //如果第二次输入密码不匹配，弹框提示
 					uni.showToast({
 						title: "密码输入不一致",
-						icon: 'exception',
+						icon: 'error',
 						duration: 850
 					})
 				} else { //当全部输入正确时，向数据库发送手机号以及密码
@@ -159,8 +158,8 @@
 						success: (res) => {
 							this.code = res.data.code
 							this.msg = res.data.msg
-							console.log('code',this.code)
-							console.log('msg',this.msg)
+							console.log('code', this.code)
+							console.log('msg', this.msg)
 
 							if (this.code) {
 								uni.navigateTo({
@@ -196,6 +195,12 @@
 </script>
 
 <style>
+	.orange{
+			background-image: url('@/pages/static2/orange4.png');
+			background-size: 200rpx;
+			background-repeat: no-repeat;
+			background-position:550rpx 40rpx;
+		}
 	.help {
 		text-align: right;
 		margin-top: 30rpx; //设置上边距
@@ -249,7 +254,13 @@
 		margin-left: 100rpx; //改变区域左边距
 	}
 
-	.agree {}
+	.agree1 {
+		text-align: left;
+	}
+
+	.agree span {
+		color: #FFB400;
+	}
 
 	.agree2 {
 		color: #FFB400;

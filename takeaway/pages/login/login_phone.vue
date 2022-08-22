@@ -1,8 +1,9 @@
 <template>
 	<!-- 顾客手机号登录页面 -->
-	<view>
+	<view class="orange">
 		<!-- 跳转至帮助页面 -->
 		<view class="help">
+			<text style="color: #8f8f94;margin-right:20rpx;" @click="goto_shop()">商家登录</text>
 			<text style="color: #8f8f94;" @click="goto_help()">帮助</text>
 		</view>
 
@@ -164,6 +165,12 @@
 					url: '/pages/register/register'
 				})
 			},
+			//前往商家登录
+			goto_shop() {
+				uni.navigateTo({
+					url: '/pages/login/login_shop_phone'
+				})
+			},
 			//用于判断用户是否同意协议 true同意 false不同意
 			checkChoose: function() {
 				this.sure = !this.sure;
@@ -186,6 +193,12 @@
 </script>
 
 <style>
+	.orange{
+			background-image: url('@/pages/static2/orange4.png');
+			background-size: 200rpx;
+			background-repeat: no-repeat;
+			background-position:550rpx 40rpx;
+		}
 	.help {
 		text-align: right;
 		margin-top: 30rpx;
