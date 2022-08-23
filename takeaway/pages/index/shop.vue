@@ -61,7 +61,7 @@
 				<!-- 购物车底部黑框按钮 -->
 				<view class="shop_car" @click="details">
 					<text class="total_cost">¥{{sumprice}}</text>
-					<text class="shipping_fees">预估另需配送费¥{{threshold}}</text>
+					<text class="shipping_fees">预估另需配送费¥{{deliverprice}}</text>
 				</view>
 				<button class="pay" @click="goto_pay">去结算</button>
 			</view>
@@ -220,7 +220,7 @@
 			<!-- 购物车底部黑框按钮(购物车界面) -->
 			<view class="shop_car" @click="details">
 				<text class="total_cost">¥{{sumprice}}</text>
-				<text class="shipping_fees">预估另需配送费¥{{threshold}}</text>
+				<text class="shipping_fees">预估另需配送费¥{{deliverprice}}</text>
 			</view>
 			<button class="pay" @click="goto_pay">去结算</button>
 		</view>
@@ -228,7 +228,13 @@
 		<!-- 购物车底部黑框按钮 -->
 		<!-- <view class="shop_car" @click="details">
 			<text class="total_cost">¥{{sumprice}}</text>
-			<text class="shipping_fees">预估另需配送费¥{{threshold}}</text>
+			<text class="shipping_fees">预估另需配送费¥{{//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
+			onPullDownRefresh() {
+				console.log('refresh');
+				setTimeout(function() {
+					uni.stopPullDownRefresh();
+				}, 1500);
+			},}}</text>
 		</view>
 		<button class="pay" @click="goto_pay">去结算</button>
  -->
@@ -256,6 +262,7 @@
 				logo: '', //商家图标
 				sale: '', //销量
 				threshold: '', //起送费
+				deliverprice:'',//配送费
 				categories: [], //菜单，所有商品的信息
 				active: 0, //左侧滚动栏选中项的id
 				active_id: '', //右侧与左侧对应所需的变量
@@ -312,6 +319,7 @@
 					this.logo = res.data.logo
 					this.sale = res.data.sale
 					this.threshold = res.data.threshold
+					this.deliverprice = res.data.deliverprice
 					this.categories = res.data.categories
 					//尝试获取购物车历史记录
 					uni.getStorage({
@@ -343,9 +351,16 @@
 			// 延迟2秒后再获取页面组件高度信息
 			setTimeout(() => {
 				this.getHeightList();
-			}, 5000);
+			}, 2000);
 		},
 		methods: {
+			//页面下拉刷新后，1.5秒后停止显示下拉刷新图标
+			onPullDownRefresh() {
+				console.log('refresh');
+				setTimeout(function() {
+					uni.stopPullDownRefresh();
+				}, 1500);
+			},
 			//隐藏购物车
 			exit_shop_car() {
 				this.hidden = 1;

@@ -45,8 +45,7 @@
 				<div class="line"></div>
 				<div class="line_block">
 					<p class="element">库存</p>
-					<input class="content" style="position: relative;left: 100rpx;" placeholder="请填写" v-model="stock"
-						@blur="finish_Handle()"></input>
+					<input class="content" style="position: relative;left: 100rpx;" placeholder="请填写" v-model="stock"></input>
 				</div>
 				<div class="line"></div>
 				<!-- 添加按钮 点击按钮触发save()函数 提交修改请求 -->
@@ -82,11 +81,6 @@
 				setTimeout(function() {
 					uni.stopPullDownRefresh();
 				}, 1500);
-			},
-			finish_Handle() {
-				if (this.stock > 999) {
-					this.stock = '999+'
-				}
 			},
 			//上传图片函数
 			upload_img() {

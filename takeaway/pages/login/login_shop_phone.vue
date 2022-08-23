@@ -50,7 +50,10 @@
 			<button class="btn_style" @click="_check_register">登录</button>
 		</view>
 		<view class="flexs">
+			<!-- 前往商家名登录 -->
+			<a class="second" @click="toLogin_shop_Username">商家名登录</a>
 		</view>
+	</view>
 
 	</view>
 </template>
@@ -92,6 +95,12 @@
 					url: '/pages/login/login_phone'
 				})
 			},
+			toLogin_shop_Username() {
+				uni.navigateTo({
+					url: '/pages/login/login_shop_username',
+				})
+
+			},
 			//用于判断用户是否同意协议 true同意 false不同意
 			checkChoose: function() {
 				this.sure = !this.sure;
@@ -99,13 +108,25 @@
 			},
 			//检验是否可以登录，不满足条件则提示信息 已满足发送请求
 			_check_register() {
-				if (this.sure == false) {
+				if (this.telephone == '') {
+					uni.showToast({
+						title: "手机号为空",
+						icon: 'error',
+						duration: 850
+					})
+				} else if (this.password == '') {
+					uni.showToast({
+						title: "密码为空",
+						icon: 'error',
+						duration: 850
+					})
+				} else if (this.sure == false) {
 					uni.showToast({
 						title: "请先阅读并同意协议",
 						icon: 'error',
 						duration: 850
 					})
-				} else if (this.telephone == '') {
+				} else if (this.telephone.length != 11) {
 					uni.showToast({
 						title: "手机号错误",
 						icon: 'error',
@@ -166,12 +187,13 @@
 </script>
 
 <style>
-	.orange{
-			background-image: url('@/pages/static2/orange4.png');
-			background-size: 200rpx;
-			background-repeat: no-repeat;
-			background-position:550rpx 40rpx;
-		}
+	.orange {
+		background-image: url('@/pages/static2/orange4.png');
+		background-size: 200rpx;
+		background-repeat: no-repeat;
+		background-position: 550rpx 40rpx;
+	}
+
 	.help {
 		text-align: right;
 		margin-top: 30rpx;
@@ -254,6 +276,7 @@
 	}
 
 	.second {
+		position: absolute;
 		right: 0;
 		margin-right: 90rpx;
 		color: #8f8f94;

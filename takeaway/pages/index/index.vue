@@ -22,8 +22,8 @@
 			<view class="swiper_all">
 				<swiper circular indicator-dots mode="widthFix" class="img_out" autoplay="true" interval="2000">
 					<!-- v-for循环遍历数组 -->
-					<swiper-item v-for="item in swipers">
-						<image :src="item.url" class="swp_img" @click="swiper_to_shop(item.shop_name)"></image>
+					<swiper-item v-for="item in swipers" @click="swiper_to_shop(item.shop_name)">
+						<image :src="item.url" class="swp_img" ></image>
 					</swiper-item>
 				</swiper>
 			</view>
@@ -316,17 +316,17 @@
 					},
 					success: (res) => {
 						console.log("高德地图定位结果——");
-						console.log(res)
+						console.log('定位res',res)
 						console.log(res.data.rectangle)
 						console.log(typeof(res.data.rectangle))
-						this.Data.location = res.data.rectangle;
+						//this.Data.location = res.data.rectangle;
 						this.address_info = res.data.rectangle
-						console.log("开始打印需要发送的定位信息")
-						console.log(typeof(this.Data));
-						console.log(this.Data.location);
+						//console.log("开始打印需要发送的定位信息")
+						//console.log(typeof(this.Data));
+						//console.log(this.Data.location);
 						uni.request({
 							method: 'POST',
-							url: customer_changeAddress1,
+							url: getApp().globalData.customer_changeAddress1,
 							data: {
 								// address:this.Data
 								location: this.address_info
@@ -336,7 +336,6 @@
 							},
 							success: (res) => {
 								console.log(res);
-								console.log(res)
 								if (res.data.code == 1) {
 									uni.showToast({
 										title: "定位成功",

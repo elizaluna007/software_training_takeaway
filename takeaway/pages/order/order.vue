@@ -42,7 +42,7 @@
 					<!-- 评论和再来一单按钮 -->
 					<view class="two_btn" style="display: flex;">
 						<!-- 评论功能，跳转至评论界面 -->
-						<!-- info.code_comment判断是否已评论 0未评论 1已评论 已评论不能再评论 -->
+						<!-- info.code_comment判断是否已评论 0未评论 1已评论  -->
 						<div v-if="info.code_comment === 0">
 							<!-- info.delivered判断是否已送达 未送达不能评论 -->
 							<button v-if="info.delivered === '已送达'" class="com_style" size="mini"
@@ -200,7 +200,7 @@
 			//从结算页面来到订单时，处理本地缓存
 			//清除该商铺购物车历史缓存
 			let pre_shop_name = getApp().globalData.pre_return_from_shop; //获取返回的商铺名
-			console.log("全局kong?：", getApp().globalData.pre_return_from_shop)
+			console.log("全局：", getApp().globalData.pre_return_from_shop)
 			if (pre_shop_name != '') { //如果不为空
 				uni.removeStorage({
 					key: 'shop_car_history' + pre_shop_name,

@@ -108,7 +108,7 @@
 			_check_register() {
 				if (this.account == '') {
 					uni.showToast({
-						title: "用户名为空",
+						title: "商家名为空",
 						icon: 'error',
 						duration: 850
 					})

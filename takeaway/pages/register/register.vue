@@ -127,9 +127,9 @@
 						icon: 'error',
 						duration: 850
 					})
-				} else if (this.account.length > 10) { //如果用户输入账号大于10位
+				} else if (this.account.length > 11) { //如果用户输入账号大于11位
 					uni.showToast({
-						title: "账号少于4位",
+						title: "账号大于11位",
 						icon: 'error',
 						duration: 850
 					})

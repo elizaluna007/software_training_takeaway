@@ -19,7 +19,7 @@
 								<img :src="good.logo" class="img_style"></image>
 								<p class="cost">￥{{good.price}}</p>
 								<div style="margin-left: 20rpx;">
-									<p class="foodname">{{good.item_name}}</p>
+									<p class="foodname">{{good.name}}</p>
 									<p class="des1">{{good.description}}</p>
 									<p class="des2">x{{good.count}}</p>
 								</div>

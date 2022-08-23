@@ -37,24 +37,34 @@
 			</view>
 		</view>
 		<!-- 评论框，支持文字评论和上传图片 -->
-		<view class="weui-input">
-			<textarea class="input_style" v-model="comment" placeholder="说说味道怎么样,给大家参考"></textarea>
+<!-- 		<view class="weui-input">
+			<textarea class="input_style" v-model="comment" placeholder="说说味道怎么样,给大家参考"></textarea> -->
 			<!-- 上传图片功能，上传之后的图片，点击图片可预览 -->
-			<view style="display: flex;">
+<!-- 			<view style="display: flex;">
 				<div v-if="pic_key" class="img_style" @click="pre_pic">
 					<img class="insert_pic" :src="imgArr">
 				</div>
 				<div v-if="!pic_key" class="img_style" @click="upLoad">
 					<img class="insert_pic" src="../../static/upload.png">
-				</div>
+				</div> -->
 				<!-- 用户更改图片 点击可重新上传 -->
-				<div v-if="pic_key" class="img_style" @click="upLoad">
+<!-- 				<div v-if="pic_key" class="img_style" @click="upLoad">
 				<img  class="insert_pic" src="../../static/modify_img.png"></img>
 				</div>
 			</view>
-		</view>
+		</view> -->
 
-		<!-- 提交按钮，向后的发送请求 -->
+		<!-- 评论框，支持文字评论和上传图片 -->
+				<view class="weui-input">
+					<textarea class="input_style" v-model="comment" placeholder="说说味道怎么样,给大家参考"></textarea>
+					<div v-if="pic_key" class="img_style" @click="upLoad">
+						<img class="insert_pic" :src="imgArr">
+					</div>
+					<div v-if="pic_key === 0" class="img_style" @click="upLoad">
+						<img class="insert_pic" src="../../static/upload.png">
+					</div>
+				</view>
+		<!-- 提交按钮，向后端发送请求 -->
 		<view class="two_button">
 			<button @click="submit" class="btn_style" size="mini">提交</button>
 		</view>
@@ -119,16 +129,18 @@
 						// console.log(this)
 						this.imgArr = res.tempFilePaths
 						this.pic_key = 1;
+						pathToBase64(res.tempFilePaths[0]) //图像转base64工具
+							.then(base64 => {
+								that.avatar = base64; //将文件转化为base64并显示
+								// console.log("给图片转格式了");
+								// console.log(JSON.stringify(base64));
+								that.pic=base64;
+							})
+							.catch(error => {
+								console.error(error)
+							})
 					}
 				})
-
-
-				// uni.previewImage({
-				// 	//current, //当前的图片路径必填
-				// 	urls: this.imgArr, //数组文件路径必填
-				// 	loop: true, //循环在5+app才有效
-				// 	indicator: "default" //指数器同样也是5+app有效
-				// })
 
 			},
 			//图片预览
@@ -181,6 +193,8 @@
 			},
 			submit() {
 				//向接口/comment/addComment发送请求
+				console.log("给图片转格式了");
+				console.log(this.pic);
 				uni.request({
 					url: getApp().globalData.comment_addComment,
 					method: 'POST',

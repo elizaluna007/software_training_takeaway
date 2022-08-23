@@ -4,7 +4,7 @@
 
 		<p class="p_2">基础信息</p>
 		<div class="out_block">
-			<!-- 原图 点击该图片时触发upload_img()函数 上传图片 更改img_ke变1 -->
+			<!-- 原图 点击该图片时触发upload_img()函数 上传图片 更改img_key变0 -->
 			<img :src="info_get.logo" @click="upload_img()" class="logo" v-if="img_key">
 			<!-- 用户上传图片 点击可重新上传 -->
 			<img class="logo" :src="imgArr" @click="upload_img()" v-if="!img_key">

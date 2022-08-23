@@ -102,14 +102,14 @@
 						style="text-align: center;">
 				</div>
 				<div class="line"></div>
-				
+
 				<view v-if="change_address_key" style="display: flex; margin-bottom:100rpx;">
 					<!-- 保存新地址按钮 -->
 					<button class="btn_style_3" @click="save_address()" v-if="change_address_key">保存新地址</button>
 					<!-- 取消保存新地址 -->
 					<button class="btn_style_3" @click="cancel_save_address()" v-if="change_address_key">取消</button>
 				</view>
-				
+
 				<!-- 修改密码框 -->
 				<div class="line_block" v-if="change_pwd_key">
 					<p class="element">旧密码</p>
@@ -125,7 +125,7 @@
 				<!-- 修改密码框 -->
 				<view v-if="change_pwd_key" style="display: flex;">
 					<!-- 确认修改密码按钮 -->
-					<button v-if="change_pwd_key" class="btn_style_3" @click="update_passward_shop()">确认修改密码</button>
+					<button v-if="change_pwd_key" class="btn_style_3" @click="update_passward()">确认修改密码</button>
 					<!-- 取消修改密码按钮 -->
 					<button v-if="change_pwd_key" class="btn_style_3" @click="cancel_update_passward_shop()">取消</button>
 				</view>
@@ -309,6 +309,7 @@
 				change_pwd_key: false, //判断是否修改密码 false未修改 true已修改
 				pre_pwd: '', //密码
 				new_pwd: '', //新密码
+				msg: '', //修改密码时后端返回的消息
 				oldpProvinceDataList: provinceData.data,
 				//修改的新地址，数组格式
 				newProvinceDataList: [
@@ -477,6 +478,7 @@
 						console.log("修改地址")
 						console.log(res)
 						if (res.data.code == 1) {
+							this.info.address = this.address_all;
 							uni.showToast({
 								title: "修改成功",
 								icon: 'exception',
@@ -493,7 +495,7 @@
 				})
 			},
 			//取消修改地址
-			cancel_save_address(){
+			cancel_save_address() {
 				this.change_address_key = false;
 				this.change_no_address_key = true;
 			},
@@ -542,73 +544,93 @@
 			},
 			//上传顾客修改后的密码，连接/customer/ChangePassword接口
 			update_passward() {
-				console.log("开始发送密码信息")
-				uni.request({
-					method: 'POST',
-					url: getApp().globalData.customer_ChangePassword,
-					data: {
-						pre_pwd: this.pre_pwd,
-						new_pwd: this.new_pwd
-					},
-					header: {
-						token: getApp().globalData.token
-					},
-					success: (res) => {
-						this.change_pwd_key = 0;
-						console.log("开始打印修改密码信息")
-						console.log(res)
+				if (this.new_pwd.length < 6) {
+					console.log("msg",this.new_pwd.length)
+					uni.showToast({
+						title: "新密码少于6位",
+						icon: 'error',
+						duration: 1200
+					})
+				} else {
+					console.log("开始发送密码信息")
+					uni.request({
+						method: 'POST',
+						url: getApp().globalData.customer_ChangePassword,
+						data: {
+							pre_pwd: this.pre_pwd,
+							new_pwd: this.new_pwd
+						},
+						header: {
+							token: getApp().globalData.token
+						},
+						success: (res) => {
+							this.change_pwd_key = 0;
+							console.log("开始打印修改密码信息")
+							console.log(res)
 
-						if (res.data.code == 1) {
-							getApp().globalData.token = res.data.Oauth_Token;
-							uni.showToast({
-								title: "修改成功",
-								icon: 'exception',
-								duration: 850
-							})
-						} else {
-							uni.showToast({
-								title: "修改失败",
-								icon: 'error',
-								duration: 850
-							})
+							this.msg = res.data.msg;
+							if (res.data.code == 1) {
+								getApp().globalData.token = res.data.Oauth_Token;
+								uni.showToast({
+									title: this.msg,
+									icon: 'exception',
+									duration: 1200
+								})
+							} else {
+								uni.showToast({
+									title: this.msg,
+									icon: 'error',
+									duration: 2000
+								})
+							}
 						}
-					}
-				})
+					})
+				}
 			},
 			//上传商家修改后的密码，连接/customer/ChangePassword接口
 			update_passward_shop() {
-				console.log("开始发送密码信息")
-				uni.request({
-					method: 'POST',
-					url: getApp().globalData.business_changePassword,
-					data: {
-						pre_pwd: this.pre_pwd,
-						new_pwd: this.new_pwd
-					},
-					header: {
-						token: getApp().globalData.token
-					},
-					success: (res) => {
-						this.change_pwd_key = 0;
-						console.log("开始打印修改密码信息")
-						console.log(res)
+				if (this.new_pwd.length < 6) {
+					uni.showToast({
+						title: "新密码少于6位",
+						icon: 'error',
+						duration: 1200
+					})
+				} else {
+					console.log("开始发送密码信息")
+					uni.request({
+						method: 'POST',
+						url: getApp().globalData.business_changePassword,
+						data: {
+							pre_pwd: this.pre_pwd,
+							new_pwd: this.new_pwd
+						},
+						header: {
+							token: getApp().globalData.token
+						},
+						success: (res) => {
+							this.change_pwd_key = 0;
+							console.log("开始打印修改密码信息")
+							console.log(res)
+							this.msg = res.data.msg;
 
-						if (res.data.code == 1) {
-							getApp().globalData.token = res.data.Oauth_Token;
-							uni.showToast({
-								title: "修改成功",
-								icon: 'exception',
-								duration: 850
-							})
-						} else {
-							uni.showToast({
-								title: "修改失败",
-								icon: 'error',
-								duration: 850
-							})
+
+							if (res.data.code == 1) {
+								getApp().globalData.token = res.data.Oauth_Token;
+								uni.showToast({
+									title: this.msg,
+									icon: 'exception',
+									duration: 1200
+								})
+							} else {
+								uni.showToast({
+									title: this.msg,
+									icon: 'error',
+									duration: 1200
+								})
+							}
 						}
-					}
-				})
+					})
+				}
 			},
 			//取消修改密码
 			cancel_update_passward_shop() {
