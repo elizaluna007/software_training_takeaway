@@ -1,1 +1,0 @@
-<view><image class="pay" src="../static2/qrcode.jpg" mode></image><button data-event-opts="{{[['tap',[['_pay',['$event']]]]]}}" class="btn_style" bindtap="__e">我已支付，点击前往订单页面</button></view>

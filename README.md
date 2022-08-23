@@ -19,7 +19,6 @@
 
 ## 页面展示
  [点击前往](page_picture)
- ![page_picture/index](souye)
 
 
  ****
